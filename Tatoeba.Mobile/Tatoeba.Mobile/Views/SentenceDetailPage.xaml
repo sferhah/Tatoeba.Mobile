@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
+             xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
+             xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
+             xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
+             x:Class="Tatoeba.Mobile.Views.SentenceDetailPage"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add translation" Clicked="AddItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="add.png" />
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="SentenceTemplate">
+                <ViewCell>
+                    <Grid Padding="10" HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Text="{Binding TranslationType, Converter={converters:TranslationTypeToStringConverter}}"
+                                TextColor="{Binding TranslationType, Converter={converters:TranslationTypeToColorConverter}}"
+                               WidthRequest="30" FontSize="Large" Grid.Column="0"   VerticalOptions="Center" />
+                        <Image Grid.Column="1" 
+                                              Source="{Binding Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
+                                              VerticalOptions="Center"/>
+                        <Label Text="{Binding Text}"  Grid.Row="0" Grid.Column="2"
+                                               HorizontalOptions="{Binding Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"   VerticalOptions="Center"
+                       Style="{DynamicResource ListItemTextStyle}" 
+                       FontSize="16" />
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="LogTemplate">
+                <ViewCell>
+                    <Grid Padding="10" HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <BoxView WidthRequest="10"  Grid.Column="0"  Grid.RowSpan="2" BackgroundColor="{Binding ContribType, Converter={converters:ContribTypeToColorConverter}}" />
+                        <Label Text="{Binding Text}"  Grid.Row="0" Grid.Column="1"
+                                               HorizontalOptions="{Binding Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"   VerticalOptions="FillAndExpand"
+                       Style="{DynamicResource ListItemTextStyle}" 
+                       FontSize="16" />
+                        <Label Text="{Binding DateText}" TextColor="Gray"  Grid.Row="1"  Grid.Column="1"
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="13" />                      
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="CommentTemplate">
+                <ViewCell>
+                    <Frame BorderColor="Black">
+                        <StackLayout Padding="10" >                        
+                            <Label Text="{Binding Username}"  
+                           Style="{DynamicResource ListItemTextStyle}" 
+                           FontSize="16" />
+                            <Label Text="{Binding DateText}"  
+                           Style="{DynamicResource ListItemDetailTextStyle}"
+                           FontSize="13" TextColor="Gray" />
+                            <BoxView HeightRequest="2" BackgroundColor="Black" />
+                            <Label Text="{Binding Content}"  
+                           Style="{DynamicResource ListItemDetailTextStyle}"
+                           FontSize="16" />
+                        </StackLayout>
+                   </Frame>
+                </ViewCell>
+            </DataTemplate>
+            <local:SentenceDetailTemplateSelector x:Key="SentenceDetailTemplateSelector"
+          SentenceTemplate="{StaticResource SentenceTemplate}"
+          LogTemplate="{StaticResource LogTemplate}"
+          CommentTemplate="{StaticResource CommentTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="White">
+            <StackLayout  AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     Margin="0,0,0,0">
+                <ListView x:Name="ItemsListView" 
+                            IsGroupingEnabled="true" 
+                          SeparatorColor="Transparent"
+                ItemsSource="{Binding GroupedCells}"
+                      HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                 HasUnevenRows="true"
+                 RefreshCommand="{Binding LoadItemsCommand}"
+                 IsPullToRefreshEnabled="true"
+                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 CachingStrategy="RecycleElement"
+                 ItemTemplate="{StaticResource SentenceDetailTemplateSelector}"
+                 ItemSelected="OnItemSelected" >
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding Key}" Margin="10" FontSize="Large"/>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                </ListView>
+            </StackLayout>
+           
+            <Grid 
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"
+             IsVisible="{Binding IsBusy}"
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <nativeViews:UwpProgressRing WidthRequest ="64" HeightRequest ="64" ForegroundColor ="Green" />
+            </Grid>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</ContentPage>

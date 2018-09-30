@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
+             x:Class="Tatoeba.Mobile.Views.LoadingControl">
+  <ContentView.Content>
+        <OnPlatform x:TypeArguments="View">
+            <On Platform="Android" >
+                <ActivityIndicator Color="Green"
+                       IsEnabled="True"
+                       IsVisible="True"
+                       IsRunning="True" />
+            </On>
+            <On Platform="UWP" >
+                <nativeViews:UwpProgressRing x:Name="pr"  WidthRequest ="64" HeightRequest ="64"  ForegroundColor ="Green" />
+            </On>
+        </OnPlatform>
+    </ContentView.Content>
+</ContentView>

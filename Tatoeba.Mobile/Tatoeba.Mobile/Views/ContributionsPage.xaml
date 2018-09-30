@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"             
+             xmlns:views="clr-namespace:Tatoeba.Mobile.Views"
+             xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
+             x:Class="Tatoeba.Mobile.Views.ContributionsPage"
+              Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Clicked="AddItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="add.png" />
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="White">
+            <StackLayout  AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     Margin="0,0,0,0">
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
+                    <Label Text="Filter by language" VerticalOptions="Center"/>
+                    <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <ListView x:Name="ItemsListView" 
+                          SeparatorColor="Transparent"
+                ItemsSource="{Binding Items}"
+                      HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                 HasUnevenRows="true"
+                 RefreshCommand="{Binding LoadItemsCommand}"
+                 IsPullToRefreshEnabled="true"
+                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 CachingStrategy="RecycleElement"
+                 ItemSelected="OnItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10" HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <BoxView WidthRequest="10"  Grid.Column="0"  Grid.RowSpan="2" BackgroundColor="{Binding ContribType, Converter={converters:ContribTypeToColorConverter}}" />
+                                    <Label Text="{Binding Text}"  Grid.Row="0" Grid.Column="1"
+                                               HorizontalOptions="{Binding Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"  VerticalOptions="FillAndExpand"
+                       Style="{DynamicResource ListItemTextStyle}" 
+                       FontSize="16" />
+                                    <Label Text="{Binding DateText}" TextColor="Gray" Grid.Row="1"  Grid.Column="1"
+                       LineBreakMode="NoWrap" 
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="13" />
+                                    <Image Grid.Column="2"  Grid.RowSpan="2" 
+                                              Source="{Binding Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
+                                              VerticalOptions="Center"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <Grid 
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"
+             IsVisible="{Binding IsBusy}"
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <nativeViews:UwpProgressRing WidthRequest ="64" HeightRequest ="64" ForegroundColor ="Green" />
+            </Grid>
+
+        </AbsoluteLayout>
+       
+    </ContentPage.Content>
+</ContentPage>

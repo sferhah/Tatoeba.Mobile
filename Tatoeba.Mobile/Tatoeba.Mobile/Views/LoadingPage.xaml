@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Tatoeba.Mobile.Views"
+             x:Class="Tatoeba.Mobile.Views.LoadingPage">
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="#dfd9d3" >
+
+            <Frame CornerRadius="10" 
+                   BackgroundColor="White"
+                   AbsoluteLayout.LayoutBounds="1,1,1,1"
+                   AbsoluteLayout.LayoutFlags="All"
+                   HasShadow="true" >
+
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand"
+                             Spacing="20">
+                    <Image Source="logo.png" HeightRequest="90" WidthRequest="286" />
+                    <views:LoadingControl />
+                    <Label Text="Loading resources..." HorizontalOptions="Center"  />
+                </StackLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

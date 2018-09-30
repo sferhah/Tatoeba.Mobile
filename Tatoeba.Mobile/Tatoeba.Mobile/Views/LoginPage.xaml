@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
+             xmlns:views="clr-namespace:Tatoeba.Mobile.Views"
+             x:Class="Tatoeba.Mobile.Views.LoginPage">
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="DarkGray" >          
+
+            <Frame CornerRadius="10" 
+                   BackgroundColor="White"
+                   AbsoluteLayout.LayoutBounds="0.5,0.5,0.8,0.8"
+                   AbsoluteLayout.LayoutFlags="All"
+                   HasShadow="false" >
+
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand">                    
+
+                    <Image Source="logo.png" />
+
+
+                    <Label Text="Username" x:Name="usernameLabel"/>
+                    <Entry Text="{Binding Login}" x:Name="usernameEntry"/>
+
+                    <Label Text="Password" x:Name="passwordLabel"/>
+                    <Entry Text="{Binding Password}" IsPassword="True"  x:Name="passwordEntry"/>
+                </StackLayout>
+
+
+
+            </Frame>
+
+            <Button Clicked="Login"
+                    BorderRadius="90"
+                    BackgroundColor="Green"
+                    x:Name="loginButton"
+                    Text=">" 
+                    TextColor="White" 
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    AbsoluteLayout.LayoutBounds="0.5,0.93,Autosize,Autosize"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+            <views:LoadingControl x:Name="loader" IsVisible="False" AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"         
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -28,7 +28,7 @@ namespace Tatoeba.Mobile.ViewModels
 
             var selectedLanguage = MainService.Languages?.Where(x => x.Iso == LocalSettings.LastIsoTranslation).FirstOrDefault();
 
-            if(selectedLanguage == null)
+            if(selectedLanguage.Iso == null)
             {
                 selectedLanguage = MainService.Languages?.Where(x => x.Iso == "eng").FirstOrDefault();
             }

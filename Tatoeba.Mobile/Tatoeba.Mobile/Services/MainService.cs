@@ -155,9 +155,7 @@ namespace Tatoeba.Mobile.Services
 
             string respStr = await client.PostAndSaveCookiesAsync("https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng", postData, true);
 
-            var result2 = await client.GetAsync("https://tatoeba.org/eng/");
-
-            var success = result2.Contains(userName);
+            var success = respStr.Contains("li id=\"profile\"");
 
             if(success)
             {

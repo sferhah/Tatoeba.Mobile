@@ -28,9 +28,8 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label Text="{Binding TranslationType, Converter={converters:TranslationTypeToStringConverter}}"
-                                TextColor="{Binding TranslationType, Converter={converters:TranslationTypeToColorConverter}}"
-                               WidthRequest="30" FontSize="Large" Grid.Column="0"   VerticalOptions="Center" />
+                        <Image Source="{Binding TranslationType, Converter={converters:TranslationTypeToSourceConverter}}"                                
+                               WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
                         <Image Grid.Column="1" 
                                               Source="{Binding Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
                                               VerticalOptions="Center"/>

@@ -6,7 +6,7 @@
              Title="New translation">
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Grid Padding="10" HorizontalOptions="FillAndExpand">
+            <Grid HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -15,9 +15,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Text="{Binding TranslationType, Converter={converters:TranslationTypeToStringConverter}}"
-                                TextColor="{Binding Original.TranslationType, Converter={converters:TranslationTypeToColorConverter}}"
-                               WidthRequest="30" FontSize="Large" Grid.Column="0"   VerticalOptions="Center" />
+                <Image Source="original_sentence.png"                               
+                               WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
                 <Image Grid.Column="1" 
                                               Source="{Binding Original.Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
                                               VerticalOptions="Center"/>
@@ -26,9 +25,13 @@
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
             </Grid>
-            <Label Text="Translation:" FontSize="Medium" />                    
-            <StackLayout Grid.Row="1"  Margin="12,0,0,12" >
-                <Editor Text="{Binding Item.Text}" HeightRequest="200" />
+            <StackLayout Orientation="Horizontal">
+              <Image Source="direct_translation.png"
+                               WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
+              <Label Text="Translation:" FontSize="Medium" />
+            </StackLayout>
+            <StackLayout Margin="12,0,0,12" >
+                <Editor Text="{Binding Item.Text}" HeightRequest="100" />
             </StackLayout>
             <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
                 <Label Text="Language" VerticalOptions="Center"/>

@@ -9,25 +9,25 @@ namespace Tatoeba.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewTranslationPage : ContentPage
     {
-        NewTranslationViewModel viewModel;
+        public NewTranslationViewModel ViewModel { get; private set; }
         
         public NewTranslationPage(Contribution original)
         {
             InitializeComponent();
-            BindingContext = viewModel = new NewTranslationViewModel(original);
+            BindingContext = ViewModel = new NewTranslationViewModel(original);
 
-            viewModel.Save += ViewModel_Save;
-            viewModel.Cancel += ViewModel_Cancel;
+            ViewModel.Save += ViewModel_Save;
+            ViewModel.Cancel += ViewModel_Cancel;
         }
 
         private async void ViewModel_Save(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         private async void ViewModel_Cancel(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
     }
 }

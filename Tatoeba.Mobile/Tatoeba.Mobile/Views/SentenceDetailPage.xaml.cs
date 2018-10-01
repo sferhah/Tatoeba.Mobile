@@ -38,7 +38,17 @@ namespace Tatoeba.Mobile.Views
                 return;
             }
 
-            await Navigation.PushModalAsync(new NavigationPage(new NewTranslationPage(viewModel.Original)));
+            var target = new NewTranslationPage(viewModel.Original);
+
+            target.ViewModel.Save += ViewModel_Save;  
+
+            await Navigation.PushAsync(target);
+        }
+    
+
+        private async void ViewModel_Save(object sender, EventArgs e)
+        {
+            viewModel.LoadItemsCommand.Execute(null);
         }
 
         protected override void OnAppearing()

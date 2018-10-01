@@ -78,57 +78,15 @@ namespace Tatoeba.Mobile.Services
 
             doc.LoadHtml(result);
 
-            //{
-            //    var node = doc.DocumentNode.SelectSingleNode("//*[@class=\"sentence mainSentence\"]");
-            //    string text = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").InnerText).Trim();
-            //    string language = node.SelectSingleNode(".//img").Attributes["alt"].Value;
-            //    string sentenceId = node.SelectSingleNode(".//*[@data-sentence-id]").Attributes["data-sentence-id"].Value;
-            //    Direction direction = (Direction)directions.IndexOf(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").Attributes["dir"].Value);
-
-            //    var navigationIcon = node.SelectSingleNode("div/a").Attributes["class"].Value;
-
-            //    sentences.Add(new Sentence
-            //    {
-            //        Text = text,
-            //        Id = sentenceId,
-            //        Language = new Language { Iso = language },
-            //        Direction = direction,
-            //        TranslationType = (TranslationType)navIcons.IndexOf(navigationIcon)
-            //    });
-            //}
-
-
-            //foreach (var node in doc.DocumentNode.SelectNodes("//*[@class=\"translations\"]"))
-            //{
-            //    string text = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").InnerText).Trim();
-            //    string language = node.SelectSingleNode(".//img").Attributes["alt"].Value;
-            //    string sentenceId = node.SelectSingleNode(".//*[@data-sentence-id]").Attributes["data-sentence-id"].Value;
-            //    Direction direction = (Direction)directions.IndexOf(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").Attributes["dir"].Value);
-
-            //    var navigationIcon = node.SelectSingleNode(".//*[@data-sentence-id]/div/a").Attributes["class"].Value;
-
-
-            //    sentences.Add(new Sentence
-            //    {
-            //        Text = text,
-            //        Id = sentenceId,
-            //        Language = new Language { Iso = language },
-            //        Direction = direction,
-            //        TranslationType = (TranslationType)navIcons.IndexOf(navigationIcon)
-            //    });
-            //}
-
             SentenceDetail setenceDetails = new SentenceDetail();
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//*[@class=\"text correctnessZero\"]"))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//*[@class=\"sentence mainSentence\"]|//*[@class=\"translations\"]/*[@data-sentence-id]|//div[@class=\"more\"]/*[@data-sentence-id]"))
             {
-                string text = HttpUtility.HtmlDecode(node.InnerText).Trim();
-                string language = node.ParentNode.ParentNode.ParentNode.SelectSingleNode("div/img").Attributes["alt"].Value;
-                string sentenceId = node.ParentNode.Attributes["data-sentence-id"].Value;
-                Direction direction = (Direction)directions.IndexOf(node.Attributes["dir"].Value);
-
-                var navigationIcon = node.ParentNode.ParentNode.ParentNode.SelectSingleNode("div/a").Attributes["class"].Value;
-
+                string text = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").InnerText).Trim();
+                string language = node.SelectSingleNode(".//img").Attributes["alt"].Value;
+                string sentenceId = node.Attributes["data-sentence-id"].Value;
+                Direction direction = (Direction)directions.IndexOf(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").Attributes["dir"].Value);
+                var navigationIcon = node.SelectSingleNode("div/a").Attributes["class"].Value;
 
                 setenceDetails.Sentences.Add(new Contribution
                 {
@@ -138,7 +96,7 @@ namespace Tatoeba.Mobile.Services
                     Direction = direction,
                     TranslationType = (TranslationType)translationTypes.IndexOf(navigationIcon)
                 });
-            }
+            }           
 
             foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//md-list-item"))
             {

@@ -57,9 +57,17 @@ namespace Tatoeba.Mobile.ViewModels
 
             Items.Clear();
 
-            var items = await MainService.GetLatestContributions(SelectedLanguage.Iso);
+            var response = await MainService.GetLatestContributions(SelectedLanguage.Iso);
 
-            foreach (var item in items)
+
+            if(response.Status != TatoebaStatus.Success)
+            {
+                OnError(response.Status);
+                IsBusy = false;
+                return;
+            }
+
+            foreach (var item in response.Content)
             {
                 Items.Add(item);
             }

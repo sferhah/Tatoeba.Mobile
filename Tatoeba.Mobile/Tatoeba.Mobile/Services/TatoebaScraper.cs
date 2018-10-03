@@ -12,6 +12,20 @@ namespace Tatoeba.Mobile.Services
             => @this.SelectNodes(xpath) ?? new HtmlNodeCollection(null);
     }
 
+
+    public enum TatoebaStatus
+    {
+        Success,
+        InvalidSession,
+        Error,
+    }
+
+    public class TatoebaResponse<T>
+    {
+        public T Content;
+        public TatoebaStatus Status;
+    }
+
     public class TatoebaScraper
     {   
         readonly static List<string> directions = new List<string>
@@ -36,8 +50,18 @@ namespace Tatoeba.Mobile.Services
         };
 
 
-        public static List<Contribution> ParseContribs(string result)
+        public static bool IsSessionValid(string respStr) => respStr.Contains("li id=\"profile\"");
+
+        public static TatoebaResponse<Contribution[]> ParseContribs(string result)
         {
+            if (!IsSessionValid(result))
+            {
+                return new TatoebaResponse<Contribution[]>
+                {
+                    Status = TatoebaStatus.InvalidSession,
+                };
+            }
+
             HtmlDocument doc = new HtmlDocument
             {
                 OptionFixNestedTags = true
@@ -63,14 +87,25 @@ namespace Tatoeba.Mobile.Services
 
             foreach (var item in sentences)
             {
-                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).Single();                
+                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).Single();
             }
 
-            return sentences;
+            return new TatoebaResponse<Contribution[]>
+            {
+                Content = sentences.ToArray(),
+            };
         }
 
-        public static SentenceDetail ParseSetenceDetail(string result)
+        public static TatoebaResponse<SentenceDetail> ParseSetenceDetail(string result)
         {
+            if (!IsSessionValid(result))
+            {
+                return new TatoebaResponse<SentenceDetail>
+                {
+                    Status = TatoebaStatus.InvalidSession,
+                };
+            }
+
             HtmlDocument doc = new HtmlDocument
             {
                 OptionFixNestedTags = true
@@ -124,7 +159,10 @@ namespace Tatoeba.Mobile.Services
                 item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).Single();
             }
 
-            return setenceDetails;
+            return new TatoebaResponse<SentenceDetail>
+            {
+                Content = setenceDetails,
+            };            
         }
     }
 }

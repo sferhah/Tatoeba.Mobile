@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-using Xamarin.Forms;
-
-using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.ViewModels
 {
+
+    public class ErrorEventArgs : EventArgs
+    {
+        public ErrorEventArgs(TatoebaStatus item) => Status = item;
+        public TatoebaStatus Status { get; }
+    }
+
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public event EventHandler<ErrorEventArgs> Error;
+        protected virtual void OnError(TatoebaStatus status)
+        {
+            Error?.Invoke(this, new ErrorEventArgs(status));
+        }
+
         bool isBusy = false;
         public bool IsBusy
         {

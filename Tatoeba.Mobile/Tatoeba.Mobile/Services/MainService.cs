@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Storage;
@@ -48,7 +47,7 @@ namespace Tatoeba.Mobile.Services
             var exists = existence == PCLStorage.ExistenceCheckResult.FileExists;
 
 
-            if(exists)
+            if (exists)
             {
                 client.cookies = await ReadCookiesFromDisk(cookies_file_name);
             }
@@ -56,6 +55,19 @@ namespace Tatoeba.Mobile.Services
             return exists;
         }
 
+
+        public static async Task ClearCookiers()
+        {
+            var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name) == PCLStorage.ExistenceCheckResult.FileExists;            
+
+            if(!exists)
+            {
+                return;
+            }
+
+            var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(cookies_file_name);
+            await file.DeleteAsync();
+        }
 
         public static async Task<List<Language>> GetLanguages()
         {
@@ -77,21 +89,24 @@ namespace Tatoeba.Mobile.Services
         }
 
 
-        public static async Task<List<Contribution>> GetLatestContributions(string language)
+        public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)
         {
-            HttpClient client = new HttpClient();
             var response = await client.GetStringAsync(latest_contribs + language);
             return TatoebaScraper.ParseContribs(response);
         }
 
 
-        public static async Task<SentenceDetail> GetSentenceDetail(string id)
+        public static async Task<TatoebaResponse<SentenceDetail>> GetSentenceDetail(string id)
         {
-            HttpClient client = new HttpClient();
             var result = await client.GetStringAsync(sentence_url + id);
-            var setenceDetail = TatoebaScraper.ParseSetenceDetail(result);
-            setenceDetail.Id = id;
-            return setenceDetail;
+            var response = TatoebaScraper.ParseSetenceDetail(result);
+
+            if(response.Content != null)
+            {
+                response.Content.Id = id;
+            }
+            
+            return response;
         }
 
 
@@ -125,7 +140,7 @@ namespace Tatoeba.Mobile.Services
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
         {
-            var result = await client.GetAsync("https://tatoeba.org/eng/");
+            var result = await client.GetStringAsync("https://tatoeba.org/eng/");
 
             HtmlDocument doc = new HtmlDocument
             {

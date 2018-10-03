@@ -28,7 +28,7 @@ namespace Tatoeba.Mobile.Services
 
         public async Task<T> GetAsync<T>(string requestUri, Type[] parsers) where T : class
         {
-            var resp = await GetAsync(requestUri);
+            var resp = await GetStringAsync(requestUri);
             return Deserialize<T>(resp, parsers);
         }
 
@@ -62,7 +62,7 @@ namespace Tatoeba.Mobile.Services
         /// <summary>Gets the text of page from web.</summary>
         /// <param name="requestUri">Absolute URI of page to get.</param>
         /// <returns>Returns source code.</returns>
-        public async Task<string> GetAsync(string requestUri)
+        public async Task<string> GetStringAsync(string requestUri)
             => await MakeHttpRequestAsync(requestUri, null, false, true);
 
         /// <summary>gets specified string to requested resource

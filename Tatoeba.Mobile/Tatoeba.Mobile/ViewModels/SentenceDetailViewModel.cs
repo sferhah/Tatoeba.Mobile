@@ -33,7 +33,16 @@ namespace Tatoeba.Mobile.ViewModels
             
             GroupedCells.Clear();
 
-            var setenceDetails = await MainService.GetSentenceDetail(ItemId);
+            var response = await MainService.GetSentenceDetail(ItemId);
+
+            if (response.Status != TatoebaStatus.Success)
+            {
+                OnError(response.Status);
+                IsBusy = false;
+                return;
+            }
+
+            var setenceDetails = response.Content;
 
             Original = setenceDetails.Sentences.FirstOrDefault();
             GroupedCells.Add(new Grouping<string, object>("Sentence #" + ItemId, setenceDetails.Sentences.Take(1)));

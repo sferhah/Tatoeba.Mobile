@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.ViewModels;
+using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.Views
 {
@@ -16,6 +17,16 @@ namespace Tatoeba.Mobile.Views
             InitializeComponent();
           
             BindingContext = viewModel = new ContributionsViewModel();
+            viewModel.Error += ViewModel_Error;
+        }
+
+        private async void ViewModel_Error(object sender, ErrorEventArgs e)
+        {
+            if(e.Status == TatoebaStatus.InvalidSession)
+            {
+                await MainService.ClearCookiers();
+                Application.Current.MainPage = new LoginPage();
+            }
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)

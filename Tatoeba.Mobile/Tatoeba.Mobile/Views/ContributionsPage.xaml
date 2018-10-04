@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<local:TatoebaContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"             
-             xmlns:views="clr-namespace:Tatoeba.Mobile.Views"
+             xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
              xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
              x:Class="Tatoeba.Mobile.Views.ContributionsPage"
               Title="{Binding Title}"
@@ -82,4 +82,4 @@
         </AbsoluteLayout>
        
     </ContentPage.Content>
-</ContentPage>
+</local:TatoebaContentPage>

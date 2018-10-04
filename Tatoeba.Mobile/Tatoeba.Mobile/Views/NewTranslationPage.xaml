@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<local:TatoebaContentPage
+            xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
+            xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
              x:Class="Tatoeba.Mobile.Views.NewTranslationPage"
@@ -45,4 +47,4 @@
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</local:TatoebaContentPage>

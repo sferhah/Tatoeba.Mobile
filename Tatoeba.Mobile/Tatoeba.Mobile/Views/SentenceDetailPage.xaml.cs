@@ -3,36 +3,23 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.ViewModels;
-using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SentenceDetailPage : ContentPage
+    public partial class SentenceDetailPage : TatoebaContentPage
     {
-        SentenceDetailViewModel viewModel;
 
         public SentenceDetailPage(SentenceDetailViewModel viewModel)
         {
             InitializeComponent();
-
-            BindingContext = this.viewModel = viewModel;
-            this.viewModel.Error += ViewModel_Error;
-        }
-
-        private async void ViewModel_Error(object sender, ErrorEventArgs e)
-        {
-            if (e.Status == TatoebaStatus.InvalidSession)
-            {
-                await MainService.ClearCookiers();
-                Application.Current.MainPage = new LoginPage();
-            }
-        }
+            ViewModel = viewModel;
+        }       
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             if (!(args.SelectedItem is Contribution item)
-                || item.Id == viewModel.ItemId)
+                || item.Id == (ViewModel as SentenceDetailViewModel).ItemId)
             {
                 return;
             }        
@@ -44,14 +31,14 @@ namespace Tatoeba.Mobile.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            if(viewModel.Original == null)
+            if ((ViewModel as SentenceDetailViewModel).Original == null)
             {
                 return;
             }
 
-            var target = new NewTranslationPage(viewModel.Original);
+            var target = new NewTranslationPage((ViewModel as SentenceDetailViewModel).Original);
 
-            target.ViewModel.Save += ViewModel_Save;  
+            (target.ViewModel as NewTranslationViewModel).Save += ViewModel_Save;  
 
             await Navigation.PushAsync(target);
         }
@@ -59,15 +46,15 @@ namespace Tatoeba.Mobile.Views
 
         private async void ViewModel_Save(object sender, EventArgs e)
         {
-            viewModel.LoadItemsCommand.Execute(null);
+            (ViewModel as SentenceDetailViewModel).LoadItemsCommand.Execute(null);
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (viewModel.GroupedCells.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
+            if ((ViewModel as SentenceDetailViewModel).GroupedCells.Count == 0)
+                (ViewModel as SentenceDetailViewModel).LoadItemsCommand.Execute(null);
         }
     }
 

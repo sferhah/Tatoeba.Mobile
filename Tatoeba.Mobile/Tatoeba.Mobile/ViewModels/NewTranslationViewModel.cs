@@ -75,7 +75,6 @@ namespace Tatoeba.Mobile.ViewModels
         async Task ExecuteCancelCommand()
         {
             Cancel?.Invoke(this, EventArgs.Empty);
-
         }
     }
 }

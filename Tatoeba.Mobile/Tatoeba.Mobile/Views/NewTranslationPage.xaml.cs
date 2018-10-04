@@ -7,17 +7,15 @@ using Tatoeba.Mobile.ViewModels;
 namespace Tatoeba.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewTranslationPage : ContentPage
-    {
-        public NewTranslationViewModel ViewModel { get; private set; }
-        
+    public partial class NewTranslationPage : TatoebaContentPage
+    {        
         public NewTranslationPage(Contribution original)
         {
             InitializeComponent();
-            BindingContext = ViewModel = new NewTranslationViewModel(original);
+            ViewModel = new NewTranslationViewModel(original);
 
-            ViewModel.Save += ViewModel_Save;
-            ViewModel.Cancel += ViewModel_Cancel;
+            (ViewModel as NewTranslationViewModel).Save += ViewModel_Save;
+            (ViewModel as NewTranslationViewModel).Cancel += ViewModel_Cancel;
         }
 
         private async void ViewModel_Save(object sender, EventArgs e)

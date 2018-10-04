@@ -3,31 +3,18 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.ViewModels;
-using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContributionsPage : ContentPage
+    public partial class ContributionsPage : TatoebaContentPage
     {
-        ContributionsViewModel viewModel;
 
         public ContributionsPage()
         {
-            InitializeComponent();
-          
-            BindingContext = viewModel = new ContributionsViewModel();
-            viewModel.Error += ViewModel_Error;
-        }
-
-        private async void ViewModel_Error(object sender, ErrorEventArgs e)
-        {
-            if(e.Status == TatoebaStatus.InvalidSession)
-            {
-                await MainService.ClearCookiers();
-                Application.Current.MainPage = new LoginPage();
-            }
-        }
+            InitializeComponent();          
+            ViewModel = new ContributionsViewModel();
+        }       
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
@@ -47,8 +34,8 @@ namespace Tatoeba.Mobile.Views
         {
             base.OnAppearing();
 
-            if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
+            if ((ViewModel as ContributionsViewModel).Items.Count == 0)
+                (ViewModel as ContributionsViewModel).LoadItemsCommand.Execute(null);
         }
     }
 }

@@ -137,6 +137,15 @@ namespace Tatoeba.Mobile.Services
             return node.Attributes["data-sentence-id"].Value;
         }
 
+
+        public static async Task EditSentence(SentenceBase sentence)
+        {
+            string postData = "value" + "=" + sentence.Text.UrlEncode()
+                + "&" + "id=" + sentence.Language.Iso + "_" + sentence.Id.UrlEncode();
+
+            await client.PostAsync("https://tatoeba.org/eng/sentences/edit_sentence", postData);
+        }
+
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
         {

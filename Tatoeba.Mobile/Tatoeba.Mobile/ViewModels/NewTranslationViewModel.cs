@@ -66,9 +66,13 @@ namespace Tatoeba.Mobile.ViewModels
         public event EventHandler Save;
         async Task ExecuteSaveCommand()
         {
+            IsBusy = true;
+
             await MainService.SaveTranslation(Original.Id, Item);
 
             Save?.Invoke(this, EventArgs.Empty);
+
+            IsBusy = false;
         }
 
         public event EventHandler Cancel;

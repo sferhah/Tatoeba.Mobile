@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.ViewModels;
+using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.Views
 {
@@ -14,15 +15,40 @@ namespace Tatoeba.Mobile.Views
         {
             InitializeComponent();
             ViewModel = viewModel;
-        }       
+            viewModel.ShowEditAction += ViewModel_ShowEditAction;
+        }
+
+        private void ViewModel_ShowEditAction(object sender, EventArgs e)
+        {
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "Edit",
+                Command = new Command(() => GoToEditPage()),
+            });
+        }
+
+        protected async void GoToEditPage()
+        {        
+            var target = new EditSentencePage((ViewModel as SentenceDetailViewModel).Original);
+
+            (target.ViewModel as EditSentenceViewModel).Save += ViewModel_Save;
+
+            await Navigation.PushAsync(target);
+        }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            if (!(args.SelectedItem is Contribution item)
-                || item.Id == (ViewModel as SentenceDetailViewModel).ItemId)
+            if (!(args.SelectedItem is Contribution item))
             {
                 return;
-            }        
+            }
+
+            if (item.Id == (ViewModel as SentenceDetailViewModel).ItemId)
+            {
+               // GoToEditPage();
+              //  ItemsListView.SelectedItem = null;
+                return;
+            }
 
             await Navigation.PushAsync(new SentenceDetailPage(new SentenceDetailViewModel(item.Id)));
 

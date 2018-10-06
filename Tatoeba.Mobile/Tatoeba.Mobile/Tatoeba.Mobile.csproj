@@ -21,6 +21,9 @@
     <Compile Update="Views\ContributionsPage.xaml.cs">
       <DependentUpon>ContributionsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\EditSentencePage.xaml.cs">
+      <DependentUpon>EditSentencePage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\NewTranslationPage.xaml.cs">
       <DependentUpon>NewTranslationPage.xaml</DependentUpon>
     </Compile>

@@ -114,13 +114,15 @@ namespace Tatoeba.Mobile.Services
             doc.LoadHtml(result);
 
             SentenceDetail setenceDetails = new SentenceDetail();
+            setenceDetails.IsEditable = doc.DocumentNode.SelectSingleNode("//*[@class=\"sentence mainSentence\"]//*[@class=\"text correctnessZero editableSentence\"]") != null;
+
 
             foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//*[@class=\"sentence mainSentence\"]|//*[@class=\"translations\"]/*[@data-sentence-id]|//div[@class=\"more\"]/*[@data-sentence-id]"))
             {
-                string text = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").InnerText).Trim();
+                string text = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]|.//*[@class=\"text correctnessZero editableSentence\"]").InnerText).Trim();
                 string language = node.SelectSingleNode(".//img").Attributes["alt"].Value;
                 string sentenceId = node.Attributes["data-sentence-id"].Value;
-                Direction direction = (Direction)directions.IndexOf(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]").Attributes["dir"].Value);
+                Direction direction = (Direction)directions.IndexOf(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]|//*[@class=\"text correctnessZero editableSentence\"]").Attributes["dir"].Value);
                 var navigationIcon = node.SelectSingleNode("div/a").Attributes["class"].Value;
 
                 setenceDetails.Sentences.Add(new Contribution

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
@@ -9,10 +10,6 @@ namespace Tatoeba.Mobile.ViewModels
 {
     public class SentenceDetailViewModel : BaseViewModel
     {
-        public string ItemId { get; set; }
-
-        public Contribution Original { get; private set; }
-
         public SentenceDetailViewModel(string itemId)
         {   
             Title = itemId;
@@ -20,6 +17,10 @@ namespace Tatoeba.Mobile.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
+        public event EventHandler ShowEditAction;
+
+        public string ItemId { get; set; }
+        public Contribution Original { get; private set; }
         public ObservableCollection<Grouping<string, object>> GroupedCells { get; private set; } = new ObservableCollection<Grouping<string, object>>();
 
         public Command LoadItemsCommand { get; set; }
@@ -42,13 +43,18 @@ namespace Tatoeba.Mobile.ViewModels
                 return;
             }
 
-            var setenceDetails = response.Content;
+            var sentenceDetail = response.Content;
 
-            Original = setenceDetails.Sentences.FirstOrDefault();
-            GroupedCells.Add(new Grouping<string, object>("Sentence #" + ItemId, setenceDetails.Sentences.Take(1)));
-            GroupedCells.Add(new Grouping<string, object>(setenceDetails.Sentences.Skip(1).Count() + " Translations", setenceDetails.Sentences.Skip(1)));
-            GroupedCells.Add(new Grouping<string, object>(setenceDetails.Logs.Count()+ " Logs", setenceDetails.Logs));
-            GroupedCells.Add(new Grouping<string, object>(setenceDetails.Comments.Count() + " Comments", setenceDetails.Comments));
+            if(sentenceDetail.IsEditable)
+            {
+                ShowEditAction?.Invoke(this, EventArgs.Empty);
+            }
+
+            Original = sentenceDetail.Sentences.FirstOrDefault();
+            GroupedCells.Add(new Grouping<string, object>("Sentence #" + ItemId, sentenceDetail.Sentences.Take(1)));
+            GroupedCells.Add(new Grouping<string, object>(sentenceDetail.Sentences.Skip(1).Count() + " Translations", sentenceDetail.Sentences.Skip(1)));
+            GroupedCells.Add(new Grouping<string, object>(sentenceDetail.Logs.Count()+ " Logs", sentenceDetail.Logs));
+            GroupedCells.Add(new Grouping<string, object>(sentenceDetail.Comments.Count() + " Comments", sentenceDetail.Comments));
 
             IsBusy = false;
         }

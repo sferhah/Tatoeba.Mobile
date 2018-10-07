@@ -87,7 +87,7 @@ namespace Tatoeba.Mobile.Services
 
             foreach (var item in sentences)
             {
-                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).Single();
+                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).SingleOrDefault();
             }
 
             return new TatoebaResponse<Contribution[]>
@@ -158,7 +158,7 @@ namespace Tatoeba.Mobile.Services
 
             foreach (var item in setenceDetails.Sentences)
             {
-                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).Single();
+                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).SingleOrDefault();
             }
 
             return new TatoebaResponse<SentenceDetail>

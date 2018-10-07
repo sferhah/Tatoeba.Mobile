@@ -11,7 +11,7 @@ namespace Tatoeba.Mobile.Converters
         {
             if (value == null)
             {
-                return ImageSource.FromFile("default_miniature.png");
+                return ImageSource.FromFile("unkown.png");
             }
 
             return ImageSource.FromStream(() => new MemoryStream((byte[])value));

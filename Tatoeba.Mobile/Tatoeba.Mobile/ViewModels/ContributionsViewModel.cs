@@ -32,6 +32,11 @@ namespace Tatoeba.Mobile.ViewModels
             get => SelectedLanguage?.Label;
             set
             {
+                if(value == null)
+                {
+                    return;
+                }
+
                 SelectedLanguage = MainService.Languages.FirstOrDefault(c => c.Label == value);
                 LocalSettings.LastIsoSelection = SelectedLanguage.Iso;
 

@@ -19,6 +19,7 @@ namespace Tatoeba.Mobile.Services
         const string flags_url = "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/webroot/img/flags/";
         const string languages_url = "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/Lib/LanguagesLib.php";
         const string latest_contribs = "https://tatoeba.org/eng/contributions/latest/";
+        const string search_url = "https://tatoeba.org/eng/sentences/search?";
         const string sentence_url = " https://tatoeba.org/eng/sentences/show/";
         const string cookies_file_name = "cookies.ck";
 
@@ -92,11 +93,12 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaResponse<string>> SearchAsync(string text, string isoFrom, string isoTo)
         {
-            await Task.Delay(1000);
+            string url = search_url + $"from={isoFrom?? "und"}&to={isoTo ?? "und"}&query={text.UrlEncode()}";
+            var response = await client.GetStringAsync(url);
 
             return new TatoebaResponse<string>
             {
-                Content = "",
+                Content = response,
             };
         }
 

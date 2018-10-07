@@ -1,11 +1,10 @@
-﻿using System;
-using Tatoeba.Mobile.Services;
+﻿using Tatoeba.Mobile.Services;
 using Tatoeba.Mobile.ViewModels;
 using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.Views
-{   
-    public class TatoebaContentPage<T> : ContentPage where T : BaseViewModel
+{
+    public class TatoebaContentPage : ContentPage 
     {
         public TatoebaContentPage()
         {
@@ -17,6 +16,17 @@ namespace Tatoeba.Mobile.Views
                 Command = new Command(() => LogOut()),
             });
         }
+
+        protected async void LogOut()
+        {
+            await MainService.ClearCookiers();
+            Application.Current.MainPage = new LoginPage();
+        }
+    }
+
+    public class TatoebaContentPage<T> : TatoebaContentPage where T : BaseViewModel
+    {
+        public TatoebaContentPage() : base()  { }
 
         private T _ViewModel;
         public T ViewModel
@@ -39,13 +49,6 @@ namespace Tatoeba.Mobile.Views
             {
                 LogOut();
             }
-        }    
-
-        protected async void LogOut()
-        {
-            await MainService.ClearCookiers();
-            Application.Current.MainPage = new LoginPage();
         }
-
     }
 }

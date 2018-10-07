@@ -17,7 +17,7 @@ namespace Tatoeba.Mobile.ViewModels
 
         public ContributionsViewModel()
         {
-            Title = "Random";
+            Title = "Recent";
             Items = new ObservableCollection<Contribution>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }

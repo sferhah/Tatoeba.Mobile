@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:TatoebaContentPage
+    x:TypeArguments="viewModels:SearchViewModel"
+   xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
+    xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"  
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tatoeba.Mobile.Views.SearchPage"          
+             xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewModels:SearchViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--Page Level Resources: Compatibile with Xamarin Live Player -->
+            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="Accent">#96d1ff</Color>
+            <Color x:Key="LightTextColor">#999999</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout BackgroundColor="White">
+        <StackLayout  AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     Margin="0,0,0,0"  Padding="10">
+            
+            <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" >
+                <Entry Text="{Binding SearchText}"  HorizontalOptions="FillAndExpand" />
+                <Button Image="search.png" Command="{Binding SearchCommand}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" >
+                <Label Text="From" VerticalOptions="Center"/>
+                <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceSource}"  HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                <Label Text="To" VerticalOptions="Center"/>
+                <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  HorizontalOptions="FillAndExpand" />
+            </StackLayout>            
+        </StackLayout>
+
+        <Grid 
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"
+             IsVisible="{Binding IsBusy}"
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <nativeViews:UwpProgressRing WidthRequest ="64" HeightRequest ="64" ForegroundColor ="Green" />
+        </Grid>
+
+    </AbsoluteLayout>
+</local:TatoebaContentPage>

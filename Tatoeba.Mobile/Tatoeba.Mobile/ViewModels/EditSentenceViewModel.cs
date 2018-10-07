@@ -28,6 +28,9 @@ namespace Tatoeba.Mobile.ViewModels
         public event EventHandler Save;
         async Task ExecuteSaveCommand()
         {
+            if (IsBusy)
+                return;
+
             IsBusy = true;
 
             await MainService.EditSentence(Item);

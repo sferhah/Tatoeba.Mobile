@@ -69,6 +69,8 @@ namespace Tatoeba.Mobile.Services
             await file.DeleteAsync();
         }
 
+      
+
         public static async Task<List<Language>> GetLanguages()
         {
             HttpClient client = new HttpClient();
@@ -88,6 +90,15 @@ namespace Tatoeba.Mobile.Services
             return languages;
         }
 
+        public static async Task<TatoebaResponse<string>> SearchAsync(string text, string isoFrom, string isoTo)
+        {
+            await Task.Delay(1000);
+
+            return new TatoebaResponse<string>
+            {
+                Content = "",
+            };
+        }
 
         public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)
         {

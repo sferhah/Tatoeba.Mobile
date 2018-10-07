@@ -18,6 +18,19 @@ namespace Tatoeba.Mobile.Storage
             get => AppSettings.GetValueOrDefault(nameof(LastIsoTranslation), null);
             set => AppSettings.AddOrUpdateValue(nameof(LastIsoTranslation), value);
         }
-      
+
+
+        public static string LastIsoSearchFrom
+        {
+            get => AppSettings.GetValueOrDefault(nameof(LastIsoSearchFrom), null);
+            set => AppSettings.AddOrUpdateValue(nameof(LastIsoSearchFrom), value);
+        }
+
+        public static string LastIsoSearchTo
+        {
+            get => AppSettings.GetValueOrDefault(nameof(LastIsoSearchTo), null);
+            set => AppSettings.AddOrUpdateValue(nameof(LastIsoSearchTo), value);
+        }
+
     }
 }

@@ -12,6 +12,8 @@ namespace Tatoeba.Mobile.Views
             ToolbarItems.Add(new ToolbarItem
             {
                 Text = "Log out",
+                Priority = 1,
+                Order = ToolbarItemOrder.Secondary,
                 Command = new Command(() => LogOut()),
             });
         }

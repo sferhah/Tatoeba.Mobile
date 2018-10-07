@@ -23,6 +23,7 @@ namespace Tatoeba.Mobile.Views
             ToolbarItems.Add(new ToolbarItem
             {
                 Text = "Edit",
+                Icon = "edit.png",
                 Command = new Command(() => GoToEditPage()),
             });
         }

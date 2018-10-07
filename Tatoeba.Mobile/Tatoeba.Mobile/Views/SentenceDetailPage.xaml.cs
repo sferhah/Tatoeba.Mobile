@@ -8,7 +8,7 @@ using Tatoeba.Mobile.Services;
 namespace Tatoeba.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SentenceDetailPage : TatoebaContentPage
+    public partial class SentenceDetailPage : TatoebaContentPage<SentenceDetailViewModel>
     {
 
         public SentenceDetailPage(SentenceDetailViewModel viewModel)
@@ -29,9 +29,9 @@ namespace Tatoeba.Mobile.Views
 
         protected async void GoToEditPage()
         {        
-            var target = new EditSentencePage((ViewModel as SentenceDetailViewModel).Original);
+            var target = new EditSentencePage(ViewModel.Original);
 
-            (target.ViewModel as EditSentenceViewModel).Save += ViewModel_Save;
+            target.ViewModel.Save += ViewModel_Save;
 
             await Navigation.PushAsync(target);
         }
@@ -43,7 +43,7 @@ namespace Tatoeba.Mobile.Views
                 return;
             }
 
-            if (item.Id == (ViewModel as SentenceDetailViewModel).ItemId)
+            if (item.Id == ViewModel.ItemId)
             {
                // GoToEditPage();
               //  ItemsListView.SelectedItem = null;
@@ -57,14 +57,14 @@ namespace Tatoeba.Mobile.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            if ((ViewModel as SentenceDetailViewModel).Original == null)
+            if (ViewModel.Original == null)
             {
                 return;
             }
 
-            var target = new NewTranslationPage((ViewModel as SentenceDetailViewModel).Original);
+            var target = new NewTranslationPage(ViewModel.Original);
 
-            (target.ViewModel as NewTranslationViewModel).Save += ViewModel_Save;  
+            target.ViewModel.Save += ViewModel_Save;  
 
             await Navigation.PushAsync(target);
         }
@@ -72,15 +72,15 @@ namespace Tatoeba.Mobile.Views
 
         private async void ViewModel_Save(object sender, EventArgs e)
         {
-            (ViewModel as SentenceDetailViewModel).LoadItemsCommand.Execute(null);
+            ViewModel.LoadItemsCommand.Execute(null);
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if ((ViewModel as SentenceDetailViewModel).GroupedCells.Count == 0)
-                (ViewModel as SentenceDetailViewModel).LoadItemsCommand.Execute(null);
+            if (ViewModel.GroupedCells.Count == 0)
+                ViewModel.LoadItemsCommand.Execute(null);
         }
     }
 

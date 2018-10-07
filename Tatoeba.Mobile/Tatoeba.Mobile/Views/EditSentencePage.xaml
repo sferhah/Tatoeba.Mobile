@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:TatoebaContentPage
+<local:TatoebaContentPage x:TypeArguments="viewModels:EditSentenceViewModel"
             xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
             xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
-             x:Class="Tatoeba.Mobile.Views.EditSentencePage"
+                          xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
+                          x:Class="Tatoeba.Mobile.Views.EditSentencePage"
              Title="New translation">
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">   

@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.Views
 {   
-    public class TatoebaContentPage : ContentPage
+    public class TatoebaContentPage<T> : ContentPage where T : BaseViewModel
     {
         public TatoebaContentPage()
         {
@@ -16,8 +16,8 @@ namespace Tatoeba.Mobile.Views
             });
         }
 
-        private BaseViewModel _ViewModel;
-        public BaseViewModel ViewModel
+        private T _ViewModel;
+        public T ViewModel
         {
             get => _ViewModel;
             protected set

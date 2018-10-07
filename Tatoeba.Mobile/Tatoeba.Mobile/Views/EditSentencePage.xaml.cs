@@ -5,15 +5,15 @@ using Tatoeba.Mobile.ViewModels;
 namespace Tatoeba.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class EditSentencePage : TatoebaContentPage
+    public partial class EditSentencePage : TatoebaContentPage<EditSentenceViewModel>
     {        
         public EditSentencePage(Contribution original)
         {
             InitializeComponent();
             ViewModel = new EditSentenceViewModel(original);
 
-            (ViewModel as EditSentenceViewModel).Save += async (sender, e) => await Navigation.PopAsync();
-            (ViewModel as EditSentenceViewModel).Cancel += async (sender, e) => await Navigation.PopAsync();
+            ViewModel.Save += async (sender, e) => await Navigation.PopAsync();
+            ViewModel.Cancel += async (sender, e) => await Navigation.PopAsync();
         }
     }
 }

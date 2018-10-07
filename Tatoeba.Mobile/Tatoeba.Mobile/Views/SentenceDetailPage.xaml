@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<local:TatoebaContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<local:TatoebaContentPage x:TypeArguments="viewModels:SentenceDetailViewModel"
+                          xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
              xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
              xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
              xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
-             x:Class="Tatoeba.Mobile.Views.SentenceDetailPage"
+                          xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
+                          x:Class="Tatoeba.Mobile.Views.SentenceDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add translation" Clicked="AddItem_Clicked">

@@ -7,7 +7,7 @@ using Tatoeba.Mobile.ViewModels;
 namespace Tatoeba.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ContributionsPage : TatoebaContentPage
+    public partial class ContributionsPage : TatoebaContentPage<ContributionsViewModel>
     {
 
         public ContributionsPage()
@@ -34,8 +34,8 @@ namespace Tatoeba.Mobile.Views
         {
             base.OnAppearing();
 
-            if ((ViewModel as ContributionsViewModel).Items.Count == 0)
-                (ViewModel as ContributionsViewModel).LoadItemsCommand.Execute(null);
+            if (ViewModel.Items.Count == 0)
+                ViewModel.LoadItemsCommand.Execute(null);
         }
     }
 }

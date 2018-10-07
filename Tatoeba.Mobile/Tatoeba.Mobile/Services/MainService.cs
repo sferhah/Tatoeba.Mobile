@@ -91,9 +91,24 @@ namespace Tatoeba.Mobile.Services
             return languages;
         }
 
-        public static async Task<TatoebaResponse<string>> SearchAsync(string text, string isoFrom, string isoTo)
+        public static async Task<TatoebaResponse<string>> SearchAsync(string text,
+            string isoFrom, 
+            string isoTo,
+            bool? isOrphan = false,
+            bool? isUnapproved = false,
+            bool? hasAudio = null)
         {
-            string url = search_url + $"from={isoFrom?? "und"}&to={isoTo ?? "und"}&query={text.UrlEncode()}";
+            string orphans = isOrphan == null ? string.Empty : (isOrphan.Value ? "yes" : "no");
+            string unapproved = isUnapproved == null ? string.Empty : (isUnapproved.Value ? "yes" : "no");
+            string has_audio = hasAudio == null ? string.Empty : (hasAudio.Value ? "yes" : "no");
+
+            string url = search_url + $"from={isoFrom?? "und"}" +
+                $"&to={isoTo ?? "und"}" +
+                $"&query={text.UrlEncode()}" +
+                $"&orphans={orphans}" +
+                $"&unapproved={unapproved}" +
+                $"&has_audio={has_audio}";
+
             var response = await client.GetStringAsync(url);
 
             return new TatoebaResponse<string>

@@ -29,28 +29,28 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<bool> InitAsync()
         {
-            await AppDbContext.InitAsync();
+            await AppDbContext.InitAsync().ConfigureAwait(false);
 
             using (AppDbContext context = new AppDbContext())
             {
-                Languages = await context.Languages.OrderBy(x => x.Label).ToListAsync();
+                Languages = await context.Languages.OrderBy(x => x.Label).ToListAsync().ConfigureAwait(false);
 
                 if (Languages.Count() == 0)
                 {
-                    Languages = await GetLanguages();
-                    await context.Languages.AddRangeAsync(Languages);
-                    await context.SaveChangesAsync();
+                    Languages = await GetLanguages().ConfigureAwait(false);
+                    await context.Languages.AddRangeAsync(Languages).ConfigureAwait(false);
+                    await context.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
 
             Languages.Insert(0, new Language { Flag = null, Iso = null, Label = "All languages" });
-            var existence = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name);
+            var existence = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false);
             var exists = existence == PCLStorage.ExistenceCheckResult.FileExists;
 
 
             if (exists)
             {
-                client.cookies = await ReadCookiesFromDisk(cookies_file_name);
+                client.cookies = await ReadCookiesFromDisk(cookies_file_name).ConfigureAwait(false);
             }
 
             return exists;
@@ -59,15 +59,15 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task ClearCookiers()
         {
-            var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name) == PCLStorage.ExistenceCheckResult.FileExists;            
+            var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;            
 
             if(!exists)
             {
                 return;
             }
 
-            var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(cookies_file_name);
-            await file.DeleteAsync();
+            var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(cookies_file_name).ConfigureAwait(false);
+            await file.DeleteAsync().ConfigureAwait(false);
         }
 
       
@@ -76,7 +76,7 @@ namespace Tatoeba.Mobile.Services
         {
             HttpClient client = new HttpClient();
 
-            var response = await client.GetStringAsync(languages_url);
+            var response = await client.GetStringAsync(languages_url).ConfigureAwait(false);
 
             var languages = response.Substring("$languages = array(", ");").Split('\n')
                 .Where(x => x.Contains("__d('languages',")).Select(x => x.Trim().ToLanguage())
@@ -84,9 +84,9 @@ namespace Tatoeba.Mobile.Services
                 .ToList();
 
 
-            async Task DownloadFlag(Language lan) => lan.Flag = await client.GetByteArrayAsync(flags_url + lan.Iso + ".png");
+            async Task DownloadFlag(Language lan) => lan.Flag = await client.GetByteArrayAsync(flags_url + lan.Iso + ".png").ConfigureAwait(false);
 
-            await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray());
+            await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
 
             return languages;
         }
@@ -109,7 +109,7 @@ namespace Tatoeba.Mobile.Services
                 $"&unapproved={unapproved}" +
                 $"&has_audio={has_audio}";
 
-            var response = await client.GetStringAsync(url);
+            var response = await client.GetStringAsync(url).ConfigureAwait(false);
 
             return new TatoebaResponse<string>
             {
@@ -119,14 +119,14 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)
         {
-            var response = await client.GetStringAsync(latest_contribs + language);
+            var response = await client.GetStringAsync(latest_contribs + language).ConfigureAwait(false);
             return TatoebaScraper.ParseContribs(response);
         }
 
 
         public static async Task<TatoebaResponse<SentenceDetail>> GetSentenceDetail(string id)
         {
-            var result = await client.GetStringAsync(sentence_url + id);
+            var result = await client.GetStringAsync(sentence_url + id).ConfigureAwait(false);
             var response = TatoebaScraper.ParseSetenceDetail(result);
 
             if(response.Content != null)
@@ -144,7 +144,7 @@ namespace Tatoeba.Mobile.Services
              + "&" + "selectLang" + "=" + sentence.Language.Iso.UrlEncode()
              + "&" + "value" + "=" + sentence.Text.UrlEncode();
 
-            string respStr = await client.PostAsync("https://tatoeba.org/eng/sentences/save_translation", postData);
+            string respStr = await client.PostAsync("https://tatoeba.org/eng/sentences/save_translation", postData).ConfigureAwait(false);
 
 
             HtmlDocument doc = new HtmlDocument
@@ -171,13 +171,13 @@ namespace Tatoeba.Mobile.Services
             string postData = "value" + "=" + sentence.Text.UrlEncode()
                 + "&" + "id=" + sentence.Language.Iso + "_" + sentence.Id.UrlEncode();
 
-            await client.PostAsync("https://tatoeba.org/eng/sentences/edit_sentence", postData);
+            await client.PostAsync("https://tatoeba.org/eng/sentences/edit_sentence", postData).ConfigureAwait(false);
         }
 
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
         {
-            var result = await client.GetStringAsync("https://tatoeba.org/eng/");
+            var result = await client.GetStringAsync("https://tatoeba.org/eng/").ConfigureAwait(false);
 
             HtmlDocument doc = new HtmlDocument
             {
@@ -205,13 +205,13 @@ namespace Tatoeba.Mobile.Services
                 + "&" + "data[_Token][unlocked]".UrlEncode() + "=" + "";
 
 
-            string respStr = await client.PostAndSaveCookiesAsync("https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng", postData, true);
+            string respStr = await client.PostAndSaveCookiesAsync("https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng", postData, true).ConfigureAwait(false);
 
             var success = respStr.Contains("li id=\"profile\"");
 
             if(success)
             {
-                await WriteCookiesToDisk(cookies_file_name, client.cookies);
+                await WriteCookiesToDisk(cookies_file_name, client.cookies).ConfigureAwait(false);
             }
 
             return success;
@@ -221,8 +221,8 @@ namespace Tatoeba.Mobile.Services
         {
             try
             {
-                var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync(fileName, PCLStorage.CreationCollisionOption.ReplaceExisting);
-                using (Stream stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite))
+                var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync(fileName, PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
+                using (Stream stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).ConfigureAwait(false))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
                     formatter.Serialize(stream, cookieJar);             
@@ -237,9 +237,9 @@ namespace Tatoeba.Mobile.Services
         {
             try
             {
-               var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(fileName);                
+               var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(fileName).ConfigureAwait(false);                
 
-                using (var stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite))
+                using (var stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).ConfigureAwait(false))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
                     return (CookieContainer)formatter.Deserialize(stream);

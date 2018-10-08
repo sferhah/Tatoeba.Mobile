@@ -17,7 +17,7 @@
                              HorizontalOptions="FillAndExpand"
                              Spacing="20">
                     <Image Source="logo.png" HeightRequest="90" WidthRequest="286" />
-                    <views:LoadingControl />
+                    <views:LoadingControl x:Name="loadingControl" />
                     <Label Text="Loading resources..." HorizontalOptions="Center"  />
                 </StackLayout>
             </Frame>

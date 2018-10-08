@@ -25,6 +25,8 @@ namespace Tatoeba.Mobile.Views
 
             await Task.Delay(1000);
 
+            loadingControl.IsVisible = false;
+
             Application.Current.MainPage = hasSession ? new MainPage() : (Page)new LoginPage();
         }
     }

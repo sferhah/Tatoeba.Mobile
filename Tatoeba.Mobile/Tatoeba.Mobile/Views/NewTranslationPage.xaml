@@ -25,6 +25,7 @@
                                WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
                     <Image Grid.Column="1" 
                                               Source="{Binding Original.Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
+                                              WidthRequest="30" HeightRequest="20" Aspect="Fill"  
                                               VerticalOptions="Center"/>
                     <Label Text="{Binding Original.Text}"  Grid.Row="0" Grid.Column="2"
                                                HorizontalOptions="{Binding Original.Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"   VerticalOptions="Center"
@@ -42,8 +43,9 @@
                 <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
                     <Label Text="Language" VerticalOptions="Center"/>
                     <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />
-                    <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
-                                              VerticalOptions="Center"/>
+                    <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"  
+                           WidthRequest="30" HeightRequest="20" Aspect="Fill"  
+                           VerticalOptions="Center"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
                     <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>

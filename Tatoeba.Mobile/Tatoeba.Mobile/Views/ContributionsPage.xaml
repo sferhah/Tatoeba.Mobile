@@ -57,7 +57,7 @@
                        FontSize="13" />
                                     <Image Grid.Column="2"  Grid.RowSpan="2" 
                                               Source="{Binding Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
-                                              VerticalOptions="Center"/>
+                                              VerticalOptions="Center" WidthRequest="30" HeightRequest="20" Aspect="Fill"   />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

@@ -8,44 +8,58 @@
                           x:Class="Tatoeba.Mobile.Views.NewTranslationPage"
              Title="New translation">
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Grid HorizontalOptions="FillAndExpand">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Image Source="original_sentence.png"                               
+        <AbsoluteLayout BackgroundColor="White">
+            <StackLayout AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     Margin="0,0,0,0">
+                <Grid HorizontalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Image Source="original_sentence.png"                               
                                WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
-                <Image Grid.Column="1" 
+                    <Image Grid.Column="1" 
                                               Source="{Binding Original.Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
                                               VerticalOptions="Center"/>
-                <Label Text="{Binding Original.Text}"  Grid.Row="0" Grid.Column="2"
+                    <Label Text="{Binding Original.Text}"  Grid.Row="0" Grid.Column="2"
                                                HorizontalOptions="{Binding Original.Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"   VerticalOptions="Center"
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
-            </Grid>
-            <StackLayout Orientation="Horizontal">
-              <Image Source="direct_translation.png"
+                </Grid>
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="direct_translation.png"
                                WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
-              <Label Text="Translation:" FontSize="Medium" />
-            </StackLayout>
-            <StackLayout Margin="12,0,0,12" >
-                <Editor Text="{Binding Item.Text}" HeightRequest="100" />
-            </StackLayout>
-            <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
-                <Label Text="Language" VerticalOptions="Center"/>
-                <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />
-                <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
+                    <Label Text="Translation:" FontSize="Medium" />
+                </StackLayout>
+                <StackLayout Margin="12,0,0,12" >
+                    <Editor Text="{Binding Item.Text}" HeightRequest="100" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
+                    <Label Text="Language" VerticalOptions="Center"/>
+                    <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />
+                    <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
                                               VerticalOptions="Center"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
+                    <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
+                    <Button  Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Submit translation" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>
+                </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
-                <Button  Command="{Binding CancelCommand}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
-                <Button  Command="{Binding SaveCommand}" Text="Submit translation" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>           
-            </StackLayout>
-        </StackLayout>
+            <Grid 
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"
+             IsVisible="{Binding IsBusy}"
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <local:LoadingControl/>
+            </Grid>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </local:TatoebaContentPage>

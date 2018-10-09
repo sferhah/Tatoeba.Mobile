@@ -25,6 +25,7 @@ namespace Tatoeba.Mobile.ViewModels
 
         public Command LoadItemsCommand { get; set; }
 
+        bool firstLoad = true;
         async Task ExecuteLoadItemsCommand()
         {   
             if (IsBusy)
@@ -45,8 +46,9 @@ namespace Tatoeba.Mobile.ViewModels
 
             var sentenceDetail = response.Content;
 
-            if(sentenceDetail.IsEditable)
+            if(sentenceDetail.IsEditable && firstLoad)
             {
+                firstLoad = false;
                 ShowEditAction?.Invoke(this, EventArgs.Empty);
             }
 

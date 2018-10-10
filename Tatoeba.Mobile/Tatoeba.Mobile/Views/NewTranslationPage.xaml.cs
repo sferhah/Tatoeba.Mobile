@@ -12,8 +12,8 @@ namespace Tatoeba.Mobile.Views
             InitializeComponent();
             ViewModel = new NewTranslationViewModel(original);
 
-            ViewModel.Save += async (sender, e) => await Navigation.PopAsync();
-            ViewModel.Cancel += async (sender, e) => await Navigation.PopAsync();
+            ViewModel.Save += async (sender, e) => await Navigation.PopModalAsync();
+            ViewModel.Cancel += async (sender, e) => await Navigation.PopModalAsync();
         } 
     }
 }

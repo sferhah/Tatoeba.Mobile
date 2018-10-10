@@ -13,6 +13,10 @@
             <StackLayout AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
+                    <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
+                    <Button  Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Save" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>
+                </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Image Source="original_sentence.png"
                                WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
@@ -22,11 +26,7 @@
                 </StackLayout>
                 <StackLayout Margin="12,0,0,12" >
                     <Editor Text="{Binding Item.Text}" HeightRequest="100" />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
-                    <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
-                    <Button  Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Save" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>
-                </StackLayout>
+                </StackLayout>           
             </StackLayout>
             <Grid 
              AbsoluteLayout.LayoutFlags="All"

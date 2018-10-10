@@ -34,7 +34,7 @@ namespace Tatoeba.Mobile.Views
 
             target.ViewModel.Save += ViewModel_Save;
 
-            await Navigation.PushAsync(target);
+            await Navigation.PushModalAsync(target);
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -67,7 +67,7 @@ namespace Tatoeba.Mobile.Views
 
             target.ViewModel.Save += ViewModel_Save;  
 
-            await Navigation.PushAsync(target);
+            await Navigation.PushModalAsync(target);
         }
     
 

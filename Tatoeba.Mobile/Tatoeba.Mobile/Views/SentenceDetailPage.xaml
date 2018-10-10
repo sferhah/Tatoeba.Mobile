@@ -25,6 +25,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Image Source="{Binding TranslationType, Converter={converters:TranslationTypeToSourceConverter}}"  
+                                WidthRequest="30"
                                Grid.Column="0"   VerticalOptions="Center" />
                         <Image Grid.Column="1" 
                                               Source="{Binding Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              

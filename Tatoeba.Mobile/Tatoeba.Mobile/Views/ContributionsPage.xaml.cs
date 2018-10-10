@@ -23,12 +23,7 @@ namespace Tatoeba.Mobile.Views
 
             await Navigation.PushAsync(new SentenceDetailPage(new SentenceDetailViewModel(item.Id)));
             ItemsListView.SelectedItem = null;
-        }
-
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-          //  await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
-        }
+        }    
 
         protected override void OnAppearing()
         {

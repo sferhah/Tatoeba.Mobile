@@ -12,6 +12,10 @@
             <StackLayout AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
+                    <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
+                    <Button  Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Submit translation" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>
+                </StackLayout>
                 <Grid HorizontalOptions="FillAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -32,25 +36,17 @@
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
                 </Grid>
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal">                    
                     <Image Source="direct_translation.png"
                                WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
-                    <Label Text="Translation:" FontSize="Medium" />
-                </StackLayout>
-                <StackLayout Margin="12,0,0,12" >
-                    <Editor Text="{Binding Item.Text}" HeightRequest="100" />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
-                    <Label Text="Language" VerticalOptions="Center"/>
-                    <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />
                     <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"  
                            WidthRequest="30" HeightRequest="20" Aspect="Fill"  
                            VerticalOptions="Center"/>
+                    <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />                    
                 </StackLayout>
-                <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
-                    <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
-                    <Button  Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Submit translation" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>
-                </StackLayout>
+                <StackLayout Margin="12,0,0,12" >
+                    <Editor Text="{Binding Item.Text}" HeightRequest="100" />
+                </StackLayout>         
             </StackLayout>
             <Grid 
              AbsoluteLayout.LayoutFlags="All"

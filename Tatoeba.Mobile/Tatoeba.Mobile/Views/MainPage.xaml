@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xf:BottomBarPage
-    xmlns:xf="clr-namespace:BottomBar.XamarinForms;assembly=BottomBar.XamarinForms" xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:Tatoeba.Mobile.Views"
             x:Class="Tatoeba.Mobile.Views.MainPage">
     <TabbedPage.Children>
 
-        <NavigationPage Title="Search" Icon="search.png" xf:BottomBarPageExtensions.TabColor="Green">        
+        <NavigationPage Title="Search" Icon="search.png">
             <x:Arguments>
                 <views:SearchPage />
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="Recent" Icon="last_contribs.png" xf:BottomBarPageExtensions.TabColor="Green">          
+        <NavigationPage Title="Recent" Icon="last_contribs.png">          
             <x:Arguments>
               <views:ContributionsPage />
             </x:Arguments>
         </NavigationPage>
     
     </TabbedPage.Children>
-</xf:BottomBarPage>
+</TabbedPage>

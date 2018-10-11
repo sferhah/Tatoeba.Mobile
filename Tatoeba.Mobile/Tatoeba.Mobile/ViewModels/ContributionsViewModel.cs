@@ -4,7 +4,6 @@ using Xamarin.Forms;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Services;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Tatoeba.Mobile.Storage;
 
@@ -12,9 +11,6 @@ namespace Tatoeba.Mobile.ViewModels
 {
     public class ContributionsViewModel : BaseViewModel
     {
-        public ObservableCollection<Contribution> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
-
         public ContributionsViewModel()
         {
             Title = "Recent";
@@ -22,7 +18,8 @@ namespace Tatoeba.Mobile.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
-
+        public ObservableCollection<Contribution> Items { get; set; }
+        public Command LoadItemsCommand { get; set; }
         public Language SelectedLanguage { get; set; }
 
 

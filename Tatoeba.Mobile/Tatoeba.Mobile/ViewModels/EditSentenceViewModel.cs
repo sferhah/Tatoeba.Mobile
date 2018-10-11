@@ -2,15 +2,12 @@
 using Xamarin.Forms;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Services;
-using System.Linq;
-using Tatoeba.Mobile.Storage;
 using System;
 
 namespace Tatoeba.Mobile.ViewModels
 {
     public class EditSentenceViewModel : BaseViewModel
-    {
-   
+    {   
         public EditSentenceViewModel(Contribution original)
         {
             this.Item = original;

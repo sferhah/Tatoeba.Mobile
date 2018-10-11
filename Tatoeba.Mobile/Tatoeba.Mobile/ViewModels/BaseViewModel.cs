@@ -6,7 +6,6 @@ using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.ViewModels
 {
-
     public class ErrorEventArgs : EventArgs
     {
         public ErrorEventArgs(TatoebaStatus item) => Status = item;
@@ -48,7 +47,6 @@ namespace Tatoeba.Mobile.ViewModels
             return true;
         }
 
-        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -58,6 +56,5 @@ namespace Tatoeba.Mobile.ViewModels
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
     }
 }

@@ -7,16 +7,17 @@
                           xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
                           xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
                           x:Class="Tatoeba.Mobile.Views.EditSentencePage"
-             Title="New translation">
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Command="{Binding CancelCommand}" Icon="cancel.png"/>
+        <ToolbarItem Text="Validate" Command="{Binding SaveCommand}" Icon="validate.png"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="White">
             <StackLayout AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                     Margin="0,0,0,0">
-                <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Padding="10">
-                    <Button  Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Cancel" TextColor="Black" BackgroundColor="LightGray" VerticalOptions="Center"/>
-                    <Button  Command="{Binding SaveCommand}" IsEnabled="{Binding IsBusy, Converter={converters:InverseBoolConverter}}" Text="Save" TextColor="White" BackgroundColor="Green" VerticalOptions="Center"/>
-                </StackLayout>
+                     Margin="0,0,0,0"
+                         Padding="10" >             
                 <StackLayout Orientation="Horizontal">
                     <Image Source="original_sentence.png"
                                WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />

@@ -17,7 +17,7 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
-                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10, 0, 10, 0">
                     <Label Text="Filter by language" VerticalOptions="Center"/>
                     <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />
                 </StackLayout>

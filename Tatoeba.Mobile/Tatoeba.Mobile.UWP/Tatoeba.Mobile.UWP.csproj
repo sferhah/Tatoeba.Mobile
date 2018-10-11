@@ -106,6 +106,8 @@
   <ItemGroup>
     <Content Include="direct_translation.png" />
     <Content Include="edit.png" />
+    <Content Include="cancel.png" />
+    <Content Include="validate.png" />
     <Content Include="indirect_translation.png" />
     <Content Include="logo.png" />
     <Content Include="original_sentence.png" />

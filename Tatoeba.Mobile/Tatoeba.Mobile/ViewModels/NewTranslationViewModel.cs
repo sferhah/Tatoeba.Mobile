@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Services;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Tatoeba.Mobile.Storage;
 using System;
@@ -13,12 +11,6 @@ namespace Tatoeba.Mobile.ViewModels
 {
     public class NewTranslationViewModel : BaseViewModel
     {
-        public Command SaveCommand { get; set; }
-        public Command CancelCommand { get; set; }
-
-        public SentenceBase Item { get; set; }
-        public Contribution Original { get; set; }
-
         public NewTranslationViewModel(Contribution original)
         {
             this.Original = original;
@@ -41,9 +33,11 @@ namespace Tatoeba.Mobile.ViewModels
             };
         }
 
-
+        public Command SaveCommand { get; set; }
+        public Command CancelCommand { get; set; }
+        public SentenceBase Item { get; set; }
+        public Contribution Original { get; set; }
         public byte[] Flag => Item.Language.Flag;
-
 
         public IEnumerable<string> LanguageList => MainService.Languages?.Where(x=> x.Iso != null).Select(c => c.Label).ToList(); // To List needed by xamarin forms picker
         public string LanguageChoice

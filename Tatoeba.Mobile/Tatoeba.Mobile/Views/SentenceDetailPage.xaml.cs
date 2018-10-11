@@ -3,7 +3,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.ViewModels;
-using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.Views
 {
@@ -11,11 +10,11 @@ namespace Tatoeba.Mobile.Views
     public partial class SentenceDetailPage : TatoebaContentPage<SentenceDetailViewModel>
     {
 
-        public SentenceDetailPage(SentenceDetailViewModel viewModel)
+        public SentenceDetailPage(string itemId)
         {
             InitializeComponent();
-            ViewModel = viewModel;
-            viewModel.ShowEditAction += ViewModel_ShowEditAction;
+            ViewModel = new SentenceDetailViewModel(itemId);
+            ViewModel.ShowEditAction += ViewModel_ShowEditAction;
         }
 
         private void ViewModel_ShowEditAction(object sender, EventArgs e)
@@ -34,7 +33,7 @@ namespace Tatoeba.Mobile.Views
 
             target.ViewModel.Save += ViewModel_Save;
 
-            await Navigation.PushModalAsync(target);
+            await Navigation.PushModalAsync(new NavigationPage(target));
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -51,7 +50,7 @@ namespace Tatoeba.Mobile.Views
                 return;
             }
 
-            await Navigation.PushAsync(new SentenceDetailPage(new SentenceDetailViewModel(item.Id)));
+            await Navigation.PushAsync(new SentenceDetailPage(item.Id));
 
             ItemsListView.SelectedItem = null;
         }
@@ -65,9 +64,9 @@ namespace Tatoeba.Mobile.Views
 
             var target = new NewTranslationPage(ViewModel.Original);
 
-            target.ViewModel.Save += ViewModel_Save;  
+            target.ViewModel.Save += ViewModel_Save;
 
-            await Navigation.PushModalAsync(target);
+            await Navigation.PushModalAsync(new NavigationPage(target));
         }
     
 

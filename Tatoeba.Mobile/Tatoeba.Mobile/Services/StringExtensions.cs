@@ -27,20 +27,30 @@ namespace Tatoeba.Mobile.Services
                 ? @this.IndexOf(from, comparison) + fromLength
                 : 0;
 
-            if (startIndex < fromLength) { throw new ArgumentException("from: Failed to find an instance of the first anchor"); }
+            if (startIndex < fromLength)
+            {
+                throw new ArgumentException("from: Failed to find an instance of the first anchor");
+            }
 
             var endIndex = !string.IsNullOrEmpty(until)
             ? @this.IndexOf(until, startIndex, comparison)
             : @this.Length;
 
-            if (endIndex < 0) { throw new ArgumentException("until: Failed to find an instance of the last anchor"); }
+            if (endIndex < 0)
+            {
+                throw new ArgumentException("until: Failed to find an instance of the last anchor");
+            }
 
-            var subString = @this.Substring(startIndex, endIndex - startIndex);
-            return subString;
+            return @this.Substring(startIndex, endIndex - startIndex);
         }
 
         public static string UrlEncode(this string str)
         {
+            if(str == null)
+            {
+                return string.Empty;
+            }
+
             int limit = 32766;    // 32766 is the longest string allowed in Uri.EscapeDataString()
 
             if (str.Length <= limit)

@@ -14,17 +14,27 @@ namespace Tatoeba.Mobile.Views
         {
             InitializeComponent();
             ViewModel = new SentenceDetailViewModel(itemId);
-            ViewModel.ShowEditAction += ViewModel_ShowEditAction;
+            ViewModel.Loaded += ViewModel_Loaded;
         }
 
-        private void ViewModel_ShowEditAction(object sender, EventArgs e)
+        private void ViewModel_Loaded(object sender, SentenceLoadedEventArgs e)
         {
             ToolbarItems.Add(new ToolbarItem
             {
-                Text = "Edit",
-                Icon = "edit.png",
-                Command = new Command(() => GoToEditPage()),
+                Text = "Add translation",
+                Icon = "add.png",
+                Command = new Command(() => AddItem_Clicked()),
             });
+
+            if (e.IsEditable)
+            {
+                ToolbarItems.Add(new ToolbarItem
+                {
+                    Text = "Edit",
+                    Icon = "edit.png",
+                    Command = new Command(() => GoToEditPage()),
+                });
+            }
         }
 
         protected async void GoToEditPage()
@@ -55,7 +65,7 @@ namespace Tatoeba.Mobile.Views
             ItemsListView.SelectedItem = null;
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e)
+        async void AddItem_Clicked()
         {
             if (ViewModel.Original == null)
             {

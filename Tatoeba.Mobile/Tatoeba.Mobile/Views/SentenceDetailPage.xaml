@@ -8,9 +8,6 @@
                           xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
                           x:Class="Tatoeba.Mobile.Views.SentenceDetailPage"
              Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add translation" Clicked="AddItem_Clicked" Icon="add.png"/>
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="SentenceTemplate">

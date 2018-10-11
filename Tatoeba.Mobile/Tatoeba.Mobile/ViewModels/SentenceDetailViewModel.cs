@@ -8,6 +8,11 @@ using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.ViewModels
 {
+    public class SentenceLoadedEventArgs : EventArgs
+    {
+        public bool IsEditable { get; set; }
+    }
+
     public class SentenceDetailViewModel : BaseViewModel
     {
         public SentenceDetailViewModel(string itemId)
@@ -17,7 +22,7 @@ namespace Tatoeba.Mobile.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
-        public event EventHandler ShowEditAction;
+        public event EventHandler<SentenceLoadedEventArgs> Loaded;
 
         public string ItemId { get; set; }
         public Contribution Original { get; private set; }
@@ -46,10 +51,10 @@ namespace Tatoeba.Mobile.ViewModels
 
             var sentenceDetail = response.Content;
 
-            if(sentenceDetail.IsEditable && firstLoad)
+            if(firstLoad)
             {
                 firstLoad = false;
-                ShowEditAction?.Invoke(this, EventArgs.Empty);
+                Loaded?.Invoke(this, new SentenceLoadedEventArgs { IsEditable = sentenceDetail.IsEditable });
             }
 
             Original = sentenceDetail.Sentences.FirstOrDefault();

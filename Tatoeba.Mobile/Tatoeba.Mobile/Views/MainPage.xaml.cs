@@ -12,21 +12,21 @@ namespace Tatoeba.Mobile.Views
         public MainPage()
         {
             InitializeComponent();
+            CurrentPageChanged += async (s, e) => await CurrentPage.Navigation.PopToRootAsync();
 
-
-         //   this.BarBackgroundColor = Color.Black;
+            //   this.BarBackgroundColor = Color.Black;
 
             On<Android>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
             On<Android>().SetBarSelectedItemColor(Color.Green);
-        //    On<Android>().SetBarItemColor(Color.Red);
+            //    On<Android>().SetBarItemColor(Color.Red);
 
-         //   On<Windows>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.WindowsSpecific.ToolbarPlacement.Bottom);
+            //   On<Windows>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.WindowsSpecific.ToolbarPlacement.Bottom);
             //On<Windows>().SetBarSelectedItemColor(Color.Green);
-        //    On<Android>().SetBarItemColor(Color.Red);
+            //    On<Android>().SetBarItemColor(Color.Red);
 
             //    BarBackgroundColor = "#2196F3"
             //        android: TabbedPage.BarItemColor = "#66FFFFFF"
             //android: TabbedPage.BarSelectedItemColor = "White"
-        }
+        }  
     }
 }

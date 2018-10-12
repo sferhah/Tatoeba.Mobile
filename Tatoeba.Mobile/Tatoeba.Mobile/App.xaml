@@ -5,10 +5,17 @@
     <Application.Resources>
         <ResourceDictionary>
             <!--Global Styles-->
-            <!--Tatoeba Green Color is #4CAF50-->
-            <Color x:Key="NavigationPrimary">#4CAF50</Color>
+            <Color x:Key="NavigationPrimary">Black</Color>
             <Style TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="BarBackgroundColor" >
+                    <Setter.Value>
+                        <OnPlatform                            
+                            Android="{StaticResource NavigationPrimary}"
+                            iOS="{StaticResource NavigationPrimary}"
+                            UWP="#2196F3" />
+                    </Setter.Value>
+                </Setter> 
+                
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
         </ResourceDictionary>

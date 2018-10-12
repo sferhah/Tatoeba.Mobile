@@ -17,7 +17,7 @@ namespace Tatoeba.Mobile.Converters
             switch (contribType)
             {
                 case ContribType.Insert:
-                    return "Green";
+                    return "#4CAF50";
                 case ContribType.Update:
                     return "Yellow";
                 case ContribType.Obsolete:

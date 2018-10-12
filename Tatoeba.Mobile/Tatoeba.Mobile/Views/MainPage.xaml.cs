@@ -14,13 +14,13 @@ namespace Tatoeba.Mobile.Views
             InitializeComponent();
             CurrentPageChanged += async (s, e) => await CurrentPage.Navigation.PopToRootAsync();
 
-            //   this.BarBackgroundColor = Color.Black;
-
             On<Android>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
-            On<Android>().SetBarSelectedItemColor(Color.Green);
+            On<Android>().SetBarSelectedItemColor(Color.FromHex("#4CAF50"));
             //    On<Android>().SetBarItemColor(Color.Red);
 
-            //   On<Windows>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.WindowsSpecific.ToolbarPlacement.Bottom);
+           // On<Windows>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.WindowsSpecific.ToolbarPlacement.Bottom);
+            On<Windows>().SetHeaderIconsEnabled(true);
+
             //On<Windows>().SetBarSelectedItemColor(Color.Green);
             //    On<Android>().SetBarItemColor(Color.Red);
 

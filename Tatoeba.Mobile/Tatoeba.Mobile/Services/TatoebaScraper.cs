@@ -12,7 +12,7 @@ namespace Tatoeba.Mobile.Services
         public static HtmlNodeCollection SelectNodesOrEmpty(this HtmlNode @this, string xpath)
             => @this.SelectNodes(xpath) ?? new HtmlNodeCollection(null);        
 
-        public static T EvaluateAs<T>(this XPathNavigator @this, string xpath)
+        public static T Evaluate<T>(this XPathNavigator @this, string xpath)
         {
             var result = @this.Evaluate(xpath);
             if (result == null)
@@ -21,6 +21,41 @@ namespace Tatoeba.Mobile.Services
             }
             return (T)result;
         }
+
+        public static T Evaluate<T>(this XPathNavigator @this, XpathPathConfig xpath)
+        {
+            var result = @this.Evaluate(xpath.Path);
+            if (result == null)
+            {
+                return default(T);
+            }
+
+            if(typeof(T) != typeof(string)
+                || result == null
+                || xpath.Action == XpathActionConfig.None)
+            {
+                return (T)result;
+            }
+
+            var stringResult = (string)result;
+
+
+            switch(xpath.Action)
+            {
+                case XpathActionConfig.Trim:
+                    stringResult = stringResult.Trim();
+                    break;
+                case XpathActionConfig.HtmlDecode:
+                    stringResult = HttpUtility.HtmlDecode(stringResult);
+                    break;
+                case XpathActionConfig.HtmlDecodeAndTrim:
+                    stringResult = HttpUtility.HtmlDecode(stringResult).Trim();
+                    break;
+            }
+
+            return (T)(object)stringResult;
+        }
+
     }
 
 
@@ -89,12 +124,12 @@ namespace Tatoeba.Mobile.Services
 
                 sentences.Add(new Contribution
                 {
-                    Text = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathContribConfig.TextPath)).Trim(),
-                    Direction = (Direction)directions.IndexOf(nav.EvaluateAs<string>(XpathContribConfig.DirectionPath)),
-                    DateText = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathContribConfig.DateTextPath)).Trim(),
-                    Id = nav.EvaluateAs<string>(XpathContribConfig.IdPath)?.Split('/').Last(),
-                    Language = new Language { Iso = nav.EvaluateAs<string>(XpathContribConfig.LanguagePath) },
-                    ContribType = (ContribType)contribTypes.IndexOf(nav.EvaluateAs<string>(XpathContribConfig.ContribTypePath)),
+                    Text = nav.Evaluate<string>(XpathContribConfig.TextPath),
+                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathContribConfig.DirectionPath)),
+                    DateText = nav.Evaluate<string>(XpathContribConfig.DateTextPath),
+                    Id = nav.Evaluate<string>(XpathContribConfig.IdPath)?.Split('/').Last(),
+                    Language = new Language { Iso = nav.Evaluate<string>(XpathContribConfig.LanguagePath) },
+                    ContribType = (ContribType)contribTypes.IndexOf(nav.Evaluate<string>(XpathContribConfig.ContribTypePath)),
                 });
             }
 
@@ -128,7 +163,7 @@ namespace Tatoeba.Mobile.Services
 
             SentenceDetail setenceDetails = new SentenceDetail
             {
-                IsEditable = doc.CreateNavigator().EvaluateAs<bool>(XpathTranslationConfig.IsEditablePath)
+                IsEditable = doc.CreateNavigator().Evaluate<bool>(XpathTranslationConfig.IsEditablePath)
             };
 
             foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathTranslationConfig.ItemsPath))
@@ -137,11 +172,11 @@ namespace Tatoeba.Mobile.Services
 
                 setenceDetails.Sentences.Add(new Contribution
                 {
-                    Text = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathTranslationConfig.TextPath)).Trim(),
-                    Id = nav.EvaluateAs<string>(XpathTranslationConfig.IdPath),
-                    Language = new Language { Iso = nav.EvaluateAs<string>(XpathTranslationConfig.LanguagePath) },
-                    Direction = (Direction)directions.IndexOf(nav.EvaluateAs<string>(XpathTranslationConfig.DirectionPath)),
-                    TranslationType = (TranslationType)translationTypes.IndexOf(nav.EvaluateAs<string>(XpathTranslationConfig.TranslationTypePath))
+                    Text = nav.Evaluate<string>(XpathTranslationConfig.TextPath),
+                    Id = nav.Evaluate<string>(XpathTranslationConfig.IdPath),
+                    Language = new Language { Iso = nav.Evaluate<string>(XpathTranslationConfig.LanguagePath) },
+                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathTranslationConfig.DirectionPath)),
+                    TranslationType = (TranslationType)translationTypes.IndexOf(nav.Evaluate<string>(XpathTranslationConfig.TranslationTypePath))
                 });
             }           
 
@@ -151,10 +186,10 @@ namespace Tatoeba.Mobile.Services
 
                 setenceDetails.Logs.Add(new Log
                 {
-                    Text = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathLogConfig.TextPath)).Trim(),
-                    Direction = (Direction)directions.IndexOf(nav.EvaluateAs<string>(XpathLogConfig.DateTextPath)),
-                    DateText = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathLogConfig.DateTextPath)).Trim(),
-                    ContribType = (ContribType)contribTypes.IndexOf(nav.EvaluateAs<string>(XpathLogConfig.ContribTypePath)),
+                    Text = nav.Evaluate<string>(XpathLogConfig.TextPath),
+                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathLogConfig.DateTextPath)),
+                    DateText = nav.Evaluate<string>(XpathLogConfig.DateTextPath),
+                    ContribType = (ContribType)contribTypes.IndexOf(nav.Evaluate<string>(XpathLogConfig.ContribTypePath)),
                 });
             }
 
@@ -164,9 +199,9 @@ namespace Tatoeba.Mobile.Services
 
                 setenceDetails.Comments.Add(new Comment
                 {
-                    Username = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathCommentConfig.UsernamePath)).Trim(),
-                    Content = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathCommentConfig.ContentPath)).Trim(),
-                    DateText = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathCommentConfig.DateTextPath)).Trim(),
+                    Username = nav.Evaluate<string>(XpathCommentConfig.UsernamePath),
+                    Content = nav.Evaluate<string>(XpathCommentConfig.ContentPath),
+                    DateText = nav.Evaluate<string>(XpathCommentConfig.DateTextPath),
                 });
             }
 

@@ -187,14 +187,14 @@ namespace Tatoeba.Mobile.Services
 
             doc.LoadHtml(result);
 
-            var key_value = doc.CreateNavigator().EvaluateAs<string>(XpathLoginConfig.KeyPath);
+            var key_value = doc.CreateNavigator().Evaluate<string>(XpathLoginConfig.KeyPath);
 
             if (string.IsNullOrWhiteSpace(key_value)) // already logged in
             {
                 return true;
             }
       
-            var fields_value = doc.CreateNavigator().EvaluateAs<string>(XpathLoginConfig.ValuePath);
+            var fields_value = doc.CreateNavigator().Evaluate<string>(XpathLoginConfig.ValuePath);
 
             string postData = "_method=POST"
                 + "&" + "data[_Token][key]".UrlEncode() + "=" + key_value

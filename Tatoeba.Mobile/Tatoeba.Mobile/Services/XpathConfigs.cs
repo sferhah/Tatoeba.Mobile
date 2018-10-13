@@ -21,7 +21,6 @@
     {
         public readonly static string ItemsPath = "//md-list-item";
         public readonly static string TextPath = "string(div/div)";
-        public readonly static string DirectionPath = "string(div/div/@dir)";
         public readonly static string DateTextPath = "string(div/p)";  
         public readonly static string ContribTypePath = "string(@class)";
     }

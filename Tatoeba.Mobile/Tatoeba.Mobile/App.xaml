@@ -11,8 +11,8 @@
                     <Setter.Value>
                         <OnPlatform                            
                             Android="{StaticResource NavigationPrimary}"
-                            iOS="{StaticResource NavigationPrimary}"
-                            UWP="#2196F3" />
+                            iOS="{StaticResource NavigationPrimary}"                            
+                            Default="#2196F3" />
                     </Setter.Value>
                 </Setter> 
                 

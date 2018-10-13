@@ -59,6 +59,7 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task ClearCookiers()
         {
+            client.cookies = new CookieContainer();
             var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;            
 
             if(!exists)
@@ -172,7 +173,7 @@ namespace Tatoeba.Mobile.Services
                 + "&" + "id=" + sentence.Language.Iso + "_" + sentence.Id.UrlEncode();
 
             await client.PostAsync("https://tatoeba.org/eng/sentences/edit_sentence", postData).ConfigureAwait(false);
-        }
+        }    
 
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
@@ -186,15 +187,14 @@ namespace Tatoeba.Mobile.Services
 
             doc.LoadHtml(result);
 
+            var key_value = doc.CreateNavigator().EvaluateAs<string>(XpathLoginConfig.KeyPath);
 
-            if(doc.DocumentNode.SelectNodes("//*[@name=\"data[_Token][key]\"]") == null) // already logged in
+            if (string.IsNullOrWhiteSpace(key_value)) // already logged in
             {
                 return true;
             }
-
-            var key_value = doc.DocumentNode.SelectNodes("//*[@name=\"data[_Token][key]\"]").FirstOrDefault().Attributes["value"].Value;
-            var fields_value = doc.DocumentNode.SelectNodes("//*[@name=\"data[_Token][fields]\"]").FirstOrDefault().Attributes["value"].Value;
-
+      
+            var fields_value = doc.CreateNavigator().EvaluateAs<string>(XpathLoginConfig.ValuePath);
 
             string postData = "_method=POST"
                 + "&" + "data[_Token][key]".UrlEncode() + "=" + key_value

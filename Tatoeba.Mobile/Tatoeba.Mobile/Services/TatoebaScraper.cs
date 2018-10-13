@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml.XPath;
 using Tatoeba.Mobile.Models;
 
 namespace Tatoeba.Mobile.Services
@@ -9,7 +10,17 @@ namespace Tatoeba.Mobile.Services
     public static class HtmlAgilityPackExtensions
     {
         public static HtmlNodeCollection SelectNodesOrEmpty(this HtmlNode @this, string xpath)
-            => @this.SelectNodes(xpath) ?? new HtmlNodeCollection(null);
+            => @this.SelectNodes(xpath) ?? new HtmlNodeCollection(null);        
+
+        public static T EvaluateAs<T>(this XPathNavigator @this, string xpath)
+        {
+            var result = @this.Evaluate(xpath);
+            if (result == null)
+            {
+                return default(T);
+            }
+            return (T)result;
+        }
     }
 
 
@@ -72,16 +83,18 @@ namespace Tatoeba.Mobile.Services
             List<Contribution> sentences = new List<Contribution>();
 
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//md-list-item"))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathContribConfig.ItemsPath))
             {
+                var nav = node.CreateNavigator();
+
                 sentences.Add(new Contribution
                 {
-                    Text = HttpUtility.HtmlDecode(node.SelectSingleNode("div/div").InnerText).Trim(),
-                    Direction = (Direction)directions.IndexOf(node.SelectSingleNode("div/div").Attributes["dir"].Value),
-                    DateText = HttpUtility.HtmlDecode(node.SelectSingleNode("div/p").InnerText).Trim(),
-                    Id = node.SelectSingleNode("md-button").Attributes["href"].Value.Split('/').Last(),
-                    Language = new Language { Iso = node.SelectSingleNode("img").Attributes["alt"].Value },
-                    ContribType = (ContribType)contribTypes.IndexOf(node.Attributes["class"].Value),
+                    Text = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathContribConfig.TextPath)).Trim(),
+                    Direction = (Direction)directions.IndexOf(nav.EvaluateAs<string>(XpathContribConfig.DirectionPath)),
+                    DateText = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathContribConfig.DateTextPath)).Trim(),
+                    Id = nav.EvaluateAs<string>(XpathContribConfig.IdPath)?.Split('/').Last(),
+                    Language = new Language { Iso = nav.EvaluateAs<string>(XpathContribConfig.LanguagePath) },
+                    ContribType = (ContribType)contribTypes.IndexOf(nav.EvaluateAs<string>(XpathContribConfig.ContribTypePath)),
                 });
             }
 
@@ -113,46 +126,47 @@ namespace Tatoeba.Mobile.Services
 
             doc.LoadHtml(result);
 
-            SentenceDetail setenceDetails = new SentenceDetail();
-            setenceDetails.IsEditable = doc.DocumentNode.SelectSingleNode("//*[@class=\"sentence mainSentence\"]//*[@class=\"text correctnessZero editableSentence\"]") != null;
-
-
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//*[@class=\"sentence mainSentence\"]|//*[@class=\"translations\"]/*[@data-sentence-id]|//div[@class=\"more\"]/*[@data-sentence-id]"))
+            SentenceDetail setenceDetails = new SentenceDetail
             {
-                string text = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]|.//*[@class=\"text correctnessZero editableSentence\"]").InnerText).Trim();
-                string language = node.SelectSingleNode(".//img").Attributes["alt"].Value;
-                string sentenceId = node.Attributes["data-sentence-id"].Value;
-                Direction direction = (Direction)directions.IndexOf(node.SelectSingleNode(".//*[@class=\"text correctnessZero\"]|//*[@class=\"text correctnessZero editableSentence\"]").Attributes["dir"].Value);
-                var navigationIcon = node.SelectSingleNode("div/a").Attributes["class"].Value;
+                IsEditable = doc.CreateNavigator().EvaluateAs<bool>(XpathTranslationConfig.IsEditablePath)
+            };
+
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathTranslationConfig.ItemsPath))
+            {
+                var nav = node.CreateNavigator();                
 
                 setenceDetails.Sentences.Add(new Contribution
                 {
-                    Text = text,
-                    Id = sentenceId,
-                    Language = new Language { Iso = language },
-                    Direction = direction,
-                    TranslationType = (TranslationType)translationTypes.IndexOf(navigationIcon)
+                    Text = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathTranslationConfig.TextPath)).Trim(),
+                    Id = nav.EvaluateAs<string>(XpathTranslationConfig.IdPath),
+                    Language = new Language { Iso = nav.EvaluateAs<string>(XpathTranslationConfig.LanguagePath) },
+                    Direction = (Direction)directions.IndexOf(nav.EvaluateAs<string>(XpathTranslationConfig.DirectionPath)),
+                    TranslationType = (TranslationType)translationTypes.IndexOf(nav.EvaluateAs<string>(XpathTranslationConfig.TranslationTypePath))
                 });
             }           
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//md-list-item"))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathLogConfig.ItemsPath))
             {
+                var nav = node.CreateNavigator();
+
                 setenceDetails.Logs.Add(new Log
                 {
-                    Text = HttpUtility.HtmlDecode(node.SelectSingleNode("div/div").InnerText).Trim(),
-                    Direction = (Direction)directions.IndexOf(node.SelectSingleNode("div/div").Attributes["dir"].Value),
-                    DateText = HttpUtility.HtmlDecode(node.SelectSingleNode("div/p").InnerText).Trim(),
-                    ContribType = (ContribType)contribTypes.IndexOf(node.Attributes["class"].Value),
+                    Text = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathLogConfig.TextPath)).Trim(),
+                    Direction = (Direction)directions.IndexOf(nav.EvaluateAs<string>(XpathLogConfig.DateTextPath)),
+                    DateText = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathLogConfig.DateTextPath)).Trim(),
+                    ContribType = (ContribType)contribTypes.IndexOf(nav.EvaluateAs<string>(XpathLogConfig.ContribTypePath)),
                 });
             }
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//md-card"))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathCommentConfig.ItemsPath))
             {
+                var nav = node.CreateNavigator();
+
                 setenceDetails.Comments.Add(new Comment
                 {
-                    Username = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"md-title\"]").InnerText).Trim(),
-                    Content = HttpUtility.HtmlDecode(node.SelectSingleNode(".//md-card-content").InnerText).Trim(),
-                    DateText = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[@class=\"md-subhead ellipsis\"]").InnerText).Trim(),
+                    Username = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathCommentConfig.UsernamePath)).Trim(),
+                    Content = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathCommentConfig.ContentPath)).Trim(),
+                    DateText = HttpUtility.HtmlDecode(nav.EvaluateAs<string>(XpathCommentConfig.DateTextPath)).Trim(),
                 });
             }
 

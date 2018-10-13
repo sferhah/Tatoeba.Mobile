@@ -21,6 +21,11 @@ namespace Tatoeba.Mobile.Services
         const string latest_contribs = "https://tatoeba.org/eng/contributions/latest/";
         const string search_url = "https://tatoeba.org/eng/sentences/search?";
         const string sentence_url = " https://tatoeba.org/eng/sentences/show/";
+        const string url_save_translation = "https://tatoeba.org/eng/sentences/save_translation";
+        const string url_edit_sentence = "https://tatoeba.org/eng/sentences/edit_sentence";
+        const string url_login = "https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng";
+        const string url_main = "https://tatoeba.org/eng/";
+
         const string cookies_file_name = "cookies.ck";
 
         static HttpTatotebaClient client = new HttpTatotebaClient();
@@ -139,13 +144,14 @@ namespace Tatoeba.Mobile.Services
         }
 
 
+
         public static async Task<string> SaveTranslation(string originalSentenceId, SentenceBase sentence)
         {
             string postData = "id=" + originalSentenceId.UrlEncode()
              + "&" + "selectLang" + "=" + sentence.Language.Iso.UrlEncode()
              + "&" + "value" + "=" + sentence.Text.UrlEncode();
 
-            string respStr = await client.PostAsync("https://tatoeba.org/eng/sentences/save_translation", postData).ConfigureAwait(false);
+            string respStr = await client.PostAsync(url_save_translation, postData).ConfigureAwait(false);
 
 
             HtmlDocument doc = new HtmlDocument
@@ -155,15 +161,7 @@ namespace Tatoeba.Mobile.Services
 
             doc.LoadHtml(respStr);
 
-
-            var node = doc.DocumentNode.SelectNodesOrEmpty("//*[@class=\"sentenceContent\"]").FirstOrDefault();
-
-            if (node == null)
-            {
-                return null;
-            }
-
-            return node.Attributes["data-sentence-id"].Value;
+            return doc.CreateNavigator().Evaluate<string>("string(//*[@class=\"sentenceContent\"]/@data-sentence-id)");
         }
 
 
@@ -172,13 +170,13 @@ namespace Tatoeba.Mobile.Services
             string postData = "value" + "=" + sentence.Text.UrlEncode()
                 + "&" + "id=" + sentence.Language.Iso + "_" + sentence.Id.UrlEncode();
 
-            await client.PostAsync("https://tatoeba.org/eng/sentences/edit_sentence", postData).ConfigureAwait(false);
+            await client.PostAsync(url_edit_sentence, postData).ConfigureAwait(false);
         }    
 
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
         {
-            var result = await client.GetStringAsync("https://tatoeba.org/eng/").ConfigureAwait(false);
+            var result = await client.GetStringAsync(url_main).ConfigureAwait(false);
 
             HtmlDocument doc = new HtmlDocument
             {
@@ -205,11 +203,18 @@ namespace Tatoeba.Mobile.Services
                 + "&" + "data[_Token][unlocked]".UrlEncode() + "=" + "";
 
 
-            string respStr = await client.PostAndSaveCookiesAsync("https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng", postData, true).ConfigureAwait(false);
+            string respStr = await client.PostAndSaveCookiesAsync(url_login, postData, true).ConfigureAwait(false);
 
-            var success = respStr.Contains("li id=\"profile\"");
+            HtmlDocument responseDoc = new HtmlDocument
+            {
+                OptionFixNestedTags = true
+            };
 
-            if(success)
+            responseDoc.LoadHtml(respStr);            
+
+            var success = responseDoc.CreateNavigator().Evaluate<bool>(XpathLoginConfig.SuccessPath);
+
+            if (success)
             {
                 await WriteCookiesToDisk(cookies_file_name, client.cookies).ConfigureAwait(false);
             }

@@ -95,25 +95,25 @@ namespace Tatoeba.Mobile.Services
             "md-2-line link-delete",
         };
 
-
-        public static bool IsSessionValid(string respStr) => respStr.Contains("li id=\"profile\"");
+                
+        public static bool IsSessionValid(HtmlDocument doc) => doc.CreateNavigator().Evaluate<bool>(XpathLoginConfig.SuccessPath);
 
         public static TatoebaResponse<Contribution[]> ParseContribs(string result)
         {
-            if (!IsSessionValid(result))
-            {
-                return new TatoebaResponse<Contribution[]>
-                {
-                    Status = TatoebaStatus.InvalidSession,
-                };
-            }
-
             HtmlDocument doc = new HtmlDocument
             {
                 OptionFixNestedTags = true
             };
 
             doc.LoadHtml(result);
+
+            if (!IsSessionValid(doc))
+            {
+                return new TatoebaResponse<Contribution[]>
+                {
+                    Status = TatoebaStatus.InvalidSession,
+                };
+            }
 
             List<Contribution> sentences = new List<Contribution>();
 
@@ -146,20 +146,20 @@ namespace Tatoeba.Mobile.Services
 
         public static TatoebaResponse<SentenceDetail> ParseSetenceDetail(string result)
         {
-            if (!IsSessionValid(result))
-            {
-                return new TatoebaResponse<SentenceDetail>
-                {
-                    Status = TatoebaStatus.InvalidSession,
-                };
-            }
-
             HtmlDocument doc = new HtmlDocument
             {
                 OptionFixNestedTags = true
             };
 
             doc.LoadHtml(result);
+
+            if (!IsSessionValid(doc))
+            {
+                return new TatoebaResponse<SentenceDetail>
+                {
+                    Status = TatoebaStatus.InvalidSession,
+                };
+            }
 
             SentenceDetail setenceDetails = new SentenceDetail
             {

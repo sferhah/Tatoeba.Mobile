@@ -47,14 +47,17 @@ namespace Tatoeba.Mobile.Services
             //    Formatting = Formatting.Indented,
             //});
 
-            using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.TatoebaConfigFileName))
-            {
-                StreamReader reader = new StreamReader(stream);
-                string text = await reader.ReadToEndAsync().ConfigureAwait(false);
+            TatoebaConfig = await GetTatoebaConfig().ConfigureAwait(false);
+            TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
+            
+            //using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.TatoebaConfigFileName))
+            //{
+            //    StreamReader reader = new StreamReader(stream);
+            //    string text = await reader.ReadToEndAsync().ConfigureAwait(false);
 
-                TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
-                TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
-            }
+            //    TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
+            //    TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
+            //}
 
             await AppDbContext.InitAsync().ConfigureAwait(false);
 
@@ -97,7 +100,15 @@ namespace Tatoeba.Mobile.Services
             await file.DeleteAsync().ConfigureAwait(false);
         }
 
-      
+        public static async Task<TatoebaConfig> GetTatoebaConfig()
+        {
+            HttpClient client = new HttpClient();
+
+            var response = await client.GetStringAsync("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.Mobile/Tatoeba.Mobile/Cache/TatoebaConfig_v1.json").ConfigureAwait(false);
+
+            return JsonConvert.DeserializeObject<TatoebaConfig>(response);
+        }
+
 
         public static async Task<List<Language>> GetLanguages()
         {

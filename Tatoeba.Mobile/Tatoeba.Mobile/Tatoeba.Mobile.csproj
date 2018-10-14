@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Cache\TatoebaConfig.json" />
+    <None Remove="Cache\TatoebaConfig_v1.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Cache\TatoebaConfig.json" />
+    <EmbeddedResource Include="Cache\TatoebaConfig_v1.json" />
   </ItemGroup>
 
   <ItemGroup>

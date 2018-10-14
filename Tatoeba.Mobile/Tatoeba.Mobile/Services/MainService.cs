@@ -16,8 +16,9 @@ using Tatoeba.Mobile.Storage;
 namespace Tatoeba.Mobile.Services
 {
     public class CacheUtils
-    {   
-        public static readonly string TatoebaConfigFileName = "TatoebaConfig.json";
+    {
+        public static readonly int Version = 1;
+        public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
         
         public static Stream GetCacheStream(string cacheFile)
         {

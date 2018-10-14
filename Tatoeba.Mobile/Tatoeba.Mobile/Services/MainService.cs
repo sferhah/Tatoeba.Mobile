@@ -1,11 +1,13 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
@@ -13,27 +15,46 @@ using Tatoeba.Mobile.Storage;
 
 namespace Tatoeba.Mobile.Services
 {
+    public class CacheUtils
+    {   
+        public static readonly string TatoebaConfigFileName = "TatoebaConfig.json";
+        
+        public static Stream GetCacheStream(string cacheFile)
+        {
+            var assembly = typeof(CacheUtils).GetTypeInfo().Assembly;
+            var assembly_namespace = typeof(CacheUtils).Assembly.GetName().Name;
+
+            return assembly.GetManifestResourceStream(assembly_namespace + ".Cache." + cacheFile);
+        }
+    }
+
     public class MainService
     {
-
-        const string flags_url = "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/webroot/img/flags/";
-        const string languages_url = "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/Lib/LanguagesLib.php";
-        const string latest_contribs = "https://tatoeba.org/eng/contributions/latest/";
-        const string search_url = "https://tatoeba.org/eng/sentences/search?";
-        const string sentence_url = " https://tatoeba.org/eng/sentences/show/";
-        const string url_save_translation = "https://tatoeba.org/eng/sentences/save_translation";
-        const string url_edit_sentence = "https://tatoeba.org/eng/sentences/edit_sentence";
-        const string url_login = "https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng";
-        const string url_main = "https://tatoeba.org/eng/";
-
         const string cookies_file_name = "cookies.ck";
 
         static HttpTatotebaClient client = new HttpTatotebaClient();
 
         public static List<Language> Languages { get; set; }
 
+        public static TatoebaConfig TatoebaConfig { get; set; }
+
         public static async Task<bool> InitAsync()
         {
+
+            //var json = JsonConvert.SerializeObject(new TatoebaConfig(), new JsonSerializerSettings
+            //{
+            //    Formatting = Formatting.Indented,
+            //});
+
+            using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.TatoebaConfigFileName))
+            {
+                StreamReader reader = new StreamReader(stream);
+                string text = await reader.ReadToEndAsync().ConfigureAwait(false);
+
+                TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
+                TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
+            }
+
             await AppDbContext.InitAsync().ConfigureAwait(false);
 
             using (AppDbContext context = new AppDbContext())
@@ -51,7 +72,6 @@ namespace Tatoeba.Mobile.Services
             Languages.Insert(0, new Language { Flag = null, Iso = null, Label = "All languages" });
             var existence = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false);
             var exists = existence == PCLStorage.ExistenceCheckResult.FileExists;
-
 
             if (exists)
             {
@@ -82,7 +102,7 @@ namespace Tatoeba.Mobile.Services
         {
             HttpClient client = new HttpClient();
 
-            var response = await client.GetStringAsync(languages_url).ConfigureAwait(false);
+            var response = await client.GetStringAsync(TatoebaConfig.UrlConfig.Languages).ConfigureAwait(false);
 
             var languages = response.Substring("$languages = array(", ");").Split('\n')
                 .Where(x => x.Contains("__d('languages',")).Select(x => x.Trim().ToLanguage())
@@ -90,7 +110,7 @@ namespace Tatoeba.Mobile.Services
                 .ToList();
 
 
-            async Task DownloadFlag(Language lan) => lan.Flag = await client.GetByteArrayAsync(flags_url + lan.Iso + ".png").ConfigureAwait(false);
+            async Task DownloadFlag(Language lan) => lan.Flag = await client.GetByteArrayAsync(TatoebaConfig.UrlConfig.Flags + lan.Iso + ".png").ConfigureAwait(false);
 
             await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
 
@@ -108,7 +128,7 @@ namespace Tatoeba.Mobile.Services
             string unapproved = isUnapproved == null ? string.Empty : (isUnapproved.Value ? "yes" : "no");
             string has_audio = hasAudio == null ? string.Empty : (hasAudio.Value ? "yes" : "no");
 
-            string url = search_url + $"from={isoFrom?? "und"}" +
+            string url = TatoebaConfig.UrlConfig.Search + $"from={isoFrom?? "und"}" +
                 $"&to={isoTo ?? "und"}" +
                 $"&query={text.UrlEncode()}" +
                 $"&orphans={orphans}" +
@@ -125,14 +145,14 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)
         {
-            var response = await client.GetStringAsync(latest_contribs + language).ConfigureAwait(false);
+            var response = await client.GetStringAsync(TatoebaConfig.UrlConfig.LatestContribs + language).ConfigureAwait(false);
             return TatoebaScraper.ParseContribs(response);
         }
 
 
         public static async Task<TatoebaResponse<SentenceDetail>> GetSentenceDetail(string id)
         {
-            var result = await client.GetStringAsync(sentence_url + id).ConfigureAwait(false);
+            var result = await client.GetStringAsync(TatoebaConfig.UrlConfig.Sentence + id).ConfigureAwait(false);
             var response = TatoebaScraper.ParseSetenceDetail(result);
 
             if(response.Content != null)
@@ -151,7 +171,7 @@ namespace Tatoeba.Mobile.Services
              + "&" + "selectLang" + "=" + sentence.Language.Iso.UrlEncode()
              + "&" + "value" + "=" + sentence.Text.UrlEncode();
 
-            string respStr = await client.PostAsync(url_save_translation, postData).ConfigureAwait(false);
+            string respStr = await client.PostAsync(TatoebaConfig.UrlConfig.SaveTranslation, postData).ConfigureAwait(false);
 
 
             HtmlDocument doc = new HtmlDocument
@@ -170,13 +190,15 @@ namespace Tatoeba.Mobile.Services
             string postData = "value" + "=" + sentence.Text.UrlEncode()
                 + "&" + "id=" + sentence.Language.Iso + "_" + sentence.Id.UrlEncode();
 
-            await client.PostAsync(url_edit_sentence, postData).ConfigureAwait(false);
-        }    
+            await client.PostAsync(TatoebaConfig.UrlConfig.EditSentence, postData).ConfigureAwait(false);
+        }
+
+        static XpathLoginConfig XpathLoginConfig => TatoebaScraper.XpathConfig.LoginConfig;
 
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
         {
-            var result = await client.GetStringAsync(url_main).ConfigureAwait(false);
+            var result = await client.GetStringAsync(TatoebaConfig.UrlConfig.Main).ConfigureAwait(false);
 
             HtmlDocument doc = new HtmlDocument
             {
@@ -203,7 +225,7 @@ namespace Tatoeba.Mobile.Services
                 + "&" + "data[_Token][unlocked]".UrlEncode() + "=" + "";
 
 
-            string respStr = await client.PostAndSaveCookiesAsync(url_login, postData, true).ConfigureAwait(false);
+            string respStr = await client.PostAndSaveCookiesAsync(TatoebaConfig.UrlConfig.Login, postData, true).ConfigureAwait(false);
 
             HtmlDocument responseDoc = new HtmlDocument
             {

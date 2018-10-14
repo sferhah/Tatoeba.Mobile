@@ -169,45 +169,45 @@ namespace Tatoeba.Mobile.Services
 
             SentenceDetail setenceDetails = new SentenceDetail
             {
-                IsEditable = doc.CreateNavigator().Evaluate<bool>(XpathConfig.TranslationConfig.IsEditablePath)
+                IsEditable = doc.CreateNavigator().Evaluate<bool>(XpathConfig.SentenceDetailConfig.TranslationConfig.IsEditablePath)
             };
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.TranslationConfig.ItemsPath))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SentenceDetailConfig.TranslationConfig.ItemsPath))
             {
                 var nav = node.CreateNavigator();                
 
                 setenceDetails.Sentences.Add(new Contribution
                 {
-                    Text = nav.Evaluate<string>(XpathConfig.TranslationConfig.TextPath),
-                    Id = nav.Evaluate<string>(XpathConfig.TranslationConfig.IdPath),
-                    Language = new Language { Iso = nav.Evaluate<string>(XpathConfig.TranslationConfig.LanguagePath) },
-                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathConfig.TranslationConfig.DirectionPath)),
-                    TranslationType = (TranslationType)translationTypes.IndexOf(nav.Evaluate<string>(XpathConfig.TranslationConfig.TranslationTypePath))
+                    Text = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.TextPath),
+                    Id = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.IdPath),
+                    Language = new Language { Iso = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.LanguagePath) },
+                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.DirectionPath)),
+                    TranslationType = (TranslationType)translationTypes.IndexOf(nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.TranslationTypePath))
                 });
             }           
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.LogConfig.ItemsPath))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SentenceDetailConfig.LogConfig.ItemsPath))
             {
                 var nav = node.CreateNavigator();
 
                 setenceDetails.Logs.Add(new Log
                 {
-                    Text = nav.Evaluate<string>(XpathConfig.LogConfig.TextPath),
-                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathConfig.LogConfig.DateTextPath)),
-                    DateText = nav.Evaluate<string>(XpathConfig.LogConfig.DateTextPath),
-                    ContribType = (ContribType)contribTypes.IndexOf(nav.Evaluate<string>(XpathConfig.LogConfig.ContribTypePath)),
+                    Text = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.LogConfig.TextPath),
+                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.LogConfig.DateTextPath)),
+                    DateText = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.LogConfig.DateTextPath),
+                    ContribType = (ContribType)contribTypes.IndexOf(nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.LogConfig.ContribTypePath)),
                 });
             }
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.CommentConfig.ItemsPath))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SentenceDetailConfig.CommentConfig.ItemsPath))
             {
                 var nav = node.CreateNavigator();
 
                 setenceDetails.Comments.Add(new Comment
                 {
-                    Username = nav.Evaluate<string>(XpathConfig.CommentConfig.UsernamePath),
-                    Content = nav.Evaluate<string>(XpathConfig.CommentConfig.ContentPath),
-                    DateText = nav.Evaluate<string>(XpathConfig.CommentConfig.DateTextPath),
+                    Username = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.CommentConfig.UsernamePath),
+                    Content = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.CommentConfig.ContentPath),
+                    DateText = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.CommentConfig.DateTextPath),
                 });
             }
 

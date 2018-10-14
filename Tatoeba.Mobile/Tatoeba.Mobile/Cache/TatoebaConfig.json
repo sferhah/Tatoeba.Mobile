@@ -25,61 +25,63 @@
         "Action": 0
       }
     },
-    "TranslationConfig": {
-      "IsEditablePath": {
-        "Path": "boolean((//*[@class='sentence mainSentence']//*[@class='text correctnessZero editableSentence'])[1])",
-        "Action": 0
+    "SentenceDetailConfig": {
+      "TranslationConfig": {
+        "IsEditablePath": {
+          "Path": "boolean((//*[@class='sentence mainSentence']//*[@class='text correctnessZero editableSentence'])[1])",
+          "Action": 0
+        },
+        "ItemsPath": "//*[@class='sentence mainSentence']|//*[@class='translations']/*[@data-sentence-id]|//div[@class='more']/*[@data-sentence-id]",
+        "TextPath": {
+          "Path": "string(.//*[@class='text correctnessZero']|.//*[@class='text correctnessZero editableSentence'])",
+          "Action": 3
+        },
+        "DirectionPath": {
+          "Path": "string(.//*[@class='text correctnessZero']/@dir|//*[@class='text correctnessZero editableSentence']/@dir)",
+          "Action": 0
+        },
+        "IdPath": {
+          "Path": "string(@data-sentence-id)",
+          "Action": 0
+        },
+        "LanguagePath": {
+          "Path": "string(.//img/@alt)",
+          "Action": 0
+        },
+        "TranslationTypePath": {
+          "Path": "string(div/a/@class)",
+          "Action": 0
+        }
       },
-      "ItemsPath": "//*[@class='sentence mainSentence']|//*[@class='translations']/*[@data-sentence-id]|//div[@class='more']/*[@data-sentence-id]",
-      "TextPath": {
-        "Path": "string(.//*[@class='text correctnessZero']|.//*[@class='text correctnessZero editableSentence'])",
-        "Action": 3
+      "CommentConfig": {
+        "ItemsPath": "//md-card",
+        "UsernamePath": {
+          "Path": "string(.//*[@class='md-title'])",
+          "Action": 3
+        },
+        "ContentPath": {
+          "Path": "string(.//md-card-content)",
+          "Action": 3
+        },
+        "DateTextPath": {
+          "Path": "string(.//*[@class='md-subhead ellipsis'])",
+          "Action": 3
+        }
       },
-      "DirectionPath": {
-        "Path": "string(.//*[@class='text correctnessZero']/@dir|//*[@class='text correctnessZero editableSentence']/@dir)",
-        "Action": 0
-      },
-      "IdPath": {
-        "Path": "string(@data-sentence-id)",
-        "Action": 0
-      },
-      "LanguagePath": {
-        "Path": "string(.//img/@alt)",
-        "Action": 0
-      },
-      "TranslationTypePath": {
-        "Path": "string(div/a/@class)",
-        "Action": 0
-      }
-    },
-    "CommentConfig": {
-      "ItemsPath": "//md-card",
-      "UsernamePath": {
-        "Path": "string(.//*[@class='md-title'])",
-        "Action": 3
-      },
-      "ContentPath": {
-        "Path": "string(.//md-card-content)",
-        "Action": 3
-      },
-      "DateTextPath": {
-        "Path": "string(.//*[@class='md-subhead ellipsis'])",
-        "Action": 3
-      }
-    },
-    "LogConfig": {
-      "ItemsPath": "//md-list-item",
-      "TextPath": {
-        "Path": "string(div/div)",
-        "Action": 3
-      },
-      "DateTextPath": {
-        "Path": "string(div/p)",
-        "Action": 3
-      },
-      "ContribTypePath": {
-        "Path": "string(@class)",
-        "Action": 0
+      "LogConfig": {
+        "ItemsPath": "//md-list-item",
+        "TextPath": {
+          "Path": "string(div/div)",
+          "Action": 3
+        },
+        "DateTextPath": {
+          "Path": "string(div/p)",
+          "Action": 3
+        },
+        "ContribTypePath": {
+          "Path": "string(@class)",
+          "Action": 0
+        }
       }
     },
     "ContribConfig": {

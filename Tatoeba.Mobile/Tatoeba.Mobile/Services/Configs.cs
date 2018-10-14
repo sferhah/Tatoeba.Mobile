@@ -22,10 +22,15 @@
     public class XpathConfig
     {
         public XpathLoginConfig LoginConfig { get; set; } = new XpathLoginConfig();
+        public XpathSentenceDetailConfig SentenceDetailConfig { get; set; } = new XpathSentenceDetailConfig();        
+        public XpathContribConfig ContribConfig { get; set; } = new XpathContribConfig();        
+    }
+
+    public class XpathSentenceDetailConfig
+    {
         public XpathTranslationConfig TranslationConfig { get; set; } = new XpathTranslationConfig();
         public XpathCommentConfig CommentConfig { get; set; } = new XpathCommentConfig();
         public XpathLogConfig LogConfig { get; set; } = new XpathLogConfig();
-        public XpathContribConfig ContribConfig { get; set; } = new XpathContribConfig();        
     }
 
     public class XpathLoginConfig

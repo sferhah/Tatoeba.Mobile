@@ -221,5 +221,56 @@ namespace Tatoeba.Mobile.Services
                 Content = setenceDetails,
             };            
         }
+
+        public static TatoebaResponse<List<SentenceDetail>> ParseSearchResults(string result)
+        {
+            HtmlDocument doc = new HtmlDocument
+            {
+                OptionFixNestedTags = true
+            };
+
+            doc.LoadHtml(result);
+
+            if (!IsSessionValid(doc))
+            {
+                return new TatoebaResponse<List<SentenceDetail>>
+                {
+                    Status = TatoebaStatus.InvalidSession,
+                };
+            }
+
+            List<SentenceDetail> results = new List<SentenceDetail>();
+
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentence-and-translations']"))
+            {
+                SentenceDetail setenceDetails = new SentenceDetail
+                {
+                    IsEditable = doc.CreateNavigator().Evaluate<bool>(XpathConfig.SentenceDetailConfig.TranslationConfig.IsEditablePath)
+                };
+
+                var nav = node.CreateNavigator();
+
+                setenceDetails.Sentences.Add(new Contribution
+                {
+                    Text = nav.Evaluate<string>("string(.//div[@class='text'])"),
+                    Id = nav.Evaluate<string>("string(md-button/@href)")?.Split('/').Last(),
+                    Language = new Language { Iso = nav.Evaluate<string>("string(.//img/@alt)") },
+                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>("string(.//div[@class='text']/@dir)")),
+                    TranslationType = TranslationType.Original,
+                });
+
+                foreach (var item in setenceDetails.Sentences)
+                {
+                    item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).SingleOrDefault();
+                }
+
+                results.Add(setenceDetails);
+            }
+
+            return new TatoebaResponse<List<SentenceDetail>>
+            {
+                Content = results,
+            };
+        }
     }
 }

@@ -129,30 +129,37 @@ namespace Tatoeba.Mobile.Services
             return languages;
         }
 
-        public static async Task<TatoebaResponse<string>> SearchAsync(string text,
+        public static async Task<TatoebaResponse<List<SentenceDetail>>> SearchAsync(string text,
             string isoFrom, 
             string isoTo,
             bool? isOrphan = false,
             bool? isUnapproved = false,
-            bool? hasAudio = null)
+            bool? hasAudio = null,
+            bool? isTransOrphan = false,
+            bool? isTransUnapproved = false,
+            bool? TransHasAudio = null)
         {
             string orphans = isOrphan == null ? string.Empty : (isOrphan.Value ? "yes" : "no");
             string unapproved = isUnapproved == null ? string.Empty : (isUnapproved.Value ? "yes" : "no");
             string has_audio = hasAudio == null ? string.Empty : (hasAudio.Value ? "yes" : "no");
+
+            string trans_orphan = isTransOrphan == null ? string.Empty : (isTransOrphan.Value ? "yes" : "no");
+            string trans_unapproved = isTransUnapproved == null ? string.Empty : (isTransUnapproved.Value ? "yes" : "no");
+            string trans_has_audio = TransHasAudio == null ? string.Empty : (TransHasAudio.Value ? "yes" : "no");
 
             string url = TatoebaConfig.UrlConfig.Search + $"from={isoFrom?? "und"}" +
                 $"&to={isoTo ?? "und"}" +
                 $"&query={text.UrlEncode()}" +
                 $"&orphans={orphans}" +
                 $"&unapproved={unapproved}" +
-                $"&has_audio={has_audio}";
+                $"&has_audio={has_audio}" +
+                $"&trans_orphan={trans_orphan}" +
+                $"&trans_unapproved={trans_unapproved}" +
+                $"&trans_has_audio={trans_has_audio}";
 
             var response = await client.GetStringAsync(url).ConfigureAwait(false);
 
-            return new TatoebaResponse<string>
-            {
-                Content = response,
-            };
+            return TatoebaScraper.ParseSearchResults(response);            
         }
 
         public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)

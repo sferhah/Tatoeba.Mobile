@@ -109,6 +109,7 @@
     <Content Include="edit.png" />
     <Content Include="cancel.png" />
     <Content Include="last_contribs.png" />
+    <Content Include="search_action.png" />
     <Content Include="validate.png" />
     <Content Include="indirect_translation.png" />
     <Content Include="logo.png" />

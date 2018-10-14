@@ -19,17 +19,26 @@ namespace Tatoeba.Mobile.ViewModels
             SelectedLanguageTarget = MainService.Languages.Where(x => x.Iso == LocalSettings.LastIsoSearchTo).FirstOrDefault();
         }
 
+        public string IsOrphan { get; set; } = "No";
+        public string IsTransOrphan { get; set; } = "No";
+        public string IsUnapproved { get; set; } = "No";
+        public string IsTransUnapproved { get; set; } = "No";
+        public string HasAudio { get; set; } = "Any";
+        public string TransHasAudio { get; set; } = "Any";
+
+        public IEnumerable<string> NullableBoolValues => new List<string> { "Any", "No", "Yes" };
+
         public string SearchText { get; set; }
         public Command SearchCommand { get; set; }
         public IEnumerable<string> LanguageList => MainService.Languages.Select(c => c.Label).ToList(); // To List needed by xamarin forms picker
-        
+
         public Language SelectedLanguageSource { get; set; }
         public string LanguageChoiceSource
         {
             get => SelectedLanguageSource?.Label;
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
@@ -64,17 +73,31 @@ namespace Tatoeba.Mobile.ViewModels
 
             IsBusy = true;
 
-            var response = await MainService.SearchAsync(SearchText, SelectedLanguageSource.Iso, SelectedLanguageTarget.Iso);
+            var response = await MainService.SearchAsync(SearchText,
+                SelectedLanguageSource.Iso,
+                SelectedLanguageTarget.Iso,
+                NullableBooleanStringToNullableBool(IsOrphan),
+                  NullableBooleanStringToNullableBool(IsUnapproved),
+                   NullableBooleanStringToNullableBool(HasAudio),
+                   NullableBooleanStringToNullableBool(IsTransOrphan),
+                  NullableBooleanStringToNullableBool(IsTransUnapproved),
+                   NullableBooleanStringToNullableBool(TransHasAudio));
 
             if (response.Status != TatoebaStatus.Success)
             {
                 OnError(response.Status);
                 IsBusy = false;
                 return;
-            }        
+            }
 
             IsBusy = false;
         }
-     
+
+
+        bool? NullableBooleanStringToNullableBool(string item)
+        {
+            return item == "Any" ? null : (bool?)(item == "Yes" ? true : false);
+        }
+
     }
 }

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:TatoebaContentPage x:TypeArguments="viewModels:SearchResultsViewModel"
+                          xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
+             xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
+             xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
+             xmlns:nativeViews="clr-namespace:Tatoeba.Mobile.NativeViews"
+                          xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
+                          x:Class="Tatoeba.Mobile.Views.SearchResultsPage"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="SentenceTemplate">
+                <ViewCell>
+                    <Grid Padding="10" HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Source="{Binding TranslationType, Converter={converters:TranslationTypeToSourceConverter}}"  
+                                WidthRequest="30"
+                               Grid.Column="0"   VerticalOptions="Center" />
+                        <Image Grid.Column="1" 
+                                              Source="{Binding Language.Flag, Converter={converters:ByteArrayToImageValueConverter}}"                                              
+                                              WidthRequest="30" HeightRequest="20" Aspect="Fill"  
+                                              VerticalOptions="Center"/>
+                        <Label Text="{Binding Text}"  Grid.Row="0" Grid.Column="2"
+                                               HorizontalOptions="{Binding Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"   VerticalOptions="Center"
+                       Style="{DynamicResource ListItemTextStyle}" 
+                       FontSize="16" />
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>        
+            <local:SentenceDetailTemplateSelector x:Key="SentenceDetailTemplateSelector"
+          SentenceTemplate="{StaticResource SentenceTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="White">
+            <StackLayout  AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     Margin="0,0,0,0">
+                <ListView x:Name="ItemsListView" 
+                            IsGroupingEnabled="true" 
+                          SeparatorColor="Transparent"
+                ItemsSource="{Binding GroupedCells}"
+                      HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                 HasUnevenRows="true"
+                 RefreshCommand="{Binding LoadItemsCommand}"
+                 IsPullToRefreshEnabled="true"
+                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 CachingStrategy="RecycleElement"
+                 ItemTemplate="{StaticResource SentenceDetailTemplateSelector}"
+                 ItemSelected="OnItemSelected" >
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding Key}" Margin="10" FontSize="Large"/>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                </ListView>
+            </StackLayout>
+           
+            <Grid 
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"
+             IsVisible="{Binding IsBusy}"
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <nativeViews:UwpProgressRing WidthRequest ="64" HeightRequest ="64" ForegroundColor ="Green" />
+            </Grid>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</local:TatoebaContentPage>

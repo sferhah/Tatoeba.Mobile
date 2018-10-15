@@ -129,7 +129,7 @@ namespace Tatoeba.Mobile.Services
             return languages;
         }
 
-        public static async Task<TatoebaResponse<List<SentenceDetail>>> SearchAsync(string text,
+        public static async Task<TatoebaResponse<List<SentenceSet>>> SearchAsync(string text,
             string isoFrom, 
             string isoTo,
             bool? isOrphan = false,

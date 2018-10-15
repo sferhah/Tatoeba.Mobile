@@ -222,7 +222,7 @@ namespace Tatoeba.Mobile.Services
             };            
         }
 
-        public static TatoebaResponse<List<SentenceDetail>> ParseSearchResults(string result)
+        public static TatoebaResponse<List<SentenceSet>> ParseSearchResults(string result)
         {
             HtmlDocument doc = new HtmlDocument
             {
@@ -233,44 +233,47 @@ namespace Tatoeba.Mobile.Services
 
             if (!IsSessionValid(doc))
             {
-                return new TatoebaResponse<List<SentenceDetail>>
+                return new TatoebaResponse<List<SentenceSet>>
                 {
                     Status = TatoebaStatus.InvalidSession,
                 };
             }
 
-            List<SentenceDetail> results = new List<SentenceDetail>();
+            List<SentenceSet> results = new List<SentenceSet>();
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentence-and-translations']"))
+            foreach(var nodeSet in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentences_set']"))
             {
-                SentenceDetail setenceDetails = new SentenceDetail
-                {
-                    IsEditable = doc.CreateNavigator().Evaluate<bool>(XpathConfig.SentenceDetailConfig.TranslationConfig.IsEditablePath)
-                };
+                string itemsPath = ".//*[@class='sentence mainSentence']|.//*[@class='translations']/*[@data-sentence-id]|.//div[@class='more']/*[@data-sentence-id]";
 
-                var nav = node.CreateNavigator();
+                SentenceSet sentenceSet = new SentenceSet();
 
-                setenceDetails.Sentences.Add(new Contribution
-                {
-                    Text = nav.Evaluate<string>("string(.//div[@class='text'])"),
-                    Id = nav.Evaluate<string>("string(md-button/@href)")?.Split('/').Last(),
-                    Language = new Language { Iso = nav.Evaluate<string>("string(.//img/@alt)") },
-                    Direction = (Direction)directions.IndexOf(nav.Evaluate<string>("string(.//div[@class='text']/@dir)")),
-                    TranslationType = TranslationType.Original,
-                });
+                results.Add(sentenceSet);
 
-                foreach (var item in setenceDetails.Sentences)
+                foreach (var node in nodeSet.SelectNodesOrEmpty(itemsPath))
                 {
-                    item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).SingleOrDefault();
+                    var nav = node.CreateNavigator();
+
+                    sentenceSet.Add(new Contribution
+                    {
+                        Text = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.TextPath),
+                        Id = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.IdPath),
+                        Language = new Language { Iso = nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.LanguagePath) },
+                        Direction = (Direction)directions.IndexOf(nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.DirectionPath)),
+                        TranslationType = (TranslationType)translationTypes.IndexOf(nav.Evaluate<string>(XpathConfig.SentenceDetailConfig.TranslationConfig.TranslationTypePath))
+                    });
                 }
-
-                results.Add(setenceDetails);
             }
 
-            return new TatoebaResponse<List<SentenceDetail>>
+            foreach (var item in results.SelectMany(x=>x.Sentences))
+            {
+                item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).SingleOrDefault();
+            }
+
+            return new TatoebaResponse<List<SentenceSet>>
             {
                 Content = results,
             };
+
         }
     }
 }

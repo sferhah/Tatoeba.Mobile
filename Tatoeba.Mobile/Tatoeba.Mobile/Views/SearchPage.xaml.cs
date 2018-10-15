@@ -1,6 +1,5 @@
 ﻿using System;
 using Tatoeba.Mobile.ViewModels;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Tatoeba.Mobile.Views
@@ -11,6 +10,16 @@ namespace Tatoeba.Mobile.Views
         public SearchPage()
         {
             InitializeComponent();
+            ViewModel = new SearchViewModel();
+            search_entry.Completed += (s, e) => Button_Clicked(null, null);
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            if(await ViewModel.ExecuteSearchCommand())
+            {
+                await Navigation.PushAsync(new SearchResultsPage(ViewModel.SearchResults));             
+            }
         }
     }
 }

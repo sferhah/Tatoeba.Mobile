@@ -65,11 +65,12 @@ namespace Tatoeba.Mobile.ViewModels
             }
         }
 
+        public List<SentenceSet> SearchResults;
 
-        async Task ExecuteSearchCommand()
+        public async Task<bool> ExecuteSearchCommand()
         {
             if (IsBusy)
-                return;
+                return false;
 
             IsBusy = true;
 
@@ -87,10 +88,14 @@ namespace Tatoeba.Mobile.ViewModels
             {
                 OnError(response.Status);
                 IsBusy = false;
-                return;
+                return false;
             }
 
             IsBusy = false;
+
+            SearchResults = response.Content;
+
+            return true;
         }
 
 

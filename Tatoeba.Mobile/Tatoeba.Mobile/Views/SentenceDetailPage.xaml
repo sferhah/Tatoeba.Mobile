@@ -8,6 +8,9 @@
                           xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
                           x:Class="Tatoeba.Mobile.Views.SentenceDetailPage"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding LoadItemsCommand}" Icon="refresh.png"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="SentenceTemplate">
@@ -33,6 +36,13 @@
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
                     </Grid>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="ExpandTogglerTemplate">
+                <ViewCell>
+                    <StackLayout Padding="10"  HorizontalOptions="FillAndExpand" BackgroundColor="{Binding BackgroundColor}">
+                        <Label Text="{Binding Text}" TextColor="{Binding TextColor}" LineBreakMode="NoWrap" FontSize="14"  HorizontalOptions="Center" />
+                    </StackLayout>                   
                 </ViewCell>
             </DataTemplate>
             <DataTemplate x:Key="LogTemplate">
@@ -79,7 +89,8 @@
             <local:SentenceDetailTemplateSelector x:Key="SentenceDetailTemplateSelector"
           SentenceTemplate="{StaticResource SentenceTemplate}"
           LogTemplate="{StaticResource LogTemplate}"
-          CommentTemplate="{StaticResource CommentTemplate}" />
+          CommentTemplate="{StaticResource CommentTemplate}"
+          ExpandTogglerTemplate="{StaticResource ExpandTogglerTemplate}" />
         </ResourceDictionary>
     </ContentPage.Resources>
 

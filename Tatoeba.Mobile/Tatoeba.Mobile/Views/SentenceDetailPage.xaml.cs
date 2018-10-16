@@ -9,7 +9,6 @@ namespace Tatoeba.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SentenceDetailPage : TatoebaContentPage<SentenceDetailViewModel>
     {
-
         public SentenceDetailPage(string itemId)
         {
             InitializeComponent();
@@ -48,6 +47,13 @@ namespace Tatoeba.Mobile.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
+            if ((args.SelectedItem is ExpandToggler))
+            {
+                ItemsListView.SelectedItem = null;
+                ViewModel.ToggleCommand.Execute(null);
+                return;
+            }
+
             if (!(args.SelectedItem is Contribution item))
             {
                 return;
@@ -97,6 +103,7 @@ namespace Tatoeba.Mobile.Views
     public class SentenceDetailTemplateSelector : DataTemplateSelector
     {
         public DataTemplate SentenceTemplate { get; set; }
+        public DataTemplate ExpandTogglerTemplate { get; set; }
         public DataTemplate LogTemplate { get; set; }
         public DataTemplate CommentTemplate { get; set; }
 
@@ -114,6 +121,8 @@ namespace Tatoeba.Mobile.Views
                     return LogTemplate;
                 case Comment _:
                     return CommentTemplate;
+                case ExpandToggler _:
+                    return ExpandTogglerTemplate;
                 default:
                     throw new Exception("");
             }

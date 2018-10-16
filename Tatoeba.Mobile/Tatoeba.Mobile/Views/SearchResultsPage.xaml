@@ -34,9 +34,17 @@
                        FontSize="16" />
                     </Grid>
                 </ViewCell>
-            </DataTemplate>        
+            </DataTemplate>
+            <DataTemplate x:Key="ExpandTogglerTemplate">
+                <ViewCell>
+                    <StackLayout Padding="10"  HorizontalOptions="FillAndExpand" BackgroundColor="{Binding BackgroundColor}">
+                        <Label Text="{Binding Text}" TextColor="{Binding TextColor}" LineBreakMode="NoWrap" FontSize="14"  HorizontalOptions="Center" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
             <local:SentenceDetailTemplateSelector x:Key="SentenceDetailTemplateSelector"
-          SentenceTemplate="{StaticResource SentenceTemplate}" />
+          SentenceTemplate="{StaticResource SentenceTemplate}"
+          ExpandTogglerTemplate="{StaticResource ExpandTogglerTemplate}" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -48,6 +56,7 @@
                      Margin="0,0,0,0">
                 <ListView x:Name="ItemsListView" 
                             IsGroupingEnabled="true" 
+                          
                           SeparatorColor="Transparent"
                 ItemsSource="{Binding GroupedCells}"
                       HorizontalOptions="FillAndExpand"

@@ -70,7 +70,9 @@ namespace Tatoeba.Mobile.ViewModels
         public async Task<bool> ExecuteSearchCommand()
         {
             if (IsBusy)
+            {
                 return false;
+            }
 
             IsBusy = true;
 
@@ -78,11 +80,11 @@ namespace Tatoeba.Mobile.ViewModels
                 SelectedLanguageSource.Iso,
                 SelectedLanguageTarget.Iso,
                 NullableBooleanStringToNullableBool(IsOrphan),
-                  NullableBooleanStringToNullableBool(IsUnapproved),
-                   NullableBooleanStringToNullableBool(HasAudio),
-                   NullableBooleanStringToNullableBool(IsTransOrphan),
-                  NullableBooleanStringToNullableBool(IsTransUnapproved),
-                   NullableBooleanStringToNullableBool(TransHasAudio));
+                NullableBooleanStringToNullableBool(IsUnapproved),
+                NullableBooleanStringToNullableBool(HasAudio),
+                NullableBooleanStringToNullableBool(IsTransOrphan),
+                NullableBooleanStringToNullableBool(IsTransUnapproved),
+                NullableBooleanStringToNullableBool(TransHasAudio));
 
             if (response.Status != TatoebaStatus.Success)
             {
@@ -99,10 +101,7 @@ namespace Tatoeba.Mobile.ViewModels
         }
 
 
-        bool? NullableBooleanStringToNullableBool(string item)
-        {
-            return item == "Any" ? null : (bool?)(item == "Yes" ? true : false);
-        }
+        bool? NullableBooleanStringToNullableBool(string item) => item == "Any" ? null : (bool?)(item == "Yes" ? true : false);
 
     }
 }

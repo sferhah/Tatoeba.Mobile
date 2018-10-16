@@ -37,7 +37,7 @@
           "Action": 3
         },
         "DirectionPath": {
-          "Path": "string(.//*[@class='text correctnessZero']/@dir|//*[@class='text correctnessZero editableSentence']/@dir)",
+          "Path": "string(.//*[@class='text correctnessZero' or @class='text correctnessZero editableSentence']/@dir)",
           "Action": 0
         },
         "IdPath": {

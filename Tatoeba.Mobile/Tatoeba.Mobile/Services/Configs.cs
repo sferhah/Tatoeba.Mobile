@@ -51,7 +51,7 @@
             Action = XpathActionConfig.HtmlDecodeAndTrim,
         };
 
-        public XpathPathConfig DirectionPath { get; set; } = new XpathPathConfig { Path = "string(.//*[@class='text correctnessZero']/@dir|//*[@class='text correctnessZero editableSentence']/@dir)" };
+        public XpathPathConfig DirectionPath { get; set; } = new XpathPathConfig { Path = "string(.//*[@class='text correctnessZero' or @class='text correctnessZero editableSentence']/@dir)" };
         public XpathPathConfig IdPath { get; set; } = new XpathPathConfig { Path = "string(@data-sentence-id)" };
         public XpathPathConfig LanguagePath { get; set; } = new XpathPathConfig { Path = "string(.//img/@alt)" };
         public XpathPathConfig TranslationTypePath { get; set; } = new XpathPathConfig { Path = "string(div/a/@class)" };

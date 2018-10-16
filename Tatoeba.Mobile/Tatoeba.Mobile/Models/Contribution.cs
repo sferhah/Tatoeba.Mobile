@@ -10,11 +10,23 @@ namespace Tatoeba.Mobile.Models
         public TranslationType TranslationType { get; set; }
     }
 
+    public class SearchRequest
+    {
+        public int Page { get; set; }
+        public string Text { get; set; }
+        public string IsoFrom { get; set; }
+        public string IsoTo { get; set; }
+        public bool? IsOrphan { get; set; } 
+        public bool? IsUnapproved { get; set; } 
+        public bool? HasAudio { get; set; }
+        public bool? IsTransOrphan { get; set; }
+        public bool? IsTransUnapproved { get; set; }
+        public bool? TransHasAudio { get; set; }
+    }
 
     public class SearchResults
     {
-        public string Query { get; set; }
-        public int CurrentPage { get; set; }
+        public SearchRequest Request { get; set; }
         public List<string> Pages { get; set; } = new List<string>();
         public List<SentenceSet> Results { get; set; } = new List<SentenceSet>();
     }

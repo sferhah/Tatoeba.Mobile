@@ -5,7 +5,7 @@
     "Flags": "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/webroot/img/flags/",
     "Languages": "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/Lib/LanguagesLib.php",
     "LatestContribs": "https://tatoeba.org/eng/contributions/latest/",
-    "Search": "https://tatoeba.org/eng/sentences/search?",
+    "Search": "https://tatoeba.org/eng/sentences/search/",
     "Sentence": "https://tatoeba.org/eng/sentences/show/",
     "SaveTranslation": "https://tatoeba.org/eng/sentences/save_translation",
     "EditSentence": "https://tatoeba.org/eng/sentences/edit_sentence"

@@ -55,8 +55,7 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
-                <StackLayout x:Name="pages_container" Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10, 0, 10, 0">
-                </StackLayout>
+                <StackLayout x:Name="pages_container" Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0"/>
                 <ListView x:Name="ItemsListView" 
                             IsGroupingEnabled="true" 
                           
@@ -64,9 +63,7 @@
                 ItemsSource="{Binding GroupedCells}"
                       HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                 HasUnevenRows="true"
-                 RefreshCommand="{Binding LoadItemsCommand}"
-                 IsPullToRefreshEnabled="true"
+                 HasUnevenRows="true"             
                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  CachingStrategy="RecycleElement"
                  ItemTemplate="{StaticResource SentenceDetailTemplateSelector}"

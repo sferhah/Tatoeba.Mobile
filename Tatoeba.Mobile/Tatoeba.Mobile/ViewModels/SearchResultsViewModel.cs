@@ -9,11 +9,11 @@ namespace Tatoeba.Mobile.ViewModels
 {
     public class SearchResultsViewModel : BaseViewModel
     {
-        readonly SearchResults searchResults;
+        public readonly SearchResults searchResults;
 
         public SearchResultsViewModel(SearchResults searchResults)
         {
-            this.Title = "Search: " + searchResults.Query;
+            this.Title = "Search: " + searchResults.Request.Text;
             this.searchResults = searchResults;
 
             ToggleCommand = new Command(async (i) => await ToggleExpand((SentenceSet)i));

@@ -76,15 +76,19 @@ namespace Tatoeba.Mobile.ViewModels
 
             IsBusy = true;
 
-            var response = await MainService.SearchAsync(1, SearchText,
-                SelectedLanguageSource.Iso,
-                SelectedLanguageTarget.Iso,
-                NullableBooleanStringToNullableBool(IsOrphan),
-                NullableBooleanStringToNullableBool(IsUnapproved),
-                NullableBooleanStringToNullableBool(HasAudio),
-                NullableBooleanStringToNullableBool(IsTransOrphan),
-                NullableBooleanStringToNullableBool(IsTransUnapproved),
-                NullableBooleanStringToNullableBool(TransHasAudio));
+            var response = await MainService.SearchAsync(new SearchRequest
+            {
+                Page =  1,
+                Text = SearchText,
+                IsoFrom = SelectedLanguageSource.Iso,
+                IsoTo = SelectedLanguageTarget.Iso,
+                IsOrphan = NullableBooleanStringToNullableBool(IsOrphan),
+                IsUnapproved = NullableBooleanStringToNullableBool(IsUnapproved),
+                HasAudio = NullableBooleanStringToNullableBool(HasAudio),
+                IsTransOrphan = NullableBooleanStringToNullableBool(IsTransOrphan),
+                IsTransUnapproved = NullableBooleanStringToNullableBool(IsTransUnapproved),
+                TransHasAudio = NullableBooleanStringToNullableBool(TransHasAudio)
+            });
 
             if (response.Status != TatoebaStatus.Success)
             {

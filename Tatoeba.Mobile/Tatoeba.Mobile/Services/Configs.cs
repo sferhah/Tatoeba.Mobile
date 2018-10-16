@@ -13,7 +13,7 @@
         public string Flags { get; set; } = "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/webroot/img/flags/";
         public string Languages { get; set; } = "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/Lib/LanguagesLib.php";
         public string LatestContribs { get; set; } = "https://tatoeba.org/eng/contributions/latest/";
-        public string Search { get; set; } = "https://tatoeba.org/eng/sentences/search?";
+        public string Search { get; set; } = "https://tatoeba.org/eng/sentences/search/";
         public string Sentence { get; set; } = "https://tatoeba.org/eng/sentences/show/";
         public string SaveTranslation { get; set; } = "https://tatoeba.org/eng/sentences/save_translation";
         public string EditSentence { get; set; } = "https://tatoeba.org/eng/sentences/edit_sentence";

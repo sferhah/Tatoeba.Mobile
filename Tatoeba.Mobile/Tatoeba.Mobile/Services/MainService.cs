@@ -128,29 +128,22 @@ namespace Tatoeba.Mobile.Services
             await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
 
             return languages;
-        }
+        }      
 
-        public static async Task<TatoebaResponse<SearchResults>> SearchAsync(int page, string text,
-            string isoFrom, 
-            string isoTo,
-            bool? isOrphan = false,
-            bool? isUnapproved = false,
-            bool? hasAudio = null,
-            bool? isTransOrphan = false,
-            bool? isTransUnapproved = false,
-            bool? TransHasAudio = null)
+        public static async Task<TatoebaResponse<SearchResults>> SearchAsync(SearchRequest request)
         {
-            string orphans = isOrphan == null ? string.Empty : (isOrphan.Value ? "yes" : "no");
-            string unapproved = isUnapproved == null ? string.Empty : (isUnapproved.Value ? "yes" : "no");
-            string has_audio = hasAudio == null ? string.Empty : (hasAudio.Value ? "yes" : "no");
+            string orphans = request.IsOrphan == null ? string.Empty : (request.IsOrphan.Value ? "yes" : "no");
+            string unapproved = request.IsUnapproved == null ? string.Empty : (request.IsUnapproved.Value ? "yes" : "no");
+            string has_audio = request.HasAudio == null ? string.Empty : (request.HasAudio.Value ? "yes" : "no");
 
-            string trans_orphan = isTransOrphan == null ? string.Empty : (isTransOrphan.Value ? "yes" : "no");
-            string trans_unapproved = isTransUnapproved == null ? string.Empty : (isTransUnapproved.Value ? "yes" : "no");
-            string trans_has_audio = TransHasAudio == null ? string.Empty : (TransHasAudio.Value ? "yes" : "no");
+            string trans_orphan = request.IsTransOrphan == null ? string.Empty : (request.IsTransOrphan.Value ? "yes" : "no");
+            string trans_unapproved = request.IsTransUnapproved == null ? string.Empty : (request.IsTransUnapproved.Value ? "yes" : "no");
+            string trans_has_audio = request.TransHasAudio == null ? string.Empty : (request.TransHasAudio.Value ? "yes" : "no");
 
-            string url = TatoebaConfig.UrlConfig.Search + $"from={isoFrom?? "und"}" +
-                $"&to={isoTo ?? "und"}" +
-                $"&query={text.UrlEncode()}" +
+            string url = TatoebaConfig.UrlConfig.Search + $"page:{request.Page}?" +
+                $"from={request.IsoFrom ?? "und"}" +
+                $"&to={request.IsoTo ?? "und"}" +
+                $"&query={request.Text.UrlEncode()}" +
                 $"&orphans={orphans}" +
                 $"&unapproved={unapproved}" +
                 $"&has_audio={has_audio}" +
@@ -170,8 +163,7 @@ namespace Tatoeba.Mobile.Services
 
             if (response.Content != null)
             {
-                response.Content.Query = text;
-                response.Content.CurrentPage = page;
+                response.Content.Request = request;                
             }
 
             return response;

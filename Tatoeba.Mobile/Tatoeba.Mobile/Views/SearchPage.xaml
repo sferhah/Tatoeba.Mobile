@@ -78,7 +78,7 @@
              Padding="10"
              IsVisible="{Binding IsBusy}"
          HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-            <nativeViews:UwpProgressRing WidthRequest ="64" HeightRequest ="64" ForegroundColor ="Green" />
+            <local:LoadingControl/>
         </Grid>
 
     </AbsoluteLayout>

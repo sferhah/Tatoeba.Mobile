@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Xml.XPath;
@@ -69,7 +70,7 @@ namespace Tatoeba.Mobile.Services
     public class TatoebaResponse<T>
     {
         public T Content;
-        public TatoebaStatus Status;
+        public TatoebaStatus Status;        
     }
 
     public class TatoebaScraper
@@ -222,7 +223,39 @@ namespace Tatoeba.Mobile.Services
             };            
         }
 
-        public static TatoebaResponse<List<SentenceSet>> ParseSearchResults(string result)
+        public static List<string> ReworkPages(List<string> input)
+        {
+            input = input.Distinct().ToList();
+
+            List<int> input_int = new List<int>();
+
+            foreach (var page in input)
+            {
+                if (int.TryParse(page, out int pageInt))
+                {
+                    input_int.Add(pageInt);
+                }
+            }
+
+            List<int> ls = new List<int>();
+
+            for (int i = 0; i < input_int.Count - 1; i++)
+            {
+                if (input_int[i] + 1 < input_int[i + 1])
+                {
+                    ls.Add(input_int[i]);
+                }
+            }
+
+            foreach (var j in ls)
+            {
+                input_int.Insert(input_int.IndexOf(j) + 1, -1);
+            }
+
+            return input_int.Select(x => x > 0 ? x.ToString() : "...").ToList();
+        }
+
+        public static TatoebaResponse<SearchResults> ParseSearchResults(string result)
         {
             HtmlDocument doc = new HtmlDocument
             {
@@ -233,21 +266,37 @@ namespace Tatoeba.Mobile.Services
 
             if (!IsSessionValid(doc))
             {
-                return new TatoebaResponse<List<SentenceSet>>
+                return new TatoebaResponse<SearchResults>
                 {
                     Status = TatoebaStatus.InvalidSession,
                 };
             }
 
-            List<SentenceSet> results = new List<SentenceSet>();
+            SearchResults results = new SearchResults();
 
-            foreach(var nodeSet in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentences_set']"))
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//span[@class='pageNumber' or @class='current pageNumber']"))
+            {
+                var nav = node.CreateNavigator();
+                string pageNumber = nav.Evaluate<string>("string(.)");
+
+                if(!results.Pages.Contains(pageNumber))
+                {
+                    results.Pages.Add(pageNumber);
+                }
+            }
+
+            results.Pages = ReworkPages(results.Pages);
+
+            foreach (var nodeSet in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentences_set']"))
             {
                 string itemsPath = ".//*[@class='sentence mainSentence']|.//*[@class='translations']/*[@data-sentence-id]|.//div[@class='more']/*[@data-sentence-id]";
 
                 SentenceSet sentenceSet = new SentenceSet();
 
-                results.Add(sentenceSet);
+                results.Results.Add(sentenceSet);
 
                 foreach (var node in nodeSet.SelectNodesOrEmpty(itemsPath))
                 {
@@ -264,12 +313,12 @@ namespace Tatoeba.Mobile.Services
                 }
             }
 
-            foreach (var item in results.SelectMany(x=>x.Sentences))
+            foreach (var item in results.Results.SelectMany(x=>x.Sentences))
             {
                 item.Language = MainService.Languages.Where(x => x.Iso == item.Language.Iso).SingleOrDefault();
             }
 
-            return new TatoebaResponse<List<SentenceSet>>
+            return new TatoebaResponse<SearchResults>
             {
                 Content = results,
             };

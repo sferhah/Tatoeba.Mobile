@@ -65,7 +65,7 @@ namespace Tatoeba.Mobile.ViewModels
             }
         }
 
-        public List<SentenceSet> SearchResults;
+        public SearchResults SearchResults;
 
         public async Task<bool> ExecuteSearchCommand()
         {
@@ -76,7 +76,7 @@ namespace Tatoeba.Mobile.ViewModels
 
             IsBusy = true;
 
-            var response = await MainService.SearchAsync(SearchText,
+            var response = await MainService.SearchAsync(1, SearchText,
                 SelectedLanguageSource.Iso,
                 SelectedLanguageTarget.Iso,
                 NullableBooleanStringToNullableBool(IsOrphan),

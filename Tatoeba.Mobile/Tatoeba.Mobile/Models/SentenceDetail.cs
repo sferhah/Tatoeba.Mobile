@@ -42,6 +42,10 @@ namespace Tatoeba.Mobile.Models
 
         public bool EnableShowMore => (AllTranslations.Count() - MinTranslations.Count()) > 0;
 
+        public IEnumerable<object> CollapsableSentences => IsExpanded ? 
+            new List<object> { Original }.Concat(ExpandedTranslations)
+            : new List<object> { Original }.Concat(CollapsedTranslations);
+
         public IEnumerable<object> CollapsableTranslations => IsExpanded ? ExpandedTranslations : CollapsedTranslations;
 
         public IEnumerable<object> CollapsedTranslations

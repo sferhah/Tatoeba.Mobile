@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -58,11 +59,11 @@ namespace Tatoeba.Mobile.Services
             //    TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
             //    TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
             //}
-
-            await AppDbContext.InitAsync().ConfigureAwait(false);
-
+            
             using (AppDbContext context = new AppDbContext())
             {
+                await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
+
                 Languages = await context.Languages.OrderBy(x => x.Label).ToListAsync().ConfigureAwait(false);
 
                 if (Languages.Count() == 0)
@@ -129,7 +130,7 @@ namespace Tatoeba.Mobile.Services
             return languages;
         }
 
-        public static async Task<TatoebaResponse<List<SentenceSet>>> SearchAsync(string text,
+        public static async Task<TatoebaResponse<SearchResults>> SearchAsync(int page, string text,
             string isoFrom, 
             string isoTo,
             bool? isOrphan = false,
@@ -157,9 +158,23 @@ namespace Tatoeba.Mobile.Services
                 $"&trans_unapproved={trans_unapproved}" +
                 $"&trans_has_audio={trans_has_audio}";
 
-            var response = await client.GetStringAsync(url).ConfigureAwait(false);
+            
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            return TatoebaScraper.ParseSearchResults(response);            
+            var strResponse = await client.GetStringAsync(url).ConfigureAwait(false);
+
+            Debug.WriteLine("Elapsed 1 " + stopwatch.ElapsedMilliseconds);
+
+            var response = TatoebaScraper.ParseSearchResults(strResponse);            
+
+            if (response.Content != null)
+            {
+                response.Content.Query = text;
+                response.Content.CurrentPage = page;
+            }
+
+            return response;
         }
 
         public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)

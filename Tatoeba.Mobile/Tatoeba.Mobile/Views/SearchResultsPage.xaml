@@ -55,7 +55,7 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
-                <StackLayout x:Name="pages_container" IsVisible="{Binding EnablePagination}" Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
+                <StackLayout IsVisible="{Binding EnablePagination}" Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
                     <Button Text="◀" TextColor="{Binding PreviousTextColor}" BackgroundColor="Transparent" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding EnablePrevious}" />
                     <Picker ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" />
                     <Button Text="▶" TextColor="{Binding NextTextColor}" BackgroundColor="Transparent" Command="{Binding NextPageCommand}" IsEnabled="{Binding EnableNext}"/>

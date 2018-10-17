@@ -32,5 +32,11 @@ namespace Tatoeba.Mobile.Storage
             set => AppSettings.AddOrUpdateValue(nameof(LastIsoSearchTo), value);
         }
 
+        public static string LastRandomIso
+        {
+            get => AppSettings.GetValueOrDefault(nameof(LastRandomIso), null);
+            set => AppSettings.AddOrUpdateValue(nameof(LastRandomIso), value);
+        }
+
     }
 }

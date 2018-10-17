@@ -9,6 +9,8 @@ namespace Tatoeba.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SentenceDetailPage : TatoebaContentPage<SentenceDetailViewModel>
     {
+        public SentenceDetailPage() : this(null) { }
+
         public SentenceDetailPage(string itemId)
         {
             InitializeComponent();

@@ -100,6 +100,14 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
+                <StackLayout IsVisible="{Binding EnableRandom}" Orientation="Vertical"  HorizontalOptions="CenterAndExpand">                    
+                    <Picker  ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  />
+                    <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
+                        <Button Text="« previous"  BackgroundColor="{Binding PreviousBackgroundColor}" Command="{Binding PreviousSentenceCommand}" IsEnabled="{Binding EnablePrevious}" />
+                        <Button Text="next »"  BackgroundColor="{Binding NextBackgroundColor}" Command="{Binding NextSentenceCommand}" IsEnabled="{Binding EnableNext}"/>
+                        <Button Text="random"  BackgroundColor="#D3F3B9" Command="{Binding LoadItemsCommand}" IsEnabled="{Binding EnableNext}"/>
+                    </StackLayout>
+                </StackLayout>
                 <ListView x:Name="ItemsListView" 
                             IsGroupingEnabled="true" 
                           SeparatorColor="Transparent"

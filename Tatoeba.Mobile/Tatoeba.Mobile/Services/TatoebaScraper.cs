@@ -168,10 +168,15 @@ namespace Tatoeba.Mobile.Services
                 };
             }
 
+            var docNav = doc.CreateNavigator();
+
             SentenceDetail setenceDetails = new SentenceDetail
             {
-                IsEditable = doc.CreateNavigator().Evaluate<bool>(XpathConfig.SentenceDetailConfig.TranslationConfig.IsEditablePath)
+                IsEditable = docNav.Evaluate<bool>(XpathConfig.SentenceDetailConfig.TranslationConfig.IsEditablePath),
+                PreviousId = docNav.Evaluate<string>("string(//ul//li[@id='prevSentence']/a/@href)")?.Split('/').Last(),
+                NextId = docNav.Evaluate<string>("string(//ul//li[@id='nextSentence']/a/@href)")?.Split('/').Last(),
             };
+
 
             foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SentenceDetailConfig.TranslationConfig.ItemsPath))
             {

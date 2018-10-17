@@ -6,6 +6,12 @@
             x:Class="Tatoeba.Mobile.Views.MainPage">
     <TabbedPage.Children>
 
+        <NavigationPage Title="Random" Icon="dice.png">
+            <x:Arguments>
+                <views:SentenceDetailPage />
+            </x:Arguments>
+        </NavigationPage>
+        
         <NavigationPage Title="Search" Icon="search.png">
             <x:Arguments>
                 <views:SearchPage />
@@ -16,7 +22,7 @@
             <x:Arguments>
               <views:ContributionsPage />
             </x:Arguments>
-        </NavigationPage>
-    
+        </NavigationPage>       
+
     </TabbedPage.Children>
 </TabbedPage>

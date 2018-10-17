@@ -223,7 +223,7 @@ namespace Tatoeba.Mobile.Services
             };            
         }
 
-        public static List<string> ReworkPages(List<string> input)
+        public static int GetPageCount(List<string> input)
         {
             input = input.Distinct().ToList();
 
@@ -237,22 +237,7 @@ namespace Tatoeba.Mobile.Services
                 }
             }
 
-            List<int> ls = new List<int>();
-
-            for (int i = 0; i < input_int.Count - 1; i++)
-            {
-                if (input_int[i] + 1 < input_int[i + 1])
-                {
-                    ls.Add(input_int[i]);
-                }
-            }
-
-            foreach (var j in ls)
-            {
-                input_int.Insert(input_int.IndexOf(j) + 1, -1);
-            }
-
-            return input_int.Select(x => x > 0 ? x.ToString() : "...").ToList();
+            return input_int.Max();           
         }
 
         public static TatoebaResponse<SearchResults> ParseSearchResults(string result)
@@ -277,18 +262,20 @@ namespace Tatoeba.Mobile.Services
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            List<string> pages = new List<string>();
+
             foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//span[@class='pageNumber' or @class='current pageNumber']"))
             {
                 var nav = node.CreateNavigator();
                 string pageNumber = nav.Evaluate<string>("string(.)");
 
-                if(!results.Pages.Contains(pageNumber))
+                if(!pages.Contains(pageNumber))
                 {
-                    results.Pages.Add(pageNumber);
+                    pages.Add(pageNumber);
                 }
             }
 
-            results.Pages = ReworkPages(results.Pages);
+            results.PageCount = GetPageCount(pages);
 
             foreach (var nodeSet in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentences_set']"))
             {

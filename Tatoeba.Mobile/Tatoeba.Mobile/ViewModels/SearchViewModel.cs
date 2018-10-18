@@ -20,9 +20,9 @@ namespace Tatoeba.Mobile.ViewModels
         }
 
         public string IsOrphan { get; set; } = "No";
-        public string IsTransOrphan { get; set; } = "No";
+        public string IsTransOrphan { get; set; } = "Any";
         public string IsUnapproved { get; set; } = "No";
-        public string IsTransUnapproved { get; set; } = "No";
+        public string IsTransUnapproved { get; set; } = "Any";
         public string HasAudio { get; set; } = "Any";
         public string TransHasAudio { get; set; } = "Any";
 

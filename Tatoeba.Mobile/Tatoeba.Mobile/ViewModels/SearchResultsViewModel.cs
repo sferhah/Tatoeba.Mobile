@@ -46,8 +46,8 @@ namespace Tatoeba.Mobile.ViewModels
         }
 
         public bool EnablePagination => searchResults.PageCount > 0;
-        public bool EnablePrevious => searchResults.Request.Page != Pages.First();
-        public bool EnableNext => searchResults.Request.Page != Pages.Last();
+        public bool EnablePrevious => searchResults.Request.Page != Pages.FirstOrDefault();
+        public bool EnableNext => searchResults.Request.Page != Pages.LastOrDefault();
         public string PreviousTextColor => EnablePrevious ? "#4CAF50" : "Gray";
         public string NextTextColor => EnableNext ? "#4CAF50" : "Gray";
 

@@ -242,7 +242,7 @@ namespace Tatoeba.Mobile.Services
                 }
             }
 
-            return input_int.Max();           
+            return input_int.Any() ? input_int.Max() : 0;
         }
 
         public static TatoebaResponse<SearchResults> ParseSearchResults(string result)

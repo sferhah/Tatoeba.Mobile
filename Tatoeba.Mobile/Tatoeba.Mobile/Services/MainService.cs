@@ -80,7 +80,7 @@ namespace Tatoeba.Mobile.Services
 
             if (exists)
             {
-                client.cookies = await ReadCookiesFromDisk(cookies_file_name).ConfigureAwait(false);
+                client.Cookies = await ReadCookiesFromDisk(cookies_file_name).ConfigureAwait(false);
             }
 
             return exists;
@@ -89,7 +89,7 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task ClearCookiers()
         {
-            client.cookies = new CookieContainer();
+            client.Cookies = new CookieContainer();
             var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;            
 
             if(!exists)
@@ -151,13 +151,7 @@ namespace Tatoeba.Mobile.Services
                 $"&trans_unapproved={trans_unapproved}" +
                 $"&trans_has_audio={trans_has_audio}";
 
-            
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             var strResponse = await client.GetStringAsync(url).ConfigureAwait(false);
-
-            Debug.WriteLine("Elapsed 1 " + stopwatch.ElapsedMilliseconds);
 
             var response = TatoebaScraper.ParseSearchResults(strResponse);            
 
@@ -178,7 +172,8 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaResponse<SentenceDetail>> GetSentenceDetail(string id)
         {
-            var result = await client.GetStringAsync(TatoebaConfig.UrlConfig.Sentence + id).ConfigureAwait(false);
+            var result = await client.GetStringAsync(TatoebaConfig.UrlConfig.Sentence + id).ConfigureAwait(false);          
+
             var response = TatoebaScraper.ParseSetenceDetail(result);
 
             if(response.Content != null)
@@ -251,7 +246,7 @@ namespace Tatoeba.Mobile.Services
                 + "&" + "data[_Token][unlocked]".UrlEncode() + "=" + "";
 
 
-            string respStr = await client.PostAndSaveCookiesAsync(TatoebaConfig.UrlConfig.Login, postData, true).ConfigureAwait(false);
+            string respStr = await client.PostAsync(TatoebaConfig.UrlConfig.Login, postData).ConfigureAwait(false);
 
             HtmlDocument responseDoc = new HtmlDocument
             {
@@ -264,7 +259,7 @@ namespace Tatoeba.Mobile.Services
 
             if (success)
             {
-                await WriteCookiesToDisk(cookies_file_name, client.cookies).ConfigureAwait(false);
+                await WriteCookiesToDisk(cookies_file_name, client.Cookies).ConfigureAwait(false);
             }
 
             return success;

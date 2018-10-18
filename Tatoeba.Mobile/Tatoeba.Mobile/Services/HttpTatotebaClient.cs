@@ -7,7 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tatoeba.Mobile.Services
-{   
+{
+    public class InvalidSessionException : Exception { }
+
+    public enum TatoebaStatus { Success, InvalidSession, ParsingError, Error, }
+
+    public class TatoebaResponse<T>
+    {
+        public T Content;
+        public TatoebaStatus Status;
+    }
+
     public class HttpTatotebaClient
     {       
         private HttpClient client;
@@ -42,38 +52,69 @@ namespace Tatoeba.Mobile.Services
             set => InitClient(value);
         }
         
-        public async Task<T> GetAsync<T>(string requestUri, Type[] parsers) where T : class
+        public async Task<TatoebaResponse<T>> GetAsync<T>(string requestUri) where T : class
         {
             var resp = await GetStringAsync(requestUri);
-            return Deserialize<T>(resp, parsers);
+            return Deserialize<T>(resp);
         }
 
-        public async Task<T> PostAsync<T>(string requestUri, string postData, Type[] parsers) where T : class
+        public async Task<TatoebaResponse<T>> PostAsync<T>(string requestUri, string postData) where T : class
         {
             var resp = await PostAsync(requestUri, postData);
-            return Deserialize<T>(resp, parsers);
+            return Deserialize<T>(resp);
         }
 
-        public T Deserialize<T>(string resp, Type[] parsers) where T : class
+        public TatoebaResponse<T> Deserialize<T>(string resp) where T : class
         {
             var resType = typeof(T);
 
             if (resType == typeof(string))
             {
-                return resp as T;
+                return new TatoebaResponse<T>
+                {
+                    Content = resp as T,
+                };
             }
 
-            var m = parsers.SelectMany(t => t.GetMethods())
+            var m = typeof(TatoebaScraper).GetMethods()
               .Where(x => x.IsPublic
               && x.IsStatic
               && x.ReturnType == resType
               && x.GetParameters().Count() == 1
               && x.GetParameters().First().ParameterType == typeof(string))
-              .LastOrDefault() ?? throw new Exception("No method returns " + resType.Name);
+              .LastOrDefault();
 
-            return m.Invoke(null, new object[] { resp }) as T;
+            if(m == null)
+            {
+                return new TatoebaResponse<T>
+                {
+                    Status = TatoebaStatus.ParsingError,
+                };
+            }
+
+            try
+            {
+                return new TatoebaResponse<T>
+                {
+                    Content = m.Invoke(null, new object[] { resp }) as T,
+                    Status = TatoebaStatus.Success,
+                };
+            }
+            catch(InvalidSessionException)
+            {
+                return new TatoebaResponse<T>
+                {
+                    Status = TatoebaStatus.InvalidSession,
+                };
+            }
+            catch (Exception)
+            {
+                return new TatoebaResponse<T>
+                {
+                    Status = TatoebaStatus.ParsingError,
+                };
+            }
         }
-
 
         /// <summary>Gets the text of page from web.</summary>
         /// <param name="requestUri">Absolute URI of page to get.</param>

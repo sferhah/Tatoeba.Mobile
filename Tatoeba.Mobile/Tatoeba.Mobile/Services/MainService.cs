@@ -151,9 +151,7 @@ namespace Tatoeba.Mobile.Services
                 $"&trans_unapproved={trans_unapproved}" +
                 $"&trans_has_audio={trans_has_audio}";
 
-            var strResponse = await client.GetStringAsync(url).ConfigureAwait(false);
-
-            var response = TatoebaScraper.ParseSearchResults(strResponse);            
+            var response = await client.GetAsync<SearchResults>(url).ConfigureAwait(false);
 
             if (response.Content != null)
             {
@@ -163,25 +161,20 @@ namespace Tatoeba.Mobile.Services
             return response;
         }
 
-        public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language)
-        {
-            var response = await client.GetStringAsync(TatoebaConfig.UrlConfig.LatestContribs + language).ConfigureAwait(false);
-            return TatoebaScraper.ParseContribs(response);
-        }
+        public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language) 
+            => await client.GetAsync<Contribution[]>(TatoebaConfig.UrlConfig.LatestContribs + language).ConfigureAwait(false);
 
 
         public static async Task<TatoebaResponse<SentenceDetail>> GetSentenceDetail(string id)
         {
-            var result = await client.GetStringAsync(TatoebaConfig.UrlConfig.Sentence + id).ConfigureAwait(false);          
+            var result = await client.GetAsync<SentenceDetail>(TatoebaConfig.UrlConfig.Sentence + id).ConfigureAwait(false);            
 
-            var response = TatoebaScraper.ParseSetenceDetail(result);
-
-            if(response.Content != null)
+            if(result.Content != null)
             {
-                response.Content.Id = id;
+                result.Content.Id = id;
             }
             
-            return response;
+            return result;
         }
 
 

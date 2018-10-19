@@ -54,10 +54,27 @@
             
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                     Margin="0,0,0,0">
+                     Margin="0,0,0,0">      
+                <Grid IsVisible="{Binding EnableBrowsing}"  HorizontalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />                     
+                    </Grid.RowDefinitions>             
+                    <Label Text="Language" VerticalOptions="Center" Grid.Column="0"  Margin="5,0,0,0" />
+                    <Label Text="Translation in" VerticalOptions="Center" Grid.Column="1" Margin="5,0,0,0" />
+                    <Picker  Grid.Column="0"  Grid.Row="1"
+                        ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceSource}"  HorizontalOptions="FillAndExpand" />
+                    <Picker  Grid.Column="1" Grid.Row="1"
+                        ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  HorizontalOptions="FillAndExpand" />                    
+                </Grid>
+
                 <StackLayout IsVisible="{Binding EnablePagination}" Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
                     <Button Text="◀" TextColor="{Binding PreviousTextColor}" BackgroundColor="Transparent" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding EnablePrevious}" />
-                    <Picker ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" />
+                    <local:PagePicker ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" />
                     <Button Text="▶" TextColor="{Binding NextTextColor}" BackgroundColor="Transparent" Command="{Binding NextPageCommand}" IsEnabled="{Binding EnableNext}"/>
                 </StackLayout>
                 <ListView x:Name="ItemsListView" 

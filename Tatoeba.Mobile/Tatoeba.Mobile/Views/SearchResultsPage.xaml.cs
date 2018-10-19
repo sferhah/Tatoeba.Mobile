@@ -8,6 +8,12 @@ namespace Tatoeba.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SearchResultsPage : TatoebaContentPage<SearchResultsViewModel>
     {
+        public SearchResultsPage()
+        {
+            InitializeComponent();
+            ViewModel = new SearchResultsViewModel();
+        }
+
         public SearchResultsPage(SearchResults searchResults)
         {
             InitializeComponent();
@@ -28,6 +34,16 @@ namespace Tatoeba.Mobile.Views
                 await Navigation.PushAsync(new SentenceDetailPage(item.Id));
                 ItemsListView.SelectedItem = null;
                 return;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (ViewModel.EnableBrowsing && ViewModel.GroupedCells.Count == 0)
+            {
+                ViewModel.ExecuteSearchCommand(1);
             }
         }
     }

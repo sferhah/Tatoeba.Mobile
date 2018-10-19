@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Services;
+using Tatoeba.Mobile.Storage;
 using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.ViewModels
@@ -12,12 +13,32 @@ namespace Tatoeba.Mobile.ViewModels
     {
         public SearchResults searchResults;
 
+        public SearchResultsViewModel()
+        {
+            this.Title = "Browse by language";
+
+            SelectedLanguage = MainService.Languages.Where(x => x.Iso == (LocalSettings.LastBrowsedIso ?? "eng")).FirstOrDefault();
+
+            this.searchResults = new SearchResults();
+            this.searchResults.Request.Mode = QueryMode.Browse;
+            searchResults.Request.IsoFrom = LocalSettings.LastBrowsedIso = SelectedLanguage.Iso;
+            searchResults.Request.Page = 1;
+
+            Init();
+            
+        }
+
         public SearchResultsViewModel(SearchResults searchResults)
         {
             this.Title = "Search: " + searchResults.Request.Text;
             this.searchResults = searchResults;
-            Pages = Enumerable.Range(1, searchResults.PageCount).ToList();
+            SelectedLanguage = MainService.Languages.Where(x => x.Iso == LocalSettings.LastIsoSearchFrom).FirstOrDefault();
 
+            Init();
+        }
+
+        private void Init()
+        {   
             ToggleCommand = new Command(async (i) => await ToggleExpand((SentenceSet)i));
             ChangePageCommand = new Command<int>(async (i) => await ExecuteSearchCommand(i));
             PreviousPageCommand = new Command(async () => await ExecuteSearchCommand(searchResults.Request.Page - 1));
@@ -29,14 +50,36 @@ namespace Tatoeba.Mobile.ViewModels
         public ObservableCollection<Grouping<string, object>> GroupedCells { get; private set; } 
             = new ObservableCollection<Grouping<string, object>>();
 
-        public List<int> Pages { get; private set; }
+
+        public Language SelectedLanguage { get; set; }
+        public IEnumerable<string> LanguageList => MainService.Languages?.Select(c => c.Label).ToList(); // To List needed by xamarin forms picker
+        public string LanguageChoiceSource
+        {
+            get => SelectedLanguage?.Label;
+            set
+            {
+                if (IsBusy || value == LanguageChoiceSource)
+                {
+                    return;
+                }
+
+                SelectedLanguage = MainService.Languages.FirstOrDefault(c => c.Label == value);
+                searchResults.Request.IsoFrom = LocalSettings.LastBrowsedIso = SelectedLanguage.Iso;
+                searchResults.Request.Page = 1;
+
+                ExecuteSearchCommand(1);
+            }
+        }
+
+
+        public List<int> Pages => Enumerable.Range(1, searchResults.PageCount).ToList();
 
         public int SelectedPage
         {
             get => this.searchResults.Request.Page;
             set
             {
-                if (value == this.searchResults.Request.Page)
+                if (value == 0 || value == SelectedPage)
                 {
                     return;
                 }
@@ -45,6 +88,7 @@ namespace Tatoeba.Mobile.ViewModels
             }
         }
 
+        public bool EnableBrowsing => this.searchResults.Request.Mode == QueryMode.Browse;
         public bool EnablePagination => searchResults.PageCount > 0;
         public bool EnablePrevious => searchResults.Request.Page != Pages.FirstOrDefault();
         public bool EnableNext => searchResults.Request.Page != Pages.LastOrDefault();
@@ -82,7 +126,7 @@ namespace Tatoeba.Mobile.ViewModels
 
             searchResults.Request.Page = page;
 
-            var response = await MainService.SearchAsync(searchResults.Request);
+            var response = await MainService.GetSentencesAsync(searchResults.Request);
 
             if (response.Status != TatoebaStatus.Success)
             {
@@ -91,16 +135,19 @@ namespace Tatoeba.Mobile.ViewModels
                 return;
             }
             
-            searchResults = response.Content;
-            PopulateList();
+            searchResults = response.Content;            
 
+            OnPropertyChanged(nameof(EnablePagination));
             OnPropertyChanged(nameof(EnablePrevious));
             OnPropertyChanged(nameof(EnableNext));
             OnPropertyChanged(nameof(PreviousTextColor));
             OnPropertyChanged(nameof(NextTextColor));
+            OnPropertyChanged(nameof(Pages));
             OnPropertyChanged(nameof(SelectedPage));
 
-            IsBusy = false;      
+            IsBusy = false;
+
+            PopulateList();
         }
 
         private void PopulateList()

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -42,7 +41,6 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<bool> InitAsync()
         {
-
             //var json = JsonConvert.SerializeObject(new TatoebaConfig(), new JsonSerializerSettings
             //{
             //    Formatting = Formatting.Indented,
@@ -50,7 +48,7 @@ namespace Tatoeba.Mobile.Services
 
             TatoebaConfig = await GetTatoebaConfig().ConfigureAwait(false);
             TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
-            
+
             //using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.TatoebaConfigFileName))
             //{
             //    StreamReader reader = new StreamReader(stream);
@@ -59,7 +57,7 @@ namespace Tatoeba.Mobile.Services
             //    TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
             //    TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
             //}
-            
+
             using (AppDbContext context = new AppDbContext())
             {
                 await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
@@ -90,9 +88,9 @@ namespace Tatoeba.Mobile.Services
         public static async Task ClearCookiers()
         {
             client.Cookies = new CookieContainer();
-            var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;            
+            var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;
 
-            if(!exists)
+            if (!exists)
             {
                 return;
             }
@@ -128,7 +126,11 @@ namespace Tatoeba.Mobile.Services
             await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
 
             return languages;
-        }      
+        }
+
+
+        public static async Task<TatoebaResponse<SearchResults>> GetSentencesAsync(SearchRequest request)
+            => request.Mode == QueryMode.Search ? await SearchAsync(request) : await BrowseAsync(request);
 
         public static async Task<TatoebaResponse<SearchResults>> SearchAsync(SearchRequest request)
         {
@@ -161,6 +163,22 @@ namespace Tatoeba.Mobile.Services
             return response;
         }
 
+        public static async Task<TatoebaResponse<SearchResults>> BrowseAsync(SearchRequest request)
+        {   
+            string url = TatoebaConfig.UrlConfig.Browse + 
+                $"{request.IsoFrom ?? "und"}/none/indifferent/page:{request.Page}";
+
+            var response = await client.GetAsync<SearchResults>(url).ConfigureAwait(false);
+
+            if (response.Content != null)
+            {
+                response.Content.Request = request;
+            }
+
+            return response;
+        }
+
+
         public static async Task<TatoebaResponse<Contribution[]>> GetLatestContributions(string language) 
             => await client.GetAsync<Contribution[]>(TatoebaConfig.UrlConfig.LatestContribs + language).ConfigureAwait(false);
 
@@ -185,7 +203,7 @@ namespace Tatoeba.Mobile.Services
              + "&" + "selectLang" + "=" + sentence.Language.Iso.UrlEncode()
              + "&" + "value" + "=" + sentence.Text.UrlEncode();
 
-            string respStr = await client.PostAsync(TatoebaConfig.UrlConfig.SaveTranslation, postData).ConfigureAwait(false);
+            var resp = await client.PostAsync<string>(TatoebaConfig.UrlConfig.SaveTranslation, postData).ConfigureAwait(false);
 
 
             HtmlDocument doc = new HtmlDocument
@@ -193,7 +211,7 @@ namespace Tatoeba.Mobile.Services
                 OptionFixNestedTags = true
             };
 
-            doc.LoadHtml(respStr);
+            doc.LoadHtml(resp.Content);
 
             return doc.CreateNavigator().Evaluate<string>("string(//*[@class=\"sentenceContent\"]/@data-sentence-id)");
         }
@@ -204,7 +222,7 @@ namespace Tatoeba.Mobile.Services
             string postData = "value" + "=" + sentence.Text.UrlEncode()
                 + "&" + "id=" + sentence.Language.Iso + "_" + sentence.Id.UrlEncode();
 
-            await client.PostAsync(TatoebaConfig.UrlConfig.EditSentence, postData).ConfigureAwait(false);
+            await client.PostAsync<string>(TatoebaConfig.UrlConfig.EditSentence, postData).ConfigureAwait(false);
         }
 
         static XpathLoginConfig XpathLoginConfig => TatoebaScraper.XpathConfig.LoginConfig;
@@ -212,14 +230,19 @@ namespace Tatoeba.Mobile.Services
         /// <summary>Logs in and retrieves cookies.</summary>
         public static async Task<bool> LogInAsync(string userName, string userPass)
         {
-            var result = await client.GetStringAsync(TatoebaConfig.UrlConfig.Main).ConfigureAwait(false);
+            var result = await client.GetAsync<string>(TatoebaConfig.UrlConfig.Main).ConfigureAwait(false);
+
+            if(result.Status != TatoebaStatus.Success)
+            {
+                return false;
+            }
 
             HtmlDocument doc = new HtmlDocument
             {
                 OptionFixNestedTags = true
             };
 
-            doc.LoadHtml(result);
+            doc.LoadHtml(result.Content);
 
             var key_value = doc.CreateNavigator().Evaluate<string>(XpathLoginConfig.KeyPath);
 
@@ -239,14 +262,14 @@ namespace Tatoeba.Mobile.Services
                 + "&" + "data[_Token][unlocked]".UrlEncode() + "=" + "";
 
 
-            string respStr = await client.PostAsync(TatoebaConfig.UrlConfig.Login, postData).ConfigureAwait(false);
+            var resp = await client.PostAsync<string>(TatoebaConfig.UrlConfig.Login, postData).ConfigureAwait(false);
 
             HtmlDocument responseDoc = new HtmlDocument
             {
                 OptionFixNestedTags = true
             };
 
-            responseDoc.LoadHtml(respStr);            
+            responseDoc.LoadHtml(resp.Content);            
 
             var success = responseDoc.CreateNavigator().Evaluate<bool>(XpathLoginConfig.SuccessPath);
 

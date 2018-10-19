@@ -22,7 +22,14 @@
             <x:Arguments>
               <views:ContributionsPage />
             </x:Arguments>
-        </NavigationPage>       
+        </NavigationPage>
+        
+        <NavigationPage Title="Browse" Icon="last_contribs.png">
+            <x:Arguments>
+                <views:SearchResultsPage />
+            </x:Arguments>
+        </NavigationPage>
+
 
     </TabbedPage.Children>
 </TabbedPage>

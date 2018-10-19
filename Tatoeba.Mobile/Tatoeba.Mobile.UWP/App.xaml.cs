@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -51,7 +52,11 @@ namespace Tatoeba.Mobile.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                Xamarin.Forms.Forms.Init(e);
+                var assemblies = new List<Assembly>();
+
+                assemblies.AddRange(Rg.Plugins.Popup.Popup.GetExtraAssemblies());
+
+                Xamarin.Forms.Forms.Init(e, assemblies);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

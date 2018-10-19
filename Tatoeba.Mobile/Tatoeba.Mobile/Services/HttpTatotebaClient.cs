@@ -15,7 +15,7 @@ namespace Tatoeba.Mobile.Services
     public class TatoebaResponse<T>
     {
         public T Content;
-        public TatoebaStatus Status;
+        public TatoebaStatus Status;    
     }
 
     public class HttpTatotebaClient
@@ -54,14 +54,44 @@ namespace Tatoeba.Mobile.Services
         
         public async Task<TatoebaResponse<T>> GetAsync<T>(string requestUri) where T : class
         {
-            var resp = await GetStringAsync(requestUri);
-            return Deserialize<T>(resp);
+            HttpResponseMessage resp;
+
+            try
+            {
+                resp = await client.GetAsync(requestUri).ConfigureAwait(false);
+                resp.EnsureSuccessStatusCode();
+            }
+            catch
+            {
+                return new TatoebaResponse<T>
+                {
+                    Status = TatoebaStatus.Error,
+                };
+            }
+
+            string respStr = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return Deserialize<T>(respStr);
         }
 
         public async Task<TatoebaResponse<T>> PostAsync<T>(string requestUri, string postData) where T : class
         {
-            var resp = await PostAsync(requestUri, postData);
-            return Deserialize<T>(resp);
+            HttpResponseMessage resp;
+
+            try
+            {
+                resp = await client.PostAsync(requestUri, new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
+                resp.EnsureSuccessStatusCode();
+            }
+            catch
+            {
+                return new TatoebaResponse<T>
+                {
+                    Status = TatoebaStatus.Error,
+                };
+            }
+
+            string respStr = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return Deserialize<T>(respStr);
         }
 
         public TatoebaResponse<T> Deserialize<T>(string resp) where T : class
@@ -82,15 +112,7 @@ namespace Tatoeba.Mobile.Services
               && x.ReturnType == resType
               && x.GetParameters().Count() == 1
               && x.GetParameters().First().ParameterType == typeof(string))
-              .LastOrDefault();
-
-            if(m == null)
-            {
-                return new TatoebaResponse<T>
-                {
-                    Status = TatoebaStatus.ParsingError,
-                };
-            }
+              .LastOrDefault() ?? throw new Exception("No method returns " + resType.Name);      
 
             try
             {
@@ -115,21 +137,6 @@ namespace Tatoeba.Mobile.Services
                 };
             }
         }
-
-        /// <summary>Gets the text of page from web.</summary>
-        /// <param name="requestUri">Absolute URI of page to get.</param>
-        /// <returns>Returns source code.</returns>
-        public async Task<string> GetStringAsync(string requestUri)
-            => await client.GetStringAsync(requestUri);
-
-        /// <summary>Posts specified string to requested resource
-        /// and gets the result text.</summary>
-        /// <param name="requestUri">Absolute URI of page to get.</param>
-        /// <param name="postData">String to post to site with web request.</param>
-        /// <returns>Returns text.</returns>
-        public async Task<string> PostAsync(string requestUri, string postData)        
-           => await (await client.PostAsync(requestUri, new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded")))
-            .Content?.ReadAsStringAsync();
     }
 
 }

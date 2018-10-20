@@ -1,10 +1,11 @@
-﻿using Tatoeba.Mobile.Services;
+﻿using System.Threading.Tasks;
+using Tatoeba.Mobile.Services;
 using Tatoeba.Mobile.ViewModels;
 using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.Views
 {
-    public class TatoebaContentPage : ContentPage 
+    public abstract class TatoebaContentPage : ContentPage 
     {
         public TatoebaContentPage()
         {
@@ -22,11 +23,14 @@ namespace Tatoeba.Mobile.Views
             await MainService.ClearCookiers();
             Application.Current.MainPage = new LoginPage();
         }
+
+        public abstract void OnShow();
+        
     }
 
     public class TatoebaContentPage<T> : TatoebaContentPage where T : BaseViewModel
     {
-        public TatoebaContentPage() : base()  { }
+        public TatoebaContentPage() : base() { }
 
         private T _ViewModel;
         public T ViewModel
@@ -49,6 +53,23 @@ namespace Tatoeba.Mobile.Views
             {
                 LogOut();
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Navigation.NavigationStack.Count == 1) //Disables OnShow for Root Pages
+            {
+                return;
+            }
+
+            OnShow();
+        }
+
+        public override void OnShow()
+        {
+            ViewModel.OnShow();
         }
     }
 }

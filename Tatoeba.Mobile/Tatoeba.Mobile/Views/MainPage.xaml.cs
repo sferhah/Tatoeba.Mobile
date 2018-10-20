@@ -12,7 +12,7 @@ namespace Tatoeba.Mobile.Views
         public MainPage()
         {
             InitializeComponent();
-            CurrentPageChanged += async (s, e) => await CurrentPage.Navigation.PopToRootAsync();
+            CurrentPageChanged += MainPage_CurrentPageChanged;
 
             On<Android>().SetToolbarPlacement(Xamarin.Forms.PlatformConfiguration.AndroidSpecific.ToolbarPlacement.Bottom);
             On<Android>().SetBarSelectedItemColor(Color.FromHex("#4CAF50"));
@@ -27,6 +27,18 @@ namespace Tatoeba.Mobile.Views
             //    BarBackgroundColor = "#2196F3"
             //        android: TabbedPage.BarItemColor = "#66FFFFFF"
             //android: TabbedPage.BarSelectedItemColor = "White"
-        }  
+
+
+            ((TatoebaContentPage)(((NavigationPage)CurrentPage).RootPage)).OnShow();
+
+        }
+
+
+        private async void MainPage_CurrentPageChanged(object sender, System.EventArgs e)
+        {
+            await CurrentPage.Navigation.PopToRootAsync();
+            var page = (TatoebaContentPage)(((NavigationPage)CurrentPage).RootPage);
+            page.OnShow();
+        }
     }
 }

@@ -36,15 +36,5 @@ namespace Tatoeba.Mobile.Views
                 return;
             }
         }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (ViewModel.EnableBrowsing && ViewModel.GroupedCells.Count == 0)
-            {
-                ViewModel.ExecuteSearchCommand(1);
-            }
-        }
     }
 }

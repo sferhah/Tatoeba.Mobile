@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.ViewModels
@@ -14,6 +15,24 @@ namespace Tatoeba.Mobile.ViewModels
 
     public class BaseViewModel : INotifyPropertyChanged
     {
+        protected bool firstAppear = true;
+        public async Task OnShow()
+        {
+            if (firstAppear)
+            {
+                await Task.Delay(100); //Allow the view to render.
+                firstAppear = false;
+                OnFirstAppear();
+            }
+            else
+            {
+                OnReappear();
+            }
+        }
+
+        protected virtual void OnFirstAppear() { }
+        protected virtual void OnReappear() { }
+
         public event EventHandler<ErrorEventArgs> Error;
         protected virtual void OnError(TatoebaStatus status)
         {

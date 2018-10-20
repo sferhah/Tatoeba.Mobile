@@ -1,5 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
-using Xamarin.Forms.Platform.UWP;
+﻿using Xamarin.Forms.Platform.UWP;
 
 [assembly: ExportRenderer(typeof(Tatoeba.Mobile.Views.MainPage), typeof(Tatoeba.Mobile.UWP.Renderers.MainTabPageRenderer))]
 namespace Tatoeba.Mobile.UWP.Renderers
@@ -18,8 +17,8 @@ namespace Tatoeba.Mobile.UWP.Renderers
 
         private void Control_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            if (e.OriginalSource is TextBlock src
-                 && src.Name == "TabbedPageHeaderTextBlock"
+            if (e.OriginalSource is Windows.UI.Xaml.FrameworkElement src
+                 && (src.Name == "TabbedPageHeaderTextBlock" || src.Name == "TabbedPageHeaderImage")
                  && Element is Tatoeba.Mobile.Views.MainPage)
             {
                 var newPage = src.DataContext as Xamarin.Forms.Page;
@@ -30,6 +29,6 @@ namespace Tatoeba.Mobile.UWP.Renderers
                 }
                 _prevPage = newPage;
             }
-        }
+        }       
     }
 }

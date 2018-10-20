@@ -47,6 +47,16 @@ namespace Tatoeba.Mobile.ViewModels
             PopulateList();
         }
 
+        protected override void OnFirstAppear()
+        {
+            base.OnFirstAppear();
+
+            if (EnableBrowsing && GroupedCells.Count == 0)
+            {
+                ExecuteSearchCommand(1);
+            }
+        }
+
         public ObservableCollection<Grouping<string, object>> GroupedCells { get; private set; } 
             = new ObservableCollection<Grouping<string, object>>();
 

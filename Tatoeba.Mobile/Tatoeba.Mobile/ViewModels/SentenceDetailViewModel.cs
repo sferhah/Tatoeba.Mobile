@@ -32,6 +32,14 @@ namespace Tatoeba.Mobile.ViewModels
             SelectedLanguage = MainService.Languages?.Where(x => x.Iso == LocalSettings.LastRandomIso).FirstOrDefault();
         }
 
+        protected override void OnFirstAppear()
+        {
+            base.OnFirstAppear();
+
+            if (GroupedCells.Count == 0)
+                LoadItemsCommand.Execute(null);
+        }
+
         public bool EnableRandom { get; set; }
         public bool EnablePrevious => true;
         public bool EnableNext => true;
@@ -45,7 +53,9 @@ namespace Tatoeba.Mobile.ViewModels
             get => SelectedLanguage?.Label;
             set
             {
-                if (IsBusy || value == null)
+                if (IsBusy
+                    || value == null
+                    || value == LanguageChoice)
                 {
                     return;
                 }

@@ -91,15 +91,7 @@ namespace Tatoeba.Mobile.Views
         private async void ViewModel_Save(object sender, EventArgs e)
         {
             ViewModel.LoadItemsCommand.Execute(null);
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (ViewModel.GroupedCells.Count == 0)
-                ViewModel.LoadItemsCommand.Execute(null);
-        }
+        }       
     }
 
     public class SentenceDetailTemplateSelector : DataTemplateSelector

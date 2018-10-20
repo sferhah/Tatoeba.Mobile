@@ -16,6 +16,15 @@ namespace Tatoeba.Mobile.ViewModels
             Title = "Recent";
             Items = new ObservableCollection<Contribution>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            SelectedLanguage = MainService.Languages?.Where(x => x.Iso == LocalSettings.LastIsoSelection).FirstOrDefault();
+        }
+
+        protected override void OnFirstAppear()
+        {
+            base.OnFirstAppear();
+
+            if (Items.Count == 0)
+                LoadItemsCommand.Execute(null);
         }
 
         public ObservableCollection<Contribution> Items { get; set; }
@@ -29,7 +38,8 @@ namespace Tatoeba.Mobile.ViewModels
             get => SelectedLanguage?.Label;
             set
             {
-                if(value == null)
+                if(value == null 
+                    || value == LanguageChoice)
                 {
                     return;
                 }
@@ -37,20 +47,12 @@ namespace Tatoeba.Mobile.ViewModels
                 SelectedLanguage = MainService.Languages.FirstOrDefault(c => c.Label == value);
                 LocalSettings.LastIsoSelection = SelectedLanguage.Iso;
 
-                Filter();
+                ExecuteLoadItemsCommand();
             }
         }
 
 
         async Task ExecuteLoadItemsCommand()
-        {   
-            SelectedLanguage = MainService.Languages?.Where(x => x.Iso == LocalSettings.LastIsoSelection).FirstOrDefault();
-
-            OnPropertyChanged(nameof(LanguageList));
-            OnPropertyChanged(nameof(LanguageChoice));
-        }
-
-        async Task Filter()
         {
             if (IsBusy)
                 return;

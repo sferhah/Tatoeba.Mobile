@@ -43,7 +43,7 @@
                     <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"  
                            WidthRequest="30" HeightRequest="20" Aspect="Fill"  
                            VerticalOptions="Center"/>
-                    <Picker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  HorizontalOptions="FillAndExpand" />                    
+                    <local:LanguagePicker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}" />                    
                 </StackLayout>
                 <StackLayout Margin="12,0,0,12" >
                     <Editor Text="{Binding Item.Text}" HeightRequest="100" />

@@ -100,8 +100,8 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
-                <StackLayout IsVisible="{Binding EnableRandom}" Orientation="Vertical"  HorizontalOptions="CenterAndExpand">                    
-                    <Picker  ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  />
+                <StackLayout IsVisible="{Binding EnableRandom}" Orientation="Vertical"  HorizontalOptions="CenterAndExpand">
+                    <local:LanguagePicker  ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  />
                     <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
                         <Button Text="« previous"  BackgroundColor="{Binding PreviousBackgroundColor}" Command="{Binding PreviousSentenceCommand}" IsEnabled="{Binding EnablePrevious}" />
                         <Button Text="next »"  BackgroundColor="{Binding NextBackgroundColor}" Command="{Binding NextSentenceCommand}" IsEnabled="{Binding EnableNext}"/>

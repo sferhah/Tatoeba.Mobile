@@ -24,7 +24,7 @@
             </x:Arguments>
         </NavigationPage>
         
-        <NavigationPage Title="Browse" Icon="last_contribs.png">
+        <NavigationPage Title="Browse" Icon="browse.png">
             <x:Arguments>
                 <views:SearchResultsPage />
             </x:Arguments>

@@ -105,6 +105,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="browse.png" />
     <Content Include="dice.png" />
     <Content Include="direct_translation.png" />
     <Content Include="edit.png" />

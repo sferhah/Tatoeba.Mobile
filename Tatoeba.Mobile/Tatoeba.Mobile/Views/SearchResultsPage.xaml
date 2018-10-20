@@ -66,9 +66,9 @@
                     </Grid.RowDefinitions>             
                     <Label Text="Language" VerticalOptions="Center" Grid.Column="0"  Margin="5,0,0,0" />
                     <Label Text="Translation in" VerticalOptions="Center" Grid.Column="1" Margin="5,0,0,0" />
-                    <Picker  Grid.Column="0"  Grid.Row="1"
+                    <local:LanguagePicker   Grid.Column="0"  Grid.Row="1"
                         ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceSource}"  HorizontalOptions="FillAndExpand" />
-                    <Picker  Grid.Column="1" Grid.Row="1"
+                    <local:LanguagePicker   Grid.Column="1" Grid.Row="1"
                         ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  HorizontalOptions="FillAndExpand" />                    
                 </Grid>
 

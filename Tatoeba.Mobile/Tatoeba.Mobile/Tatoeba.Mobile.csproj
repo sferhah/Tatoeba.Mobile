@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\NewSentencePage.xaml.cs">
+      <DependentUpon>NewSentencePage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>

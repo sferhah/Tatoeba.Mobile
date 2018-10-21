@@ -230,6 +230,13 @@ namespace Tatoeba.Mobile.Services
             return doc.CreateNavigator().Evaluate<string>("string(//*[@class=\"sentenceContent\"]/@data-sentence-id)");
         }
 
+        public static async Task AddNewSentence(SentenceBase sentence)
+        {
+            string postData = "value" + "=" + sentence.Text.UrlEncode()
+             + "&" + "selectedLang" + "=" + sentence.Language.Iso.UrlEncode();
+
+            await client.PostAsync<string>(TatoebaConfig.UrlConfig.NewSentence, postData).ConfigureAwait(false);
+        }
 
         public static async Task EditSentence(SentenceBase sentence)
         {

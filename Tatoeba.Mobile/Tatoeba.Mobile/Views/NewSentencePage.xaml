@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:TatoebaContentPage x:TypeArguments="viewModels:NewSentenceViewModel"
+            xmlns:local="clr-namespace:Tatoeba.Mobile.Views"
+            xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Tatoeba.Mobile.Converters"
+                          xmlns:viewModels="clr-namespace:Tatoeba.Mobile.ViewModels"
+                          x:Class="Tatoeba.Mobile.Views.NewSentencePage"
+           Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Command="{Binding CancelCommand}" Icon="cancel.png"/>
+        <ToolbarItem Text="Validate" Command="{Binding SaveCommand}" Icon="validate.png"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="White">
+            <StackLayout AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     Margin="0,0,0,0"
+                         Padding="10" >                           
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="original_sentence.png"
+                               WidthRequest="30" Grid.Column="0"   VerticalOptions="Center" />
+                    <Image Source="{Binding Flag, Converter={converters:ByteArrayToImageValueConverter}}"  
+                           WidthRequest="30" HeightRequest="20" Aspect="Fill"  
+                           VerticalOptions="Center"/>
+                </StackLayout>
+                <StackLayout Margin="12,0,0,12" >
+                    <Editor Text="{Binding Item.Text}" HeightRequest="100" />
+                </StackLayout>         
+            </StackLayout>
+            <Grid 
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+             BackgroundColor="Transparent"
+             Opacity="0.6"
+             Padding="10"
+             IsVisible="{Binding IsBusy}"
+         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <local:LoadingControl/>
+            </Grid>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</local:TatoebaContentPage>

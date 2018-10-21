@@ -27,7 +27,7 @@ namespace Tatoeba.Mobile.ViewModels
             searchResults.Request.Page = 1;
 
             Init();
-            
+
         }
 
         public SearchResultsViewModel(SearchResults searchResults)
@@ -40,7 +40,7 @@ namespace Tatoeba.Mobile.ViewModels
         }
 
         private void Init()
-        {   
+        {
             ToggleCommand = new Command(async (i) => await ToggleExpand((SentenceSet)i));
             ChangePageCommand = new Command<int>(async (i) => await ExecuteSearchCommand(i));
             PreviousPageCommand = new Command(async () => await ExecuteSearchCommand(searchResults.Request.Page - 1));
@@ -59,7 +59,7 @@ namespace Tatoeba.Mobile.ViewModels
             }
         }
 
-        public ObservableCollection<Grouping<string, object>> GroupedCells { get; private set; } 
+        public ObservableCollection<Grouping<string, object>> GroupedCells { get; private set; }
             = new ObservableCollection<Grouping<string, object>>();
 
 

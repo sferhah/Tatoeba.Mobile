@@ -2,6 +2,7 @@
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.ViewModels;
+using System;
 
 namespace Tatoeba.Mobile.Views
 {
@@ -12,6 +13,12 @@ namespace Tatoeba.Mobile.Views
         {
             InitializeComponent();
             ViewModel = new SearchResultsViewModel();
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "Add sentence",
+                Icon = "add.png",
+                Command = new Command(() => AddItem_Clicked()),
+            });
         }
 
         public SearchResultsPage(SearchResults searchResults)
@@ -19,6 +26,15 @@ namespace Tatoeba.Mobile.Views
             InitializeComponent();
             ViewModel = new SearchResultsViewModel(searchResults);
         }
+
+        async void AddItem_Clicked()
+        {
+            var target = new NewSentencePage(ViewModel.SelectedLanguage.Iso);
+
+            target.ViewModel.Save += (s,e) => ViewModel.ExecuteSearchCommand(1); 
+
+            await Navigation.PushModalAsync(new NavigationPage(target));
+        }        
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {

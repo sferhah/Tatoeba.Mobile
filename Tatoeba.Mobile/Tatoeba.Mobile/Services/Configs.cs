@@ -18,6 +18,7 @@
         public string Sentence { get; set; } = "https://tatoeba.org/eng/sentences/show/";
         public string SaveTranslation { get; set; } = "https://tatoeba.org/eng/sentences/save_translation";
         public string EditSentence { get; set; } = "https://tatoeba.org/eng/sentences/edit_sentence";
+        public string NewSentence { get; set; } = "https://tatoeba.org/eng/sentences/add_an_other_sentence";
     }
 
     public class XpathConfig

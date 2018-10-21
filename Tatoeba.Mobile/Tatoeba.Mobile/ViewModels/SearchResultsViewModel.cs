@@ -17,11 +17,13 @@ namespace Tatoeba.Mobile.ViewModels
         {
             this.Title = "Browse by language";
 
-            SelectedLanguage = MainService.Languages.Where(x => x.Iso == (LocalSettings.LastBrowsedIso ?? "eng")).FirstOrDefault();
+            SelectedLanguage = MainService.BrowsableLanguages.Where(x => x.Iso == (LocalSettings.LastBrowsedIso ?? "eng")).FirstOrDefault();
+            SelectedTransLanguage = MainService.TransBrowsableLanguages.Where(x => x.Iso == (LocalSettings.LastTransBrowsedIso ?? "none")).FirstOrDefault();
 
             this.searchResults = new SearchResults();
             this.searchResults.Request.Mode = QueryMode.Browse;
             searchResults.Request.IsoFrom = LocalSettings.LastBrowsedIso = SelectedLanguage.Iso;
+            searchResults.Request.IsoTo = LocalSettings.LastTransBrowsedIso = SelectedTransLanguage.Iso;
             searchResults.Request.Page = 1;
 
             Init();
@@ -62,7 +64,7 @@ namespace Tatoeba.Mobile.ViewModels
 
 
         public Language SelectedLanguage { get; set; }
-        public IEnumerable<string> LanguageList => MainService.Languages?.Select(c => c.Label).ToList(); // To List needed by xamarin forms picker
+        public IEnumerable<string> LanguageList => MainService.BrowsableLanguages?.Select(c => c.Label).ToList(); // To List needed by xamarin forms picker
         public string LanguageChoiceSource
         {
             get => SelectedLanguage?.Label;
@@ -73,11 +75,32 @@ namespace Tatoeba.Mobile.ViewModels
                     return;
                 }
 
-                SelectedLanguage = MainService.Languages.FirstOrDefault(c => c.Label == value);
+                SelectedLanguage = MainService.BrowsableLanguages.FirstOrDefault(c => c.Label == value);
                 searchResults.Request.IsoFrom = LocalSettings.LastBrowsedIso = SelectedLanguage.Iso;
                 searchResults.Request.Page = 1;
 
-                ExecuteSearchCommand(1);
+                ExecuteSearchCommand(searchResults.Request.Page);
+            }
+        }
+
+
+
+        public Language SelectedTransLanguage { get; set; }
+        public IEnumerable<string> TransLanguageList => MainService.TransBrowsableLanguages?.Select(c => c.Label).ToList(); // To List needed by xamarin forms picker
+        public string TransLanguageChoiceSource
+        {
+            get => SelectedTransLanguage?.Label;
+            set
+            {
+                if (IsBusy || value == TransLanguageChoiceSource)
+                {
+                    return;
+                }
+
+                SelectedTransLanguage = MainService.TransBrowsableLanguages.FirstOrDefault(c => c.Label == value);
+                searchResults.Request.IsoTo = LocalSettings.LastTransBrowsedIso = SelectedTransLanguage.Iso;
+
+                ExecuteSearchCommand(searchResults.Request.Page);
             }
         }
 

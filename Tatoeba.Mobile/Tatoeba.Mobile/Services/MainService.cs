@@ -35,7 +35,10 @@ namespace Tatoeba.Mobile.Services
 
         static HttpTatotebaClient client = new HttpTatotebaClient();
 
+        public static List<Language> IsoLanguages { get; set; }
         public static List<Language> Languages { get; set; }
+        public static List<Language> BrowsableLanguages { get; set; }
+        public static List<Language> TransBrowsableLanguages { get; set; }
 
         public static TatoebaConfig TatoebaConfig { get; set; }
 
@@ -62,17 +65,28 @@ namespace Tatoeba.Mobile.Services
             {
                 await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
 
-                Languages = await context.Languages.OrderBy(x => x.Label).ToListAsync().ConfigureAwait(false);
+                IsoLanguages = await context.Languages.OrderBy(x => x.Label).ToListAsync().ConfigureAwait(false);
 
-                if (Languages.Count() == 0)
+                if (IsoLanguages.Count() == 0)
                 {
-                    Languages = await GetLanguages().ConfigureAwait(false);
-                    await context.Languages.AddRangeAsync(Languages).ConfigureAwait(false);
+                    IsoLanguages = await GetLanguages().ConfigureAwait(false);
+                    await context.Languages.AddRangeAsync(IsoLanguages).ConfigureAwait(false);
                     await context.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
 
+            Languages = IsoLanguages.ToList();
             Languages.Insert(0, new Language { Flag = null, Iso = null, Label = "All languages" });
+
+            BrowsableLanguages = IsoLanguages.ToList();
+            BrowsableLanguages.Add(new Language { Flag = null, Iso = "unknown", Label = "Unknown language" });
+
+            TransBrowsableLanguages = IsoLanguages.ToList();
+            TransBrowsableLanguages.Insert(0, new Language { Flag = null, Iso = "und", Label = "All languages" });
+            TransBrowsableLanguages.Insert(0, new Language { Flag = null, Iso = "none", Label = "None" });
+
+
+
             var existence = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false);
             var exists = existence == PCLStorage.ExistenceCheckResult.FileExists;
 
@@ -166,7 +180,7 @@ namespace Tatoeba.Mobile.Services
         public static async Task<TatoebaResponse<SearchResults>> BrowseAsync(SearchRequest request)
         {   
             string url = TatoebaConfig.UrlConfig.Browse + 
-                $"{request.IsoFrom ?? "und"}/none/indifferent/page:{request.Page}";
+                $"{request.IsoFrom ?? "und"}/{request.IsoTo ?? "none"}/indifferent/page:{request.Page}";
 
             var response = await client.GetAsync<SearchResults>(url).ConfigureAwait(false);
 

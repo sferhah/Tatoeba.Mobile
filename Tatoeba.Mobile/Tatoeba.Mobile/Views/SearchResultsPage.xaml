@@ -75,7 +75,7 @@
                         <Image Source="direct_translation.png"  Margin="5,0,0,0"
                            WidthRequest="30"  VerticalOptions="Center" />
                         <local:LanguagePicker
-                        ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  HorizontalOptions="FillAndExpand" />
+                        ItemsSource="{Binding TransLanguageList}" SelectedItem="{Binding TransLanguageChoiceSource}"  HorizontalOptions="FillAndExpand" />
                     </StackLayout>                                    
                 </Grid>
 

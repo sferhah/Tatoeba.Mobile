@@ -44,5 +44,11 @@ namespace Tatoeba.Mobile.Storage
             set => AppSettings.AddOrUpdateValue(nameof(LastBrowsedIso), value);
         }
 
+        public static string LastTransBrowsedIso
+        {
+            get => AppSettings.GetValueOrDefault(nameof(LastTransBrowsedIso), null);
+            set => AppSettings.AddOrUpdateValue(nameof(LastTransBrowsedIso), value);
+        }
+
     }
 }

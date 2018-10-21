@@ -12,13 +12,15 @@ namespace Tatoeba.Mobile.Views
 {
     public class LanguagePicker : CustomPicker<string>
     {
-       // public override void UpdateText() => Text = "Language: " + SelectedItem;
+        // public override void UpdateText() => Text = "Language: " + SelectedItem;
     }
 
     public class PagePicker : CustomPicker<int>
     {
         public override void UpdateText() => Text = "Page: " + SelectedItem + "/" + ItemsSource?.Count();
     }
+
+    public class CustomPicker : CustomPicker<object> {}
 
     // Android: If there are too many Items, Xamarin.Forms Picker causes a GC overhead and then crashes.
     public class CustomPicker<T> : Button
@@ -79,6 +81,11 @@ namespace Tatoeba.Mobile.Views
         {
             BorderColor = Color.Gray;
             BackgroundColor = Color.Transparent;
+            BorderWidth = 1;
+            CornerRadius = 2;
+
+            Padding = new Thickness(20, 5, 20, 5);                
+
             UpdateText();            
             Clicked += (s, e) => Navigation.PushPopupAsync(CreatePopup());
         }
@@ -114,9 +121,12 @@ namespace Tatoeba.Mobile.Views
 
             stackLayout2.Children.Add(close);
 
-            searchBox = new SearchBar();
-            searchBox.TextChanged += SearchBar_TextChanged;
-            stackLayout2.Children.Add(searchBox);
+            if(internalItemsSource.Count() > 3)
+            {
+                searchBox = new SearchBar();
+                searchBox.TextChanged += SearchBar_TextChanged;
+                stackLayout2.Children.Add(searchBox);
+            }
 
             listView = new ListView();
             listView.WidthRequest = 300;
@@ -165,14 +175,18 @@ namespace Tatoeba.Mobile.Views
 
         private void Popup_Disappearing(object sender, EventArgs e)
         {
-            searchBox.Text = null;
+            if(searchBox != null)
+            {
+                searchBox.Text = null;
+            }
+            
             UpdateText();
         }
 
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(searchBox.Text))
+            if(string.IsNullOrWhiteSpace(searchBox?.Text))
             {
                 listView.ItemsSource = ItemsSource;
             }

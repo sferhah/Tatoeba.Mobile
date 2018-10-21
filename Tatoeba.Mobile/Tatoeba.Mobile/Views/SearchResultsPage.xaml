@@ -54,22 +54,29 @@
             
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                     Margin="0,0,0,0">      
-                <Grid IsVisible="{Binding EnableBrowsing}"  HorizontalOptions="FillAndExpand">
+                     Margin="0,0,0,0">
+                <Grid IsVisible="{Binding EnableBrowsing}"  HorizontalOptions="FillAndExpand" Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />                     
-                    </Grid.RowDefinitions>             
-                    <Label Text="Language" VerticalOptions="Center" Grid.Column="0"  Margin="5,0,0,0" />
-                    <Label Text="Translation in" VerticalOptions="Center" Grid.Column="1" Margin="5,0,0,0" />
-                    <local:LanguagePicker   Grid.Column="0"  Grid.Row="1"
+                    </Grid.RowDefinitions>
+                    
+                    <StackLayout Orientation="Horizontal" Grid.Column="0">
+                        <Image Source="original_sentence.png" Margin="5,0,0,0"
+                           WidthRequest="30"  VerticalOptions="Center" />
+                        <local:LanguagePicker  
                         ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceSource}"  HorizontalOptions="FillAndExpand" />
-                    <local:LanguagePicker   Grid.Column="1" Grid.Row="1"
-                        ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  HorizontalOptions="FillAndExpand" />                    
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Grid.Column="1">
+                        <Image Source="direct_translation.png"  Margin="5,0,0,0"
+                           WidthRequest="30"  VerticalOptions="Center" />
+                        <local:LanguagePicker
+                        ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  HorizontalOptions="FillAndExpand" />
+                    </StackLayout>                                    
                 </Grid>
 
                 <StackLayout IsVisible="{Binding EnablePagination}" Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">

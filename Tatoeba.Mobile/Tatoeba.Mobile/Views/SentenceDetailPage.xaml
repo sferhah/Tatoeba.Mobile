@@ -100,12 +100,16 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
-                <StackLayout IsVisible="{Binding EnableRandom}" Orientation="Vertical"  HorizontalOptions="CenterAndExpand">
-                    <local:LanguagePicker  ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}"  />
+                <StackLayout IsVisible="{Binding EnableRandom}" Padding="10" Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10, 0, 10, 0">
+                        <Image Source="original_sentence.png" Margin="5,0,0,0"
+                           WidthRequest="30"  VerticalOptions="Center" />
+                        <local:LanguagePicker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
-                        <Button Text="« previous"  BackgroundColor="{Binding PreviousBackgroundColor}" Command="{Binding PreviousSentenceCommand}" IsEnabled="{Binding EnablePrevious}" />
-                        <Button Text="next »"  BackgroundColor="{Binding NextBackgroundColor}" Command="{Binding NextSentenceCommand}" IsEnabled="{Binding EnableNext}"/>
-                        <Button Text="random"  BackgroundColor="#D3F3B9" Command="{Binding LoadItemsCommand}" IsEnabled="{Binding EnableNext}"/>
+                        <Button Text=" « previous "  BackgroundColor="{Binding PreviousBackgroundColor}" Command="{Binding PreviousSentenceCommand}" IsEnabled="{Binding EnablePrevious}" />
+                        <Button Text= " next » "  BackgroundColor="{Binding NextBackgroundColor}" Command="{Binding NextSentenceCommand}" IsEnabled="{Binding EnableNext}"/>
+                        <Button Text=" random "  BackgroundColor="#D3F3B9" Command="{Binding LoadItemsCommand}" IsEnabled="{Binding EnableNext}"/>
                     </StackLayout>
                 </StackLayout>
                 <ListView x:Name="ItemsListView" 

@@ -17,8 +17,9 @@
             <StackLayout  AbsoluteLayout.LayoutFlags="All"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                      Margin="0,0,0,0">
-                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10, 0, 10, 0">
-                    <Label Text="Filter by language" VerticalOptions="Center"/>
+                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand" Padding="10">
+                    <Image Source="original_sentence.png" Margin="5,0,0,0"
+                           WidthRequest="30"  VerticalOptions="Center" />
                     <local:LanguagePicker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
                 <ListView x:Name="ItemsListView" 

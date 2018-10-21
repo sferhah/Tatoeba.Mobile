@@ -9,7 +9,8 @@
     "Browse": "https://tatoeba.org/eng/sentences/show_all_in/",
     "Sentence": "https://tatoeba.org/eng/sentences/show/",
     "SaveTranslation": "https://tatoeba.org/eng/sentences/save_translation",
-    "EditSentence": "https://tatoeba.org/eng/sentences/edit_sentence"
+    "EditSentence": "https://tatoeba.org/eng/sentences/edit_sentence",
+    "NewSentence": "https://tatoeba.org/eng/sentences/add_an_other_sentence"
   },
   "XpathConfig": {
     "LoginConfig": {
@@ -27,6 +28,14 @@
       }
     },
     "SentenceDetailConfig": {
+      "PreviousIdPath": {
+        "Path": "string(//ul//li[@id='prevSentence']/a/@href)",
+        "Action": 0
+      },
+      "NextIdPath": {
+        "Path": "string(//ul//li[@id='nextSentence']/a/@href)",
+        "Action": 0
+      },
       "TranslationConfig": {
         "IsEditablePath": {
           "Path": "boolean((//*[@class='sentence mainSentence']//*[@class='text correctnessZero editableSentence'])[1])",
@@ -111,6 +120,15 @@
         "Path": "string(@class)",
         "Action": 0
       }
+    },
+    "SearchResultsConfig": {
+      "PageItemsPath": "//span[@class='pageNumber' or @class='current pageNumber']",
+      "PagePath": {
+        "Path": "string(.)",
+        "Action": 0
+      },
+      "SentenceSetItemsPath": "//*[@class='sentences_set']",
+      "ItemsPath": ".//*[@class='sentence mainSentence']|.//*[@class='translations']/*[@data-sentence-id]|.//div[@class='more']/*[@data-sentence-id]"
     }
   }
 }

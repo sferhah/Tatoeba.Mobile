@@ -25,11 +25,24 @@
     {
         public XpathLoginConfig LoginConfig { get; set; } = new XpathLoginConfig();
         public XpathSentenceDetailConfig SentenceDetailConfig { get; set; } = new XpathSentenceDetailConfig();        
-        public XpathContribConfig ContribConfig { get; set; } = new XpathContribConfig();        
+        public XpathContribConfig ContribConfig { get; set; } = new XpathContribConfig();
+        public XpathSearchResultsConfig SearchResultsConfig { get; set; } = new XpathSearchResultsConfig();
     }
+
+    public class XpathSearchResultsConfig
+    {
+        public string PageItemsPath { get; set; } = "//span[@class='pageNumber' or @class='current pageNumber']" ;
+        public XpathPathConfig PagePath { get; set; } = new XpathPathConfig { Path = "string(.)" };
+
+        public string SentenceSetItemsPath { get; set; } = "//*[@class='sentences_set']";
+        public string ItemsPath { get; set; } = ".//*[@class='sentence mainSentence']|.//*[@class='translations']/*[@data-sentence-id]|.//div[@class='more']/*[@data-sentence-id]";
+    }
+
 
     public class XpathSentenceDetailConfig
     {
+        public XpathPathConfig PreviousIdPath { get; set; } = new XpathPathConfig { Path = "string(//ul//li[@id='prevSentence']/a/@href)" };
+        public XpathPathConfig NextIdPath { get; set; } = new XpathPathConfig { Path = "string(//ul//li[@id='nextSentence']/a/@href)" };        
         public XpathTranslationConfig TranslationConfig { get; set; } = new XpathTranslationConfig();
         public XpathCommentConfig CommentConfig { get; set; } = new XpathCommentConfig();
         public XpathLogConfig LogConfig { get; set; } = new XpathLogConfig();

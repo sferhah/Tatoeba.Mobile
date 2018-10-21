@@ -77,8 +77,8 @@ namespace Tatoeba.Mobile.Services
             SentenceDetail setenceDetails = new SentenceDetail
             {
                 IsEditable = docNav.Evaluate<bool>(XpathConfig.SentenceDetailConfig.TranslationConfig.IsEditablePath),
-                PreviousId = docNav.Evaluate<string>("string(//ul//li[@id='prevSentence']/a/@href)")?.Split('/').Last(),
-                NextId = docNav.Evaluate<string>("string(//ul//li[@id='nextSentence']/a/@href)")?.Split('/').Last(),
+                PreviousId = docNav.Evaluate<string>(XpathConfig.SentenceDetailConfig.PreviousIdPath)?.Split('/').Last(),
+                NextId = docNav.Evaluate<string>(XpathConfig.SentenceDetailConfig.NextIdPath)?.Split('/').Last(),
             };
 
             foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SentenceDetailConfig.TranslationConfig.ItemsPath))
@@ -139,10 +139,10 @@ namespace Tatoeba.Mobile.Services
 
             List<string> pages = new List<string>();
 
-            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty("//span[@class='pageNumber' or @class='current pageNumber']"))
+            foreach (var node in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SearchResultsConfig.PageItemsPath))
             {
                 var nav = node.CreateNavigator();
-                string pageNumber = nav.Evaluate<string>("string(.)");
+                string pageNumber = nav.Evaluate<string>(XpathConfig.SearchResultsConfig.PagePath);
 
                 if(!pages.Contains(pageNumber))
                 {
@@ -152,15 +152,13 @@ namespace Tatoeba.Mobile.Services
 
             results.PageCount = GetPageCount(pages);
 
-            foreach (var nodeSet in doc.DocumentNode.SelectNodesOrEmpty("//*[@class='sentences_set']"))
+            foreach (var nodeSet in doc.DocumentNode.SelectNodesOrEmpty(XpathConfig.SearchResultsConfig.SentenceSetItemsPath))
             {
-                string itemsPath = ".//*[@class='sentence mainSentence']|.//*[@class='translations']/*[@data-sentence-id]|.//div[@class='more']/*[@data-sentence-id]";
-
                 SentenceSet sentenceSet = new SentenceSet();
 
                 results.Results.Add(sentenceSet);
 
-                foreach (var node in nodeSet.SelectNodesOrEmpty(itemsPath))
+                foreach (var node in nodeSet.SelectNodesOrEmpty(XpathConfig.SearchResultsConfig.ItemsPath))
                 {
                     var nav = node.CreateNavigator();
 

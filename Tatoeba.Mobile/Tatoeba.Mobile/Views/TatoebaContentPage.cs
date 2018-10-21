@@ -49,9 +49,21 @@ namespace Tatoeba.Mobile.Views
 
         private void ViewModel_Error(object sender, ErrorEventArgs e)
         {
-            if (e.Status == TatoebaStatus.InvalidSession)
+            if (e.Response.Status == TatoebaStatus.InvalidSession)
             {
                 LogOut();
+            }
+
+            if (e.Response.Status == TatoebaStatus.Error)
+            {                
+                DisplayAlert("Error", "A error has occured: " + e.Response.Error, "Ok");                  
+                return;                
+            }
+
+            if (e.Response.Status == TatoebaStatus.ParsingError)
+            {
+                DisplayAlert("Error", "Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed", "Ok");
+                return;
             }
         }
 

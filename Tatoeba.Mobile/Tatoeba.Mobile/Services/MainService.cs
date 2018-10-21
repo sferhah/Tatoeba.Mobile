@@ -241,14 +241,17 @@ namespace Tatoeba.Mobile.Services
 
         static XpathLoginConfig XpathLoginConfig => TatoebaScraper.XpathConfig.LoginConfig;
 
-        /// <summary>Logs in and retrieves cookies.</summary>
-        public static async Task<bool> LogInAsync(string userName, string userPass)
+        public static async Task<TatoebaResponse<bool>> LogInAsync(string userName, string userPass)
         {
             var result = await client.GetAsync<string>(TatoebaConfig.UrlConfig.Main).ConfigureAwait(false);
 
             if(result.Status != TatoebaStatus.Success)
             {
-                return false;
+                return new TatoebaResponse<bool>
+                {
+                    Content = false,
+                    Status = result.Status,
+                };
             }
 
             HtmlDocument doc = new HtmlDocument
@@ -262,7 +265,11 @@ namespace Tatoeba.Mobile.Services
 
             if (string.IsNullOrWhiteSpace(key_value)) // already logged in
             {
-                return true;
+                return new TatoebaResponse<bool>
+                {
+                    Content = true,
+                    Status = TatoebaStatus.Success,
+                };
             }
       
             var fields_value = doc.CreateNavigator().Evaluate<string>(XpathLoginConfig.ValuePath);
@@ -292,7 +299,11 @@ namespace Tatoeba.Mobile.Services
                 await WriteCookiesToDisk(cookies_file_name, client.Cookies).ConfigureAwait(false);
             }
 
-            return success;
+            return new TatoebaResponse<bool>
+            {
+                Content = success,
+                Status = TatoebaStatus.Success,
+            };
         }
 
         public static async Task WriteCookiesToDisk(string fileName, CookieContainer cookieJar)

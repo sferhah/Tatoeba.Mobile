@@ -24,16 +24,28 @@ namespace Tatoeba.Mobile.Views
         private async void Login(object sender, EventArgs e)
         {
             loginButton.IsVisible = false;
-            loader.IsVisible = true;            
+            loader.IsVisible = true;
 
-            if(!await MainService.LogInAsync(usernameEntry.Text, passwordEntry.Text))
+            var resp = await MainService.LogInAsync(usernameEntry.Text, passwordEntry.Text);
+
+            if(resp.Status != TatoebaStatus.Success)
+            {
+                await DisplayAlert("Error", "A error has occured: " + resp.Error, "Ok");
+
+                loginButton.IsVisible = true;
+                loader.IsVisible = false;
+
+                return;
+            }
+
+            if (!resp.Content)
             {
                 await DisplayAlert("Error", "Invalid credatials", "Ok");
 
                 loginButton.IsVisible = true;
                 loader.IsVisible = false;
 
-                return;                
+                return;
             }
 
             Application.Current.MainPage = new MainPage();

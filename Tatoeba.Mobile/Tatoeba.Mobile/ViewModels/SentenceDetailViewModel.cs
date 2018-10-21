@@ -108,7 +108,7 @@ namespace Tatoeba.Mobile.ViewModels
 
             if (response.Status != TatoebaStatus.Success)
             {
-                OnError(response.Status);
+                OnError(response);
                 IsBusy = false;
                 return;
             }

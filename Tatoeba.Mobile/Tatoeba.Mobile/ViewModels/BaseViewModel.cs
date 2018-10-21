@@ -9,8 +9,9 @@ namespace Tatoeba.Mobile.ViewModels
 {
     public class ErrorEventArgs : EventArgs
     {
-        public ErrorEventArgs(TatoebaStatus item) => Status = item;
-        public TatoebaStatus Status { get; }
+        public ErrorEventArgs(TatoebaResponse response) => Response = response;
+
+        public TatoebaResponse Response { get; }
     }
 
     public class BaseViewModel : INotifyPropertyChanged
@@ -34,9 +35,9 @@ namespace Tatoeba.Mobile.ViewModels
         protected virtual void OnReappear() { }
 
         public event EventHandler<ErrorEventArgs> Error;
-        protected virtual void OnError(TatoebaStatus status)
+        protected virtual void OnError(TatoebaResponse resp)
         {
-            Error?.Invoke(this, new ErrorEventArgs(status));
+            Error?.Invoke(this, new ErrorEventArgs(resp));
         }
 
         bool isBusy = false;

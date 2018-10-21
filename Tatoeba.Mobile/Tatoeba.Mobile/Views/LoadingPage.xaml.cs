@@ -19,11 +19,31 @@ namespace Tatoeba.Mobile.Views
 
         protected async override void OnAppearing()
         {
-            base.OnAppearing();
+            base.OnAppearing();          
 
-            var hasSession = await Services.MainService.InitAsync();
+            Reload_Clicked(null, null);
+        }
 
-            await Task.Delay(1000);
+        private async void Reload_Clicked(object sender, EventArgs e)
+        {
+            loadingControl.IsVisible = true;
+            reload_button.IsVisible = false;
+            label.IsVisible = true;
+
+            bool hasSession = false; ;
+
+            try
+            {
+                hasSession = await Services.MainService.InitAsync();                
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Error", "An error occured whie loading external resources: " + ex.Message, "Ok");
+                loadingControl.IsVisible = false;
+                reload_button.IsVisible = true;
+                label.IsVisible = false;
+                return;
+            }
 
             loadingControl.IsVisible = false;
 

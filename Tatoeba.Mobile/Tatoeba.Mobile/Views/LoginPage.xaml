@@ -15,9 +15,9 @@
 
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="Center"
-                             HorizontalOptions="FillAndExpand">                    
+                             HorizontalOptions="FillAndExpand">
 
-                    <Image Source="logo.png" />
+                    <Image Source="logo.png" HeightRequest="90" WidthRequest="286" />
 
 
                     <Label Text="Username" x:Name="usernameLabel"/>

@@ -34,6 +34,7 @@ namespace Tatoeba.Mobile.Services
         const string cookies_file_name = "cookies.ck";
 
         static HttpTatotebaClient client = new HttpTatotebaClient();
+        static HttpTatotebaClient cookieLessClient = new HttpTatotebaClient();
 
         public static List<Language> IsoLanguages { get; set; }
         public static List<Language> Languages { get; set; }
@@ -115,25 +116,30 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaConfig> GetTatoebaConfig()
         {
-            HttpClient client = new HttpClient();
+            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.Mobile/Tatoeba.Mobile/Cache/TatoebaConfig_v1.json").ConfigureAwait(false);
 
-            var response = await client.GetStringAsync("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.Mobile/Tatoeba.Mobile/Cache/TatoebaConfig_v1.json").ConfigureAwait(false);
+            if(response.Error != null)
+            {
+                throw new Exception(response.Error);
+            }
 
-            return JsonConvert.DeserializeObject<TatoebaConfig>(response);
+            return JsonConvert.DeserializeObject<TatoebaConfig>(response.Content);
         }
 
 
         public static async Task<List<Language>> GetLanguages()
         {
-            HttpClient client = new HttpClient();
+            var response = await cookieLessClient.GetAsync<string>(TatoebaConfig.UrlConfig.Languages).ConfigureAwait(false);
 
-            var response = await client.GetStringAsync(TatoebaConfig.UrlConfig.Languages).ConfigureAwait(false);
+            if (response.Error != null)
+            {
+                throw new Exception(response.Error);
+            }
 
-            var languages = response.Substring("$languages = array(", ");").Split('\n')
+            var languages = response.Content.Substring("$languages = array(", ");").Split('\n')
                 .Where(x => x.Contains("__d('languages',")).Select(x => x.Trim().ToLanguage())
                 .Where(y => y != null)
                 .ToList();
-
 
             async Task DownloadFlag(Language lan) => lan.Flag = await client.GetByteArrayAsync(TatoebaConfig.UrlConfig.Flags + lan.Iso + ".png").ConfigureAwait(false);
 

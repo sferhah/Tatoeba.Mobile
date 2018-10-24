@@ -1,11 +1,16 @@
-﻿using System;
+﻿using ModernHttpClient;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.Services
 {
@@ -28,6 +33,8 @@ namespace Tatoeba.Mobile.Services
     {       
         private HttpClient client;
         private HttpClientHandler handler;
+        NativeCookieHandler cookieHandler;
+
 
         public HttpTatotebaClient()
         {
@@ -36,28 +43,72 @@ namespace Tatoeba.Mobile.Services
 
         public void InitClient(CookieContainer cookieContainer)
         {
-            handler = new HttpClientHandler()
+            if(client != null)
             {
-                AllowAutoRedirect = true,
-                CookieContainer = cookieContainer,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            };
+                client.Dispose();
+            }
+
+            if (Device.RuntimePlatform == Device.Android
+                || Device.RuntimePlatform == Device.iOS)
+            {
+                var cookies = cookieContainer.List();
+                cookieHandler = new NativeCookieHandler();
+                cookieHandler.SetCookies(cookieContainer.List());              
+
+                handler = new NativeMessageHandler(false, false, cookieHandler)
+                {
+                    AllowAutoRedirect = true,
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                };
+            }
+            else
+            {
+                handler = new HttpClientHandler
+                {
+                    CookieContainer = cookieContainer,
+                    AllowAutoRedirect = true,
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                };                
+            }
 
             client = new HttpClient(handler)
             {
                 Timeout = TimeSpan.FromSeconds(10),
                 DefaultRequestHeaders =
                 {
-                    CacheControl = CacheControlHeaderValue.Parse("no-cache, must-revalidate"),
+                    CacheControl = CacheControlHeaderValue.Parse("no-cache, must-revalidate"),            
                 }
             };
+
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Tatoeba.Mobile/1.1");
         }
 
         public CookieContainer Cookies
         {
-            get => handler.CookieContainer;
+            get
+            {               
+                if (Device.RuntimePlatform == Device.Android
+                    || Device.RuntimePlatform == Device.iOS)
+                {   
+                    CookieContainer cookiecontainer = new CookieContainer();
+
+                    foreach (var cookie in cookieHandler.Cookies)
+                    {
+                        cookiecontainer.Add(cookie);
+                    }
+
+                    return cookiecontainer;
+                }
+                else
+                {
+                    return handler.CookieContainer;
+                }
+
+            }
+
             set => InitClient(value);
         }
+
         
         public async Task<TatoebaResponse<T>> GetAsync<T>(string requestUri) where T : class
         {
@@ -65,7 +116,7 @@ namespace Tatoeba.Mobile.Services
             var cts = new CancellationTokenSource();
 
             try
-            {                
+            {   
                 resp = await client.GetAsync(requestUri, cts.Token).ConfigureAwait(false);
                 resp.EnsureSuccessStatusCode();
             }
@@ -99,6 +150,19 @@ namespace Tatoeba.Mobile.Services
 
             string respStr = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
             return Deserialize<T>(respStr);
+        }
+
+
+        public async Task<byte[]> GetByteArrayAsync(string requestUri)
+        {
+            try
+            {
+                return await client.GetByteArrayAsync(requestUri).ConfigureAwait(false);                
+            }           
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<TatoebaResponse<T>> PostAsync<T>(string requestUri, string postData) where T : class
@@ -186,6 +250,45 @@ namespace Tatoeba.Mobile.Services
                     Error =  ex.Message,
                 };
             }
+        }
+    }
+
+    public static class CookieContainerExtension
+    {
+        public static List<Cookie> List(this CookieContainer container)
+        {
+            var cookies = new List<Cookie>();
+
+            var table = (Hashtable)container.GetType().InvokeMember("m_domainTable",
+                                                                    BindingFlags.NonPublic |
+                                                                    BindingFlags.GetField |
+                                                                    BindingFlags.Instance,
+                                                                    null,
+                                                                    container,
+                                                                    new object[] { });
+
+            foreach (var key in table.Keys)
+            {
+                if (!(key is string domain))
+                    continue;
+
+                if (domain.StartsWith("."))
+                {
+                    domain = domain.Substring(1);
+                }
+
+                var address = string.Format("http://{0}/", domain);
+
+                if (Uri.TryCreate(address, UriKind.RelativeOrAbsolute, out Uri uri) == false)
+                    continue;
+
+                foreach (Cookie cookie in container.GetCookies(uri))
+                {
+                    cookies.Add(cookie);
+                }
+            }
+
+            return cookies;
         }
     }
 

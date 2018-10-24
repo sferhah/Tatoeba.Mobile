@@ -84,6 +84,11 @@ namespace Tatoeba.Mobile.ViewModels
         public Command ToggleCommand { get; set; }
 
 
+        public async Task RefreshOriginal()
+        {
+            await ExecuteLoadItemsCommand(Original?.Id);
+        }
+
         public async Task ExecutePreviousSentenceCommand()
         {   
             await ExecuteLoadItemsCommand(SentenceDetail.PreviousId); 

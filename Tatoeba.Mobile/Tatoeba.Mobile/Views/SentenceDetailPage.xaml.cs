@@ -90,7 +90,7 @@ namespace Tatoeba.Mobile.Views
 
         private async void ViewModel_Save(object sender, EventArgs e)
         {
-            ViewModel.LoadItemsCommand.Execute(null);
+            ViewModel.RefreshOriginal();
         }       
     }
 

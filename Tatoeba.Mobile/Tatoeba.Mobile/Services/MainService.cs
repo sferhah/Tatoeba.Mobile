@@ -34,7 +34,7 @@ namespace Tatoeba.Mobile.Services
         const string cookies_file_name = "cookies.ck";
 
         static HttpTatotebaClient client = new HttpTatotebaClient();
-        static HttpTatotebaClient cookieLessClient = new HttpTatotebaClient();
+        static HttpTatotebaClient cookieLessClient = new HttpTatotebaClient(60);
 
         public static List<Language> IsoLanguages { get; set; }
         public static List<Language> Languages { get; set; }

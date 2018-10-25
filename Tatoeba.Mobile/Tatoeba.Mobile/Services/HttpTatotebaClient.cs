@@ -30,16 +30,20 @@ namespace Tatoeba.Mobile.Services
     }
 
     public class HttpTatotebaClient
-    {       
+    {
+        private int timeout_in_seconds;
         private HttpClient client;
         private HttpClientHandler handler;
         NativeCookieHandler cookieHandler;
 
 
-        public HttpTatotebaClient()
+        public HttpTatotebaClient() : this(10) { }
+
+        public HttpTatotebaClient(int timeout_in_seconds)
         {
+            this.timeout_in_seconds = timeout_in_seconds;
             InitClient(new CookieContainer());
-        }
+        }        
 
         public void InitClient(CookieContainer cookieContainer)
         {
@@ -68,12 +72,12 @@ namespace Tatoeba.Mobile.Services
                     CookieContainer = cookieContainer,
                     AllowAutoRedirect = true,
                     AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-                };                
+                };
             }
 
             client = new HttpClient(handler)
             {
-                Timeout = TimeSpan.FromSeconds(10),
+                Timeout = TimeSpan.FromSeconds(timeout_in_seconds),
                 DefaultRequestHeaders =
                 {
                     CacheControl = CacheControlHeaderValue.Parse("no-cache, must-revalidate"),            

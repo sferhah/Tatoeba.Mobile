@@ -20,5 +20,17 @@ namespace Tatoeba.Mobile.Droid
 
             Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));
         }
+
+        public override void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                // Do something if there are some pages in the `PopupStack`
+            }
+            else
+            {
+                // Do something if there are not any pages in the `PopupStack`
+            }
+        }
     }
 }

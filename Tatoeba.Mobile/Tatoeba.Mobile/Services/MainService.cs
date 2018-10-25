@@ -216,7 +216,7 @@ namespace Tatoeba.Mobile.Services
         }
 
 
-
+        //TODO: return a TatoebaResponse instead of content
         public static async Task<string> SaveTranslation(string originalSentenceId, SentenceBase sentence)
         {
             string postData = "id=" + originalSentenceId.UrlEncode()
@@ -224,7 +224,7 @@ namespace Tatoeba.Mobile.Services
              + "&" + "value" + "=" + sentence.Text.UrlEncode();
 
             var resp = await client.PostAsync<string>(TatoebaConfig.UrlConfig.SaveTranslation, postData).ConfigureAwait(false);
-
+            return null;
 
             HtmlDocument doc = new HtmlDocument
             {

@@ -89,6 +89,7 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlatformSpecific\Localize.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\CustomButtonRenderer .cs" />
     <Compile Include="Renderers\CustomTabbedPageRenderer.cs" />

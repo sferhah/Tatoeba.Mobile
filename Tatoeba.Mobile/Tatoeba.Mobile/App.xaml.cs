@@ -1,8 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Views;
-using Tatoeba.Mobile.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Tatoeba.Mobile
@@ -13,9 +11,7 @@ namespace Tatoeba.Mobile
         public App()
         {
             InitializeComponent();
-
-
-            //MainPage = new MainPage();
+            Resx.AppResources.SetIso(DependencyService.Get<Resx.ILocalize>().ThreeLetterISOLanguageName);
             MainPage = new LoadingPage();
         }
 

@@ -10,6 +10,10 @@ namespace Tatoeba.Mobile.Views
         public EditSentencePage(Contribution original)
         {
             InitializeComponent();
+
+            cancelToolbarItem.Text = Resx.AppResources.Cancel;
+            validateToolbarItem.Text = Resx.AppResources.Validate;
+
             ViewModel = new EditSentenceViewModel(original);
 
             ViewModel.Save += async (sender, e) => await Navigation.PopModalAsync();

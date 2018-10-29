@@ -14,6 +14,8 @@ namespace Tatoeba.Mobile.Views
         public SentenceDetailPage(string itemId)
         {
             InitializeComponent();
+            refreshToolbarItem.Text = Resx.AppResources.Refresh;
+
             ViewModel = new SentenceDetailViewModel(itemId);
             ViewModel.Loaded += ViewModel_Loaded;
         }
@@ -22,7 +24,7 @@ namespace Tatoeba.Mobile.Views
         {
             ToolbarItems.Add(new ToolbarItem
             {
-                Text = "Add translation",
+                Text = Resx.AppResources.AddTranslation,
                 Icon = "add.png",
                 Command = new Command(() => AddItem_Clicked()),
             });
@@ -31,7 +33,7 @@ namespace Tatoeba.Mobile.Views
             {
                 ToolbarItems.Add(new ToolbarItem
                 {
-                    Text = "Edit",
+                    Text = Resx.AppResources.Edit,
                     Icon = "edit.png",
                     Command = new Command(() => GoToEditPage()),
                 });

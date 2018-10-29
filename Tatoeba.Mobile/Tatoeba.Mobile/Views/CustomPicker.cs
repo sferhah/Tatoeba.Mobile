@@ -17,7 +17,7 @@ namespace Tatoeba.Mobile.Views
 
     public class PagePicker : CustomPicker<int>
     {
-        public override void UpdateText() => Text = "Page: " + SelectedItem + "/" + ItemsSource?.Count();
+        public override void UpdateText() => Text = string.Format("Page: {0}/{1}", SelectedItem, ItemsSource?.Count());
     }
 
     public class CustomPicker : CustomPicker<object> {}

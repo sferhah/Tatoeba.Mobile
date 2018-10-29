@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +10,8 @@ namespace Tatoeba.Mobile.Views
         public LoadingPage()
         {
             InitializeComponent();
+            reload_button.Text = " " + Resx.AppResources.Reload + " ";
+            label.Text = Resx.AppResources.Error;
         }
 
         protected async override void OnAppearing()
@@ -38,11 +35,11 @@ namespace Tatoeba.Mobile.Views
             }
             catch(Exception ex)
             {
-                await DisplayAlert("Error", "An error occured whie loading external resources: " + ex.Message, "Ok");
+                await DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorLoadingResources + " " + ex.Message, Resx.AppResources.Ok);
                 loadingControl.IsVisible = false;
                 reload_button.IsVisible = true;
                 label.IsVisible = false;
-                return;
+                return; 
             }
 
             loadingControl.IsVisible = false;

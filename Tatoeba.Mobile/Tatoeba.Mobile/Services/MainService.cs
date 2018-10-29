@@ -41,7 +41,7 @@ namespace Tatoeba.Mobile.Services
         public static List<Language> BrowsableLanguages { get; set; }
         public static List<Language> TransBrowsableLanguages { get; set; }
 
-        public static TatoebaConfig TatoebaConfig { get; set; }
+        public static TatoebaConfig TatoebaConfig { get; set; } = new TatoebaConfig();
 
         public static async Task<bool> InitAsync()
         {

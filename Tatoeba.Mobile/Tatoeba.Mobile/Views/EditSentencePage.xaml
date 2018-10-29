@@ -9,8 +9,8 @@
                           x:Class="Tatoeba.Mobile.Views.EditSentencePage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Cancel" Command="{Binding CancelCommand}" Icon="cancel.png"/>
-        <ToolbarItem Text="Validate" Command="{Binding SaveCommand}" Icon="validate.png"/>
+        <ToolbarItem x:Name="cancelToolbarItem" Text="Cancel" Command="{Binding CancelCommand}" Icon="cancel.png"/>
+        <ToolbarItem x:Name="validateToolbarItem" Text="Validate" Command="{Binding SaveCommand}" Icon="validate.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="White">

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Tatoeba.Mobile.Services;
+﻿using Tatoeba.Mobile.Services;
 using Tatoeba.Mobile.ViewModels;
 using Xamarin.Forms;
 
@@ -11,7 +10,7 @@ namespace Tatoeba.Mobile.Views
         {
             ToolbarItems.Add(new ToolbarItem
             {
-                Text = "Log out",
+                Text = Resx.AppResources.LogOut,
                 Priority = 1,
                 Order = ToolbarItemOrder.Secondary,
                 Command = new Command(() => LogOut()),
@@ -55,14 +54,16 @@ namespace Tatoeba.Mobile.Views
             }
 
             if (e.Response.Status == TatoebaStatus.Error)
-            {                
-                DisplayAlert("Error", "A error has occured: " + e.Response.Error, "Ok");                  
+            {   
+                DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorOccured + " " + e.Response.Error, Resx.AppResources.Ok);
                 return;                
             }
 
             if (e.Response.Status == TatoebaStatus.ParsingError)
             {
-                DisplayAlert("Error", "Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed", "Ok");
+                DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorOccured + " " + e.Response.Error, Resx.AppResources.Ok);
+
+                DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorParsingHtml, Resx.AppResources.Ok);
                 return;
             }
         }

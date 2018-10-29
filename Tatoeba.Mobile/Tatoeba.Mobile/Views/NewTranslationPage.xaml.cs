@@ -10,6 +10,9 @@ namespace Tatoeba.Mobile.Views
         public NewTranslationPage(Contribution original)
         {
             InitializeComponent();
+            cancelToolbarItem.Text = Resx.AppResources.Cancel;
+            validateToolbarItem.Text = Resx.AppResources.Validate;
+
             ViewModel = new NewTranslationViewModel(original);
 
             ViewModel.Save += async (sender, e) => await Navigation.PopModalAsync();

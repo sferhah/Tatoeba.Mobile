@@ -8,6 +8,7 @@ namespace Tatoeba.Mobile.Resx
     public class AppResources
     {
         private static ResourceManager _ResourceManager;
+
         public static ResourceManager ResourceManager
         {
             get
@@ -49,15 +50,28 @@ namespace Tatoeba.Mobile.Resx
 
         internal static string GetString([CallerMemberName] string propertyName = null) => ResourceManager.GetString(propertyName);
 
+        public static string AddSentence => GetString();
+        public static string AddTranslation => GetString();
         public static string Cancel => GetString();
+        public static string Edit => GetString();
         public static string Error => GetString();
         public static string ErrorLoadingResources => GetString();
+        public static string ErrorOccured => GetString();
+        public static string ErrorParsingHtml => GetString();        
+        public static string From => GetString();
+        public static string HasAudio => GetString();
+        public static string InvalidCredentials => GetString();
+        public static string IsOrphan => GetString();
+        public static string IsUnapproved => GetString();
         public static string LoadingResources => GetString();
+        public static string LogOut => GetString();
         public static string Ok => GetString();
         public static string Password => GetString();
         public static string Refresh => GetString();
         public static string Reload => GetString();
         public static string Username => GetString();
+        public static string To => GetString();
         public static string Validate => GetString();
+
     }
 }

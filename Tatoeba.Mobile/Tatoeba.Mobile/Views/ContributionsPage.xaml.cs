@@ -10,7 +10,9 @@ namespace Tatoeba.Mobile.Views
     {
         public ContributionsPage()
         {
-            InitializeComponent();          
+            InitializeComponent();
+            refreshToolbarItem.Text = Resx.AppResources.Refresh;
+
             ViewModel = new ContributionsViewModel();
         }
 

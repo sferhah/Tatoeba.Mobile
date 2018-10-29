@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddSentence" xml:space="preserve">
+    <value>Add sentence</value>
+  </data>
+  <data name="AddTranslation" xml:space="preserve">
+    <value>Add translation</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
@@ -126,8 +135,32 @@
   <data name="ErrorLoadingResources" xml:space="preserve">
     <value>An error occured while loading external resources:</value>
   </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>A error has occured:</value>
+  </data>
+  <data name="ErrorParsingHtml" xml:space="preserve">
+    <value>Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="HasAudio" xml:space="preserve">
+    <value>Has audio</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="IsOrphan" xml:space="preserve">
+    <value>Is orphan</value>
+  </data>
+  <data name="IsUnapproved" xml:space="preserve">
+    <value>Is unapproved</value>
+  </data>
   <data name="LoadingResources" xml:space="preserve">
     <value>Loading resources...</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Log out</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
@@ -140,6 +173,9 @@
   </data>
   <data name="Reload" xml:space="preserve">
     <value>Reload</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>

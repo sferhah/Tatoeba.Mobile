@@ -10,6 +10,9 @@ namespace Tatoeba.Mobile.Views
         public NewSentencePage(string iso)
         {
             InitializeComponent();
+            cancelToolbarItem.Text = Resx.AppResources.Cancel;
+            validateToolbarItem.Text = Resx.AppResources.Validate;
+
             ViewModel = new NewSentenceViewModel(iso);
 
             ViewModel.Save += async (sender, e) => await Navigation.PopModalAsync();

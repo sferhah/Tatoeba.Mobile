@@ -15,7 +15,7 @@ namespace Tatoeba.Mobile.Views
             ViewModel = new SearchResultsViewModel();
             ToolbarItems.Add(new ToolbarItem
             {
-                Text = "Add sentence",
+                Text = Resx.AppResources.AddSentence,
                 Icon = "add.png",
                 Command = new Command(() => AddItem_Clicked()),
             });

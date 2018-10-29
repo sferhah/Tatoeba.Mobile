@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tatoeba.Mobile.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,6 +13,9 @@ namespace Tatoeba.Mobile.Views
             BindingContext = this;
             InitializeComponent();
 
+            usernameEntry.Text = Resx.AppResources.Username;
+            passwordEntry.Text = Resx.AppResources.Password;
+
             usernameEntry.Completed += (s, e) => passwordEntry.Focus();
             passwordEntry.Completed += (s, e) => Login(null, null);
         }       
@@ -30,7 +29,7 @@ namespace Tatoeba.Mobile.Views
 
             if(resp.Status != TatoebaStatus.Success)
             {
-                await DisplayAlert("Error", "A error has occured: " + resp.Error, "Ok");
+                await DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorOccured + " " + resp.Error, Resx.AppResources.Ok);
 
                 loginButton.IsVisible = true;
                 loader.IsVisible = false;
@@ -40,7 +39,7 @@ namespace Tatoeba.Mobile.Views
 
             if (!resp.Content)
             {
-                await DisplayAlert("Error", "Invalid credatials", "Ok");
+                await DisplayAlert(Resx.AppResources.Error, Resx.AppResources.InvalidCredentials, Resx.AppResources.Ok);
 
                 loginButton.IsVisible = true;
                 loader.IsVisible = false;

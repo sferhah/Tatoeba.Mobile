@@ -10,6 +10,16 @@ namespace Tatoeba.Mobile.Views
         public SearchPage()
         {
             InitializeComponent();
+
+            fromLabel.Text = Resx.AppResources.From;
+            toLabel.Text = Resx.AppResources.To;
+            isOrphanOriginLabel.Text = Resx.AppResources.IsOrphan;
+            isOrphanTransLabel.Text = Resx.AppResources.IsOrphan;
+            isUnapprovedOriginLabel.Text = Resx.AppResources.IsUnapproved;
+            isUnapprovedTransLabel.Text = Resx.AppResources.IsUnapproved;
+            hasAudioOriginLabel.Text = Resx.AppResources.HasAudio;
+            hasAudioTransLabel.Text = Resx.AppResources.HasAudio;
+
             ViewModel = new SearchViewModel();
             search_entry.Completed += (s, e) => Button_Clicked(null, null);
         }

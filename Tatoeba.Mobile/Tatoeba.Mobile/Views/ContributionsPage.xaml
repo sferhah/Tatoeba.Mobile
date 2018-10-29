@@ -10,7 +10,7 @@
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Refresh" Command="{Binding LoadItemsCommand}" Icon="refresh.png"/>
+        <ToolbarItem x:Name="refreshToolbarItem" Text="Refresh" Command="{Binding LoadItemsCommand}" Icon="refresh.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="White">

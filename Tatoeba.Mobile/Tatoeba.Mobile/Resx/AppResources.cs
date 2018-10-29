@@ -7,6 +7,13 @@ namespace Tatoeba.Mobile.Resx
 {
     public class AppResources
     {
+        private static readonly ResourceManager _DefaultResourceManager;
+
+        static AppResources()
+        {
+            _DefaultResourceManager = ResourceManager;
+        }
+
         private static ResourceManager _ResourceManager;
 
         public static ResourceManager ResourceManager
@@ -48,8 +55,10 @@ namespace Tatoeba.Mobile.Resx
             }
         }
 
-        internal static string GetString([CallerMemberName] string propertyName = null) => ResourceManager.GetString(propertyName);
-
+        internal static string GetString([CallerMemberName] string propertyName = null) 
+            => ResourceManager.GetString(propertyName) ??
+            _DefaultResourceManager.GetString(propertyName)
+            ?? "$" + propertyName;
         
         public static string AddTranslation => GetString();
         public static string Any => GetString();

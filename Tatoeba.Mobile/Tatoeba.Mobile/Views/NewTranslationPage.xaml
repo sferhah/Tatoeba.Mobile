@@ -8,8 +8,8 @@
                           x:Class="Tatoeba.Mobile.Views.NewTranslationPage"
            Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="cancelToolbarItem" Text="Cancel" Command="{Binding CancelCommand}" Icon="cancel.png"/>
-        <ToolbarItem x:Name="validateToolbarItem" Text="Validate" Command="{Binding SaveCommand}" Icon="validate.png"/>
+        <ToolbarItem x:Name="cancelToolbarItem" Text="$Cancel" Command="{Binding CancelCommand}" Icon="cancel.png"/>
+        <ToolbarItem x:Name="validateToolbarItem" Text="$Validate" Command="{Binding SaveCommand}" Icon="validate.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout BackgroundColor="White">

@@ -11,7 +11,7 @@ namespace Tatoeba.Mobile.Views
         {
             InitializeComponent();
             reload_button.Text = " " + Resx.AppResources.Reload + " ";
-            label.Text = Resx.AppResources.Error;
+            label.Text = Resx.AppResources.LoadingResources;
         }
 
         protected async override void OnAppearing()

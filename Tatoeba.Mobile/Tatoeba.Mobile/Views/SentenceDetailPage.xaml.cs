@@ -15,6 +15,9 @@ namespace Tatoeba.Mobile.Views
         {
             InitializeComponent();
             refreshToolbarItem.Text = Resx.AppResources.Refresh;
+            previousButton.Text = $" « {Resx.AppResources.Previous.ToLowerInvariant()} ";
+            nextButton.Text = $" {Resx.AppResources.Next.ToLowerInvariant()} » ";
+            randomButton.Text = $" {Resx.AppResources.Random.ToLowerInvariant()} "; 
 
             ViewModel = new SentenceDetailViewModel(itemId);
             ViewModel.Loaded += ViewModel_Loaded;

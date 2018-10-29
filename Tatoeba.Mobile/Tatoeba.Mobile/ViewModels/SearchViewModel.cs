@@ -12,21 +12,21 @@ namespace Tatoeba.Mobile.ViewModels
     {
         public SearchViewModel()
         {
-            Title = "Search";
+            Title = Resx.AppResources.SearchTitle;
             SearchCommand = new Command(async () => await ExecuteSearchCommand());
 
             SelectedLanguageSource = MainService.Languages.Where(x => x.Iso == LocalSettings.LastIsoSearchFrom).FirstOrDefault();
             SelectedLanguageTarget = MainService.Languages.Where(x => x.Iso == LocalSettings.LastIsoSearchTo).FirstOrDefault();
         }
 
-        public string IsOrphan { get; set; } = "No";
-        public string IsTransOrphan { get; set; } = "Any";
-        public string IsUnapproved { get; set; } = "No";
-        public string IsTransUnapproved { get; set; } = "Any";
-        public string HasAudio { get; set; } = "Any";
-        public string TransHasAudio { get; set; } = "Any";
+        public string IsOrphan { get; set; } = Resx.AppResources.No;
+        public string IsTransOrphan { get; set; } = Resx.AppResources.Any;
+        public string IsUnapproved { get; set; } = Resx.AppResources.No;
+        public string IsTransUnapproved { get; set; } = Resx.AppResources.Any;
+        public string HasAudio { get; set; } = Resx.AppResources.Any;
+        public string TransHasAudio { get; set; } = Resx.AppResources.Any;
 
-        public IEnumerable<string> NullableBoolValues => new List<string> { "Any", "No", "Yes" };
+        public IEnumerable<string> NullableBoolValues => new List<string> { Resx.AppResources.Any, Resx.AppResources.No, Resx.AppResources.Yes };
 
         public string SearchText { get; set; }
         public Command SearchCommand { get; set; }
@@ -105,7 +105,7 @@ namespace Tatoeba.Mobile.ViewModels
         }
 
 
-        bool? NullableBooleanStringToNullableBool(string item) => item == "Any" ? null : (bool?)(item == "Yes" ? true : false);
+        bool? NullableBooleanStringToNullableBool(string item) => item == Resx.AppResources.Any ? null : (bool?)(item == Resx.AppResources.Yes ? true : false);
 
     }
 }

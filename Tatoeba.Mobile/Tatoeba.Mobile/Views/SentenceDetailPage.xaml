@@ -9,7 +9,7 @@
                           x:Class="Tatoeba.Mobile.Views.SentenceDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="refreshToolbarItem" Text="Refresh" Command="{Binding LoadItemsCommand}" Icon="refresh.png"/>
+        <ToolbarItem x:Name="refreshToolbarItem" Text="$Refresh" Command="{Binding LoadItemsCommand}" Icon="refresh.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -107,9 +107,9 @@
                         <local:LanguagePicker ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoice}" HorizontalOptions="FillAndExpand" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal"  HorizontalOptions="CenterAndExpand" Padding="10, 0, 10, 0">
-                        <Button Text=" « previous "  BackgroundColor="{Binding PreviousBackgroundColor}" Command="{Binding PreviousSentenceCommand}" IsEnabled="{Binding EnablePrevious}" />
-                        <Button Text= " next » "  BackgroundColor="{Binding NextBackgroundColor}" Command="{Binding NextSentenceCommand}" IsEnabled="{Binding EnableNext}"/>
-                        <Button Text=" random "  BackgroundColor="#D3F3B9" Command="{Binding LoadItemsCommand}" IsEnabled="{Binding EnableNext}"/>
+                        <Button x:Name="previousButton" Text="$ « previous "  BackgroundColor="{Binding PreviousBackgroundColor}" Command="{Binding PreviousSentenceCommand}" IsEnabled="{Binding EnablePrevious}" />
+                        <Button x:Name="nextButton" Text= "$ next » "  BackgroundColor="{Binding NextBackgroundColor}" Command="{Binding NextSentenceCommand}" IsEnabled="{Binding EnableNext}"/>
+                        <Button x:Name="randomButton" Text="$ random "  BackgroundColor="#D3F3B9" Command="{Binding LoadItemsCommand}" IsEnabled="{Binding EnableNext}"/>
                     </StackLayout>
                 </StackLayout>
                 <ListView x:Name="ItemsListView" 

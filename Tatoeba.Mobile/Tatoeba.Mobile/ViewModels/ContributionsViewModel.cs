@@ -13,7 +13,7 @@ namespace Tatoeba.Mobile.ViewModels
     {
         public ContributionsViewModel()
         {
-            Title = "Recent";
+            Title = Resx.AppResources.Recent;
             Items = new ObservableCollection<Contribution>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             SelectedLanguage = MainService.Languages?.Where(x => x.Iso == LocalSettings.LastIsoSelection).FirstOrDefault();

@@ -11,7 +11,7 @@ namespace Tatoeba.Mobile.ViewModels
         public EditSentenceViewModel(Contribution original)
         {
             this.Item = original;
-            Title = "Edit sentence";
+            Title = Resx.AppResources.EditSentence;
             SaveCommand = new Command(async () => await ExecuteSaveCommand());
             CancelCommand = new Command(async () => await ExecuteCancelCommand());            
         }

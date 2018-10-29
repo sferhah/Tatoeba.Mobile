@@ -18,8 +18,8 @@
                              Spacing="20">
                     <Image Source="logo.png" HeightRequest="90" WidthRequest="286" />
                     <views:LoadingControl x:Name="loadingControl" />
-                    <Button x:Name="reload_button" IsVisible="False" Text=" Reload "  BackgroundColor="#D3F3B9" Clicked="Reload_Clicked"/>
-                    <Label x:Name="label" Text="Loading resources..." HorizontalOptions="Center"  />
+                    <Button x:Name="reload_button" IsVisible="False" Text="$ Reload "  BackgroundColor="#D3F3B9" Clicked="Reload_Clicked"/>
+                    <Label x:Name="label" Text="$Loading resources..." HorizontalOptions="Center"  />
                 </StackLayout>
             </Frame>
         </AbsoluteLayout>

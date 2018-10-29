@@ -11,7 +11,7 @@ namespace Tatoeba.Mobile.ViewModels
     {
         public NewSentenceViewModel(string iso)
         {
-            Title = "New sentence";
+            Title = Resx.AppResources.NewSentence;
             SaveCommand = new Command(async () => await ExecuteSaveCommand());
             CancelCommand = new Command(async () => await ExecuteCancelCommand());
 

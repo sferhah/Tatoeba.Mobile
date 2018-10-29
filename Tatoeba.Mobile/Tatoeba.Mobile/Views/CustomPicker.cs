@@ -2,7 +2,6 @@
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace Tatoeba.Mobile.Views
 
     public class PagePicker : CustomPicker<int>
     {
-        public override void UpdateText() => Text = string.Format("Page: {0}/{1}", SelectedItem, ItemsSource?.Count());
+        public override void UpdateText() => Text = string.Format(Resx.AppResources.PageInPagination + " {0}/{1}", SelectedItem, ItemsSource?.Count());
     }
 
     public class CustomPicker : CustomPicker<object> {}

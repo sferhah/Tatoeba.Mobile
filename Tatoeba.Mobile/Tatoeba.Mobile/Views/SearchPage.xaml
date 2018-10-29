@@ -45,22 +45,22 @@
                     </Grid.RowDefinitions>
                     <BoxView Color="LightGreen" Grid.Column="0" Grid.RowSpan="8" />
                     <BoxView Color="LightBlue" Grid.Column="1" Grid.RowSpan="8"/>
-                    <Label x:Name="fromLabel" Text="From" VerticalOptions="Center" Grid.Column="0"  Margin="5,0,0,0" />
-                    <Label x:Name="toLabel" Text="To" VerticalOptions="Center" Grid.Column="1" Margin="5,0,0,0" />
+                    <Label x:Name="fromLabel" Text="$From" VerticalOptions="Center" Grid.Column="0"  Margin="5,0,0,0" />
+                    <Label x:Name="toLabel" Text="$To" VerticalOptions="Center" Grid.Column="1" Margin="5,0,0,0" />
                     <local:LanguagePicker  Grid.Column="0"  Grid.Row="1"
                         ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceSource}"   />
                     <local:LanguagePicker  Grid.Column="1" Grid.Row="1"
                         ItemsSource="{Binding LanguageList}" SelectedItem="{Binding LanguageChoiceTarget}"  />
-                    <Label x:Name="isOrphanOriginLabel" Text="Is orphan" VerticalOptions="Center" Grid.Column="0"  Grid.Row="2" Margin="5,0,0,0" />
-                    <Label x:Name="isOrphanTransLabel" Text="Is orphan" VerticalOptions="Center" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
+                    <Label x:Name="isOrphanOriginLabel" Text="$Is orphan" VerticalOptions="Center" Grid.Column="0"  Grid.Row="2" Margin="5,0,0,0" />
+                    <Label x:Name="isOrphanTransLabel" Text="$Is orphan" VerticalOptions="Center" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
                     <local:CustomPicker Grid.Column="0"  Grid.Row="3"  ItemsSource="{Binding NullableBoolValues}" SelectedItem="{Binding IsOrphan}" ></local:CustomPicker>
                     <local:CustomPicker Grid.Column="1"  Grid.Row="3"  ItemsSource="{Binding NullableBoolValues}" SelectedItem="{Binding IsTransOrphan}" ></local:CustomPicker>
-                    <Label x:Name="isUnapprovedOriginLabel" Text="Is unapproved" VerticalOptions="Center" Grid.Column="0"  Grid.Row="4" Margin="5,0,0,0" />
-                    <Label x:Name="isUnapprovedTransLabel" Text="Is unapproved" VerticalOptions="Center" Grid.Column="1" Grid.Row="4" Margin="5,0,0,0" />
+                    <Label x:Name="isUnapprovedOriginLabel" Text="$Is unapproved" VerticalOptions="Center" Grid.Column="0"  Grid.Row="4" Margin="5,0,0,0" />
+                    <Label x:Name="isUnapprovedTransLabel" Text="$Is unapproved" VerticalOptions="Center" Grid.Column="1" Grid.Row="4" Margin="5,0,0,0" />
                     <local:CustomPicker Grid.Column="0"  Grid.Row="5"  ItemsSource="{Binding NullableBoolValues}" SelectedItem="{Binding IsUnapproved}" ></local:CustomPicker>
                     <local:CustomPicker Grid.Column="1"  Grid.Row="5"  ItemsSource="{Binding NullableBoolValues}" SelectedItem="{Binding IsTransUnapproved}" ></local:CustomPicker>
-                    <Label x:Name="hasAudioOriginLabel" Text="Has audio" VerticalOptions="Center" Grid.Column="0"  Grid.Row="6" Margin="5,0,0,0" />
-                    <Label x:Name="hasAudioTransLabel" Text="Has audio" VerticalOptions="Center" Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" />
+                    <Label x:Name="hasAudioOriginLabel" Text="$Has audio" VerticalOptions="Center" Grid.Column="0"  Grid.Row="6" Margin="5,0,0,0" />
+                    <Label x:Name="hasAudioTransLabel" Text="$Has audio" VerticalOptions="Center" Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" />
                     <local:CustomPicker Grid.Column="0"  Grid.Row="7"  ItemsSource="{Binding NullableBoolValues}" SelectedItem="{Binding HasAudio}" ></local:CustomPicker>
                     <local:CustomPicker Grid.Column="1"  Grid.Row="7"  ItemsSource="{Binding NullableBoolValues}" SelectedItem="{Binding TransHasAudio}" ></local:CustomPicker>
                 </Grid>

@@ -28,6 +28,10 @@ namespace Tatoeba.Mobile.Views
             //        android: TabbedPage.BarItemColor = "#66FFFFFF"
             //android: TabbedPage.BarSelectedItemColor = "White"
 
+            Children[0].Title = Resx.AppResources.Random;
+            Children[1].Title = Resx.AppResources.Search;
+            Children[2].Title = Resx.AppResources.Recent;
+            Children[3].Title = Resx.AppResources.Browse;
 
             ((TatoebaContentPage)(((NavigationPage)CurrentPage).RootPage)).OnShow();
 

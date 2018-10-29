@@ -14,7 +14,7 @@ namespace Tatoeba.Mobile.ViewModels
         public NewTranslationViewModel(Contribution original)
         {
             this.Original = original;
-            Title = "New translation";
+            Title = Resx.AppResources.NewTranslation;
             SaveCommand = new Command(async () => await ExecuteSaveCommand());
             CancelCommand = new Command(async () => await ExecuteCancelCommand());
 

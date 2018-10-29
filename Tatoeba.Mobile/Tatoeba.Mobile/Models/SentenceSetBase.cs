@@ -47,8 +47,8 @@ namespace Tatoeba.Mobile.Models
 
         public string Text =>
             SentenceSetBase.IsExpanded ?
-            $"▲ Fewer translations"
-            : $"▼ Show {SentenceSetBase.AllTranslations.Count() - SentenceSetBase.MinTranslations.Count()} more translations";
+            $"▲ {Resx.AppResources.FewerTranslations}"
+            : $"▼ {string.Format(Resx.AppResources.ShowMoreTranslations, SentenceSetBase.AllTranslations.Count() - SentenceSetBase.MinTranslations.Count())}";
 
         public string BackgroundColor =>
             SentenceSetBase.IsExpanded ?

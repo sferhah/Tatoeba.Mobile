@@ -15,7 +15,7 @@ namespace Tatoeba.Mobile.ViewModels
 
         public SearchResultsViewModel()
         {
-            this.Title = "Browse by language";
+            this.Title = Resx.AppResources.BrowseByLanguage; 
 
             SelectedLanguage = MainService.BrowsableLanguages.Where(x => x.Iso == (LocalSettings.LastBrowsedIso ?? "eng")).FirstOrDefault();
             SelectedTransLanguage = MainService.TransBrowsableLanguages.Where(x => x.Iso == (LocalSettings.LastTransBrowsedIso ?? "none")).FirstOrDefault();
@@ -32,7 +32,7 @@ namespace Tatoeba.Mobile.ViewModels
 
         public SearchResultsViewModel(SearchResults searchResults)
         {
-            this.Title = "Search: " + searchResults.Request.Text;
+            this.Title = Resx.AppResources.SearchResultsTitle + " " + searchResults.Request.Text;
             this.searchResults = searchResults;
             SelectedLanguage = MainService.Languages.Where(x => x.Iso == LocalSettings.LastIsoSearchFrom).FirstOrDefault();
 

@@ -20,10 +20,10 @@
                     <Image Source="logo.png" HeightRequest="90" WidthRequest="286" />
 
 
-                    <Label Text="Username" x:Name="usernameLabel"/>
+                    <Label Text="$Username" x:Name="usernameLabel"/>
                     <Entry Text="{Binding Login}" x:Name="usernameEntry"/>
 
-                    <Label Text="Password" x:Name="passwordLabel"/>
+                    <Label Text="$Password" x:Name="passwordLabel"/>
                     <Entry Text="{Binding Password}" IsPassword="True"  x:Name="passwordEntry"/>
                 </StackLayout>
 

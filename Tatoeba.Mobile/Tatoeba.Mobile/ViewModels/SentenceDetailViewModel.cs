@@ -22,7 +22,7 @@ namespace Tatoeba.Mobile.ViewModels
             ItemId = itemId;
             EnableRandom = ItemId == null;
 
-            Title = EnableRandom? "Random" : itemId;
+            Title = EnableRandom? Resx.AppResources.Random : itemId;
 
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             ToggleCommand = new Command(async () => await ToggleExpand());
@@ -127,10 +127,10 @@ namespace Tatoeba.Mobile.ViewModels
             }
             
             Original = SentenceDetail.Sentences.FirstOrDefault();
-            GroupedCells.Add(new Grouping<string, object>("Sentence #" + (id ?? ItemId ?? Original?.Id), SentenceDetail.Sentences.Take(1)));
-            GroupedCells.Add(new Grouping<string, object>(SentenceDetail.CountLabel + " Translations", SentenceDetail.CollapsableTranslations));
-            GroupedCells.Add(new Grouping<string, object>(SentenceDetail.Logs.Count()+ " Logs", SentenceDetail.Logs));
-            GroupedCells.Add(new Grouping<string, object>(SentenceDetail.Comments.Count() + " Comments", SentenceDetail.Comments));
+            GroupedCells.Add(new Grouping<string, object>(Resx.AppResources.SentenceId + (id ?? ItemId ?? Original?.Id), SentenceDetail.Sentences.Take(1)));
+            GroupedCells.Add(new Grouping<string, object>(SentenceDetail.CountLabel + " " + Resx.AppResources.Translations, SentenceDetail.CollapsableTranslations));
+            GroupedCells.Add(new Grouping<string, object>(SentenceDetail.Logs.Count()+ " " + Resx.AppResources.Logs, SentenceDetail.Logs));
+            GroupedCells.Add(new Grouping<string, object>(SentenceDetail.Comments.Count() + " " + Resx.AppResources.Comments, SentenceDetail.Comments));
 
             IsBusy = false;
         }
@@ -142,7 +142,7 @@ namespace Tatoeba.Mobile.ViewModels
             await Task.Delay(1); // Hack, otherwise Uwp crashes. 
 
             GroupedCells.RemoveAt(1);            
-            GroupedCells.Insert(1, new Grouping<string, object>($"{SentenceDetail.CountLabel} Translations", SentenceDetail.CollapsableTranslations));
+            GroupedCells.Insert(1, new Grouping<string, object>($"{SentenceDetail.CountLabel} {Resx.AppResources.Translations}", SentenceDetail.CollapsableTranslations));
          
         }
     }

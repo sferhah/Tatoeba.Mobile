@@ -1,4 +1,4 @@
-﻿namespace Tatoeba.Mobile.Resx
+﻿namespace Tatoeba.Mobile.PlatformSpecific
 {  
     public interface ILocalize
     {

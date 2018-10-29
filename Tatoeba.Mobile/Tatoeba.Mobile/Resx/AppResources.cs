@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
@@ -40,19 +41,14 @@ namespace Tatoeba.Mobile.Resx
             string iso = value.ToLowerInvariant();
 
             var assembly = typeof(AppResources).GetTypeInfo().Assembly;
-            var assembly_namespace = typeof(AppResources).Assembly.GetName().Name;
+            var assembly_namespace = typeof(AppResources).Assembly.GetName().Name;            
 
-            ResourceManager = new ResourceManager(assembly_namespace + $".Resx.AppResources.{iso}", assembly);
-
-            try
-            {
-                ResourceManager.GetString(nameof(ErrorLoadingResources));
-            }
-            catch (MissingManifestResourceException)
+            if (!assembly.GetManifestResourceNames().Any(x => x.Contains(assembly_namespace + $".Resx.AppResources.{iso}")))
             {
                 iso = "eng";
-                ResourceManager = new ResourceManager(assembly_namespace + $".Resx.AppResources.{iso}", assembly);
             }
+
+            ResourceManager = new ResourceManager(assembly_namespace + $".Resx.AppResources.{iso}", assembly);
         }
 
         internal static string GetString([CallerMemberName] string propertyName = null) 

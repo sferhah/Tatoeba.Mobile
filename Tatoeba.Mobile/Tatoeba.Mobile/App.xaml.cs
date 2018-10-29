@@ -11,7 +11,7 @@ namespace Tatoeba.Mobile
         public App()
         {
             InitializeComponent();
-            Resx.AppResources.SetIso(DependencyService.Get<Resx.ILocalize>().ThreeLetterISOLanguageName);
+            Resx.AppResources.SetIso(DependencyService.Get<PlatformSpecific.ILocalize>().ThreeLetterISOLanguageName);            
             MainPage = new LoadingPage();
         }
 

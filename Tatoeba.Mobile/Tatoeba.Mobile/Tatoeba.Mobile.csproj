@@ -11,10 +11,14 @@
 
   <ItemGroup>
     <None Remove="Cache\TatoebaConfig_v1.json" />
+    <None Remove="PlatformSpecific\iso-639-2-to-iso-639-3.tab" />
+    <None Remove="PlatformSpecific\macrolanguage-to-standard.tab" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Cache\TatoebaConfig_v1.json" />
+    <EmbeddedResource Include="PlatformSpecific\macrolanguage-to-standard.tab" />
+    <EmbeddedResource Include="PlatformSpecific\iso-639-2-to-iso-639-3.tab" />
   </ItemGroup>
 
   <ItemGroup>

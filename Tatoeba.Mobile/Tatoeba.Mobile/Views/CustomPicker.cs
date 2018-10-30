@@ -127,12 +127,15 @@ namespace Tatoeba.Mobile.Views
                 stackLayout2.Children.Add(searchBox);
             }
 
-            listView = new ListView();
-            listView.WidthRequest = 300;
-            listView.HeightRequest = 300;
-            listView.ItemTemplate = new DataTemplate(() => new PickerCell());
-            listView.ItemsSource = internalItemsSource;
-            listView.SelectedItem = internalSelectedItem;
+            listView = new ListView
+            {
+                WidthRequest = 300,
+                HeightRequest = 300,
+                ItemTemplate = new DataTemplate(() => new PickerCell()),
+                ItemsSource = internalItemsSource,
+                SelectedItem = internalSelectedItem
+            };
+
             listView.ItemTapped += ListView_ItemTapped;
             
             stackLayout2.Children.Add(listView);

@@ -61,6 +61,7 @@ namespace Tatoeba.Mobile.Resx
         public static string Browse => GetString();
         public static string BrowseByLanguage => GetString();
         public static string Cancel => GetString();
+        public static string ChangeLanguage => GetString();
         public static string Comments => GetString();
         public static string Edit => GetString();
         public static string EditSentence => GetString();
@@ -99,6 +100,5 @@ namespace Tatoeba.Mobile.Resx
         public static string Translations => GetString();
         public static string Yes => GetString();
         public static string Validate => GetString();
-
     }
 }

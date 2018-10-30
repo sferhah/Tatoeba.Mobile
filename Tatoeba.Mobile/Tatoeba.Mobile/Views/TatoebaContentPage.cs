@@ -10,8 +10,16 @@ namespace Tatoeba.Mobile.Views
         {
             ToolbarItems.Add(new ToolbarItem
             {
-                Text = Resx.AppResources.LogOut,
+                Text = Resx.AppResources.ChangeLanguage,
                 Priority = 1,
+                Order = ToolbarItemOrder.Secondary,
+                Command = new Command(async () => await Navigation.PushModalAsync(new NavigationPage(new UiLanguagesPage()))),
+            });
+
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Text = Resx.AppResources.LogOut,
+                Priority = 2,
                 Order = ToolbarItemOrder.Secondary,
                 Command = new Command(() => LogOut()),
             });

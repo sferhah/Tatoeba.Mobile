@@ -117,14 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Browse" xml:space="preserve">
+    <value>Durchsuchen</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Stornieren</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>Sprache ändern</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Erreur</value>
+    <value>Error</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
-    <value>An error occured while loading external resources:</value>
+    <value>Beim Laden externer Ressourcen ist ein Fehler aufgetreten:</value>
   </data>
   <data name="LoadingResources" xml:space="preserve">
     <value>Ressourcen werden geladen ...</value>
@@ -133,18 +139,18 @@
     <value>Ok</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Passwort</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Aktualisierung</value>
   </data>
   <data name="Reload" xml:space="preserve">
-    <value>Reload</value>
+    <value>Neu laden</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Username</value>
+    <value>Nutzername</value>
   </data>
   <data name="Validate" xml:space="preserve">
-    <value>Validate</value>
+    <value>Bestätigen</value>
   </data>
 </root>

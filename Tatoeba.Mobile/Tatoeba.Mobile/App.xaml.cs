@@ -2,17 +2,17 @@
 using Xamarin.Forms.Xaml;
 using Tatoeba.Mobile.Views;
 using Tatoeba.Mobile.PlatformSpecific;
+using Tatoeba.Mobile.Storage;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Tatoeba.Mobile
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();
-            Resx.AppResources.SetIso(Localize.ThreeLetterISOLanguageName);            
+            Resx.AppResources.SetIso(LocalSettings.LastUiIso ?? Localize.ThreeLetterISOLanguageName);            
             MainPage = new LoadingPage();
         }
 

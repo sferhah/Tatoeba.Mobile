@@ -14,7 +14,7 @@ namespace Tatoeba.Mobile.PlatformSpecific
 
     public static class Localize
     {
-        private static Dictionary<string,string> Iso639_2_ToIso639_3_Map;
+        private static Dictionary<string,string> Iso639_2_To_Iso639_3_Map;
         private static Dictionary<string,string> MacroLanguageToStandardMap;
 
         static Localize()
@@ -22,9 +22,7 @@ namespace Tatoeba.Mobile.PlatformSpecific
             var assembly = typeof(ILocalize).GetTypeInfo().Assembly;
             var assembly_namespace = typeof(ILocalize).Assembly.GetName().Name;
 
-            var names = assembly.GetManifestResourceNames();
-
-            Iso639_2_ToIso639_3_Map = ReadLines(() => assembly.GetManifestResourceStream(assembly_namespace + ".PlatformSpecific.iso-639-2-to-iso-639-3.tab"))
+            Iso639_2_To_Iso639_3_Map = ReadLines(() => assembly.GetManifestResourceStream(assembly_namespace + ".PlatformSpecific.iso-639-2-to-iso-639-3.tab"))
                 .Skip(1).Select(x => x.Split('\t')).ToDictionary(arr => arr[0], arr => arr[1]);
 
             MacroLanguageToStandardMap = ReadLines(() => assembly.GetManifestResourceStream(assembly_namespace + ".PlatformSpecific.macrolanguage-to-standard.tab"))
@@ -52,9 +50,9 @@ namespace Tatoeba.Mobile.PlatformSpecific
 
                 string iso639_3;
 
-                if (Iso639_2_ToIso639_3_Map.ContainsKey(iso639_2))
+                if (Iso639_2_To_Iso639_3_Map.ContainsKey(iso639_2))
                 {
-                    iso639_3 = Iso639_2_ToIso639_3_Map[iso639_2];
+                    iso639_3 = Iso639_2_To_Iso639_3_Map[iso639_2];
                 }
                 else
                 {

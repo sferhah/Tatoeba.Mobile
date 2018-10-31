@@ -165,9 +165,6 @@
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.8.9</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
-      <Version>2.1.4</Version>
-    </PackageReference>
     <PackageReference Include="modernhttpclient-updated">
       <Version>2.7.2</Version>
     </PackageReference>

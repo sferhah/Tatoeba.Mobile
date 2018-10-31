@@ -44,8 +44,6 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<bool> InitAsync()
         {
-            LocalSettings.LanguageListHash = null;
-
             // First install
             if (LocalSettings.LanguageListHash == null)
             {

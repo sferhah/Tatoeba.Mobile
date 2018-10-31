@@ -1,20 +1,54 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.ResourceGenerator
 {
     class Program
     {
+        public static readonly int Version = 2;
+        public static readonly string LanguageListFile = "Languages.json";
+        public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
+
         static async Task Main(string[] args)
         {
-            Xamarin.Forms.Mocks.MockForms.Init();        
+            Xamarin.Forms.Mocks.MockForms.Init();
 
-            var languages = await MainService.GetLanguages();
+            var languages = await GetLanguages();
 
-            var languageListHash = await SerializeToFile(languages, "Languages.json");
-            await SerializeToFile(new TatoebaConfig { LanguageListHash = languageListHash }, "TatoebaConfig_v2.json");            
+            var languageListHash = await SerializeToFile(languages, LanguageListFile);
+            await SerializeToFile(new TatoebaConfig { LanguageListHash = languageListHash }, TatoebaConfigFileName);
+        }
+
+        public static async Task<List<Language>> GetLanguages()
+        {
+            HttpTatotebaClient cookieLessClient = new HttpTatotebaClient(60);
+
+            var response = await cookieLessClient.GetAsync<string>(new TatoebaConfig().UrlConfig.Languages).ConfigureAwait(false);
+
+            if (response.Error != null)
+            {
+                throw new Exception(response.Error);
+            }
+
+            var languages = response.Content.Substring("$languages = array(", ");").Split('\n')
+                .Where(x => x.Contains("__d('languages',")).Select(x => x.Trim().ToLanguage())
+                .Where(y => y != null)
+                .ToList();
+
+            async Task DownloadFlag(Language lan) => lan.Flag = await cookieLessClient.GetByteArrayAsync(new TatoebaConfig().UrlConfig.Flags + lan.Iso + ".png").ConfigureAwait(false);
+
+            await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
+
+            return languages;
         }
 
         static async Task<string> SerializeToFile(object input, string fileName)
@@ -29,7 +63,35 @@ namespace Tatoeba.ResourceGenerator
             var json = JsonConvert.SerializeObject(input, new JsonSerializerSettings { Formatting = Formatting.Indented, });
             await File.WriteAllTextAsync(Path.Combine(path, fileName), json);
 
-            return MainService.GetHashString(json);
+            return GetHashString(json);
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            var data = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (byte b in data)
+            {
+                sb.Append(b.ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    public static class Xt
+    {
+        public static Language ToLanguage(this string @this)
+        {
+            var matches = new Regex("'.*?'").Matches(@this).Cast<Match>().Select(x => x.ToString()).Select(mystr => mystr.Substring(1, mystr.Length - 2)).ToList();
+
+            return matches.Count != 3 ? null : new Language
+            {
+                Iso = matches[0],
+                Label = matches[2],
+            };
         }
     }
 }

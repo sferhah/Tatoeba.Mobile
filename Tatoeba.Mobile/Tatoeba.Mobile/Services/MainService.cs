@@ -1,35 +1,18 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using PCLStorage;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Storage;
 
 namespace Tatoeba.Mobile.Services
-{
-    public class CacheUtils
-    {
-        public static readonly int Version = 1;
-        public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
-        
-        public static Stream GetCacheStream(string cacheFile)
-        {
-            var assembly = typeof(CacheUtils).GetTypeInfo().Assembly;
-            var assembly_namespace = typeof(CacheUtils).Assembly.GetName().Name;
-
-            return assembly.GetManifestResourceStream(assembly_namespace + ".Cache." + cacheFile);
-        }
-    }
-
+{   
     public class MainService
     {
         const string cookies_file_name = "cookies.ck";
@@ -46,35 +29,17 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<bool> InitAsync()
         {
-            //var json = JsonConvert.SerializeObject(new TatoebaConfig(), new JsonSerializerSettings
-            //{
-            //    Formatting = Formatting.Indented,
-            //});
-
             TatoebaConfig = await GetTatoebaConfig().ConfigureAwait(false);
-            TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
+            TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;     
 
-            //using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.TatoebaConfigFileName))
-            //{
-            //    StreamReader reader = new StreamReader(stream);
-            //    string text = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-            //    TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
-            //    TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
-            //}
-
-            using (AppDbContext context = new AppDbContext())
+            if(LocalSettings.LanguageListHash != TatoebaConfig.LanguageListHash)
             {
-                await context.Database.EnsureCreatedAsync().ConfigureAwait(false);
-
-                IsoLanguages = await context.Languages.OrderBy(x => x.Label).ToListAsync().ConfigureAwait(false);
-
-                if (IsoLanguages.Count() == 0)
-                {
-                    IsoLanguages = await GetLanguages().ConfigureAwait(false);
-                    await context.Languages.AddRangeAsync(IsoLanguages).ConfigureAwait(false);
-                    await context.SaveChangesAsync().ConfigureAwait(false);
-                }
+                IsoLanguages = await GetLanguagesFromDistantJson().ConfigureAwait(false);
+                LocalSettings.LanguageListHash = TatoebaConfig.LanguageListHash;
+            }
+            else
+            {
+                IsoLanguages = await GetLanguagesFromLocalJson().ConfigureAwait(false);
             }
 
             Languages = IsoLanguages.ToList();
@@ -86,8 +51,6 @@ namespace Tatoeba.Mobile.Services
             TransBrowsableLanguages = IsoLanguages.ToList();
             TransBrowsableLanguages.Insert(0, new Language { Flag = null, Iso = "und", Label = "All languages" });
             TransBrowsableLanguages.Insert(0, new Language { Flag = null, Iso = "none", Label = "None" });
-
-
 
             var existence = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false);
             var exists = existence == PCLStorage.ExistenceCheckResult.FileExists;
@@ -117,52 +80,37 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaConfig> GetTatoebaConfig()
         {
-            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.Mobile/Tatoeba.Mobile/Cache/TatoebaConfig_v1.json").ConfigureAwait(false);
+            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.ResourceGenerator/TatoebaConfig_v2.json").ConfigureAwait(false);
 
             if(response.Error != null)
             {
                 throw new Exception(response.Error);
-            }
+            }            
 
             return JsonConvert.DeserializeObject<TatoebaConfig>(response.Content);
         }
 
-
-        public static async Task<List<Language>> GetLanguages()
+        public static async Task<List<Language>> GetLanguagesFromDistantJson()
         {
-            var response = await cookieLessClient.GetAsync<string>(TatoebaConfig.UrlConfig.Languages).ConfigureAwait(false);
+            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.ResourceGenerator/Languages.json").ConfigureAwait(false);
 
             if (response.Error != null)
             {
                 throw new Exception(response.Error);
             }
 
-            var languages = response.Content.Substring("$languages = array(", ");").Split('\n')
-                .Where(x => x.Contains("__d('languages',")).Select(x => x.Trim().ToLanguage())
-                .Where(y => y != null)
-                .ToList();
+            var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync("Languages.json", PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
+            await file.WriteAllTextAsync(response.Content).ConfigureAwait(false);
 
-            async Task DownloadFlag(Language lan) => lan.Flag = await client.GetByteArrayAsync(TatoebaConfig.UrlConfig.Flags + lan.Iso + ".png").ConfigureAwait(false);
-
-            await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
-
-            return languages;
+            return JsonConvert.DeserializeObject<List<Language>>(response.Content);
         }
 
-        public static string GetHashString(string inputString)
+        public static async Task<List<Language>> GetLanguagesFromLocalJson()
         {
-            var data = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (byte b in data)
-            {
-                sb.Append(b.ToString("X2"));
-            }
-
-            return sb.ToString();
+            var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync("Languages.json").ConfigureAwait(false);
+            var response = await file.ReadAllTextAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<List<Language>>(response);
         }
-
 
         public static async Task<TatoebaResponse<SearchResults>> GetSentencesAsync(SearchRequest request)
             => request.Mode == QueryMode.Search ? await SearchAsync(request) : await BrowseAsync(request);

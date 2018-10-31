@@ -1,25 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using Tatoeba.Mobile.Models;
 
 namespace Tatoeba.Mobile.Services
 { 
-
     public static class StringExtensions
     {
-        public static Language ToLanguage(this string @this)
-        {   
-            var matches = new Regex("'.*?'").Matches(@this).Cast<Match>().Select(x => x.ToString()).Select(mystr => mystr.Substring(1, mystr.Length - 2)).ToList();
-
-            return matches.Count != 3 ? null : new Language
-            {
-                Iso = matches[0],
-                Label = matches[2],
-            };
-        }
-
         public static string Substring(this string @this, string from = null, string until = null, StringComparison comparison = StringComparison.InvariantCulture)
         {
             var fromLength = (from ?? string.Empty).Length;

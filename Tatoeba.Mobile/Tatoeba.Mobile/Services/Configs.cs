@@ -2,6 +2,7 @@
 {
     public class TatoebaConfig
     {
+        public string LanguageListHash { get; set; }
         public UrlConfig UrlConfig { get; set; } = new UrlConfig();
         public XpathConfig XpathConfig { get; set; } = new XpathConfig();        
     }

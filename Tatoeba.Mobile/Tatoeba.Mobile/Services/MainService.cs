@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Storage;
@@ -146,6 +147,20 @@ namespace Tatoeba.Mobile.Services
             await Task.WhenAll(languages.Select(x => DownloadFlag(x)).ToArray()).ConfigureAwait(false);
 
             return languages;
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            var data = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(inputString));
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (byte b in data)
+            {
+                sb.Append(b.ToString("X2"));
+            }
+
+            return sb.ToString();
         }
 
 

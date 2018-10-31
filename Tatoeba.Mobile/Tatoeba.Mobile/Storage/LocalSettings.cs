@@ -56,5 +56,11 @@ namespace Tatoeba.Mobile.Storage
             set => AppSettings.AddOrUpdateValue(nameof(LastUiIso), value);
         }
 
+        public static string LanguageListHash
+        {
+            get => AppSettings.GetValueOrDefault(nameof(LanguageListHash), null);
+            set => AppSettings.AddOrUpdateValue(nameof(LanguageListHash), value);
+        }
+
     }
 }

@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tatoeba.Mobile.iOS", "Tatoe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tatoeba.Mobile.UWP", "Tatoeba.Mobile\Tatoeba.Mobile.UWP\Tatoeba.Mobile.UWP.csproj", "{4BAA04FC-1F71-4B23-AC38-233CA6838F75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tatoeba.Mobile", "Tatoeba.Mobile\Tatoeba.Mobile\Tatoeba.Mobile.csproj", "{1719AA3A-562D-424C-B3DF-9FEE9791DC06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tatoeba.Mobile", "Tatoeba.Mobile\Tatoeba.Mobile\Tatoeba.Mobile.csproj", "{1719AA3A-562D-424C-B3DF-9FEE9791DC06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tatoeba.ResourceGenerator", "Tatoeba.ResourceGenerator\Tatoeba.ResourceGenerator.csproj", "{975C8D0C-23B0-4261-B339-F6553CCFD1D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,30 @@ Global
 		{1719AA3A-562D-424C-B3DF-9FEE9791DC06}.Release|x86.ActiveCfg = Release|Any CPU
 		{1719AA3A-562D-424C-B3DF-9FEE9791DC06}.Release|x86.Build.0 = Release|Any CPU
 		{1719AA3A-562D-424C-B3DF-9FEE9791DC06}.Release|x86.Deploy.0 = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|x64.Build.0 = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Debug|x86.Build.0 = Debug|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|ARM.Build.0 = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|iPhone.Build.0 = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|x64.ActiveCfg = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|x64.Build.0 = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{975C8D0C-23B0-4261-B339-F6553CCFD1D8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

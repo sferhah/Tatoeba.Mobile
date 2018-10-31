@@ -1,0 +1,135 @@
+{
+  "LanguageListHash": "44352D49BAC19D91BA13810468D1317AB2AF22FF5271D186174AEE53DB446161",
+  "UrlConfig": {
+    "Main": "https://tatoeba.org/eng/",
+    "Login": "https://tatoeba.org/eng/users/check_login?redirectTo=%2Feng",
+    "Flags": "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/webroot/img/flags/",
+    "Languages": "https://raw.githubusercontent.com/Tatoeba/tatoeba2/dev/app/Lib/LanguagesLib.php",
+    "LatestContribs": "https://tatoeba.org/eng/contributions/latest/",
+    "Search": "https://tatoeba.org/eng/sentences/search/",
+    "Browse": "https://tatoeba.org/eng/sentences/show_all_in/",
+    "Sentence": "https://tatoeba.org/eng/sentences/show/",
+    "SaveTranslation": "https://tatoeba.org/eng/sentences/save_translation",
+    "EditSentence": "https://tatoeba.org/eng/sentences/edit_sentence",
+    "NewSentence": "https://tatoeba.org/eng/sentences/add_an_other_sentence"
+  },
+  "XpathConfig": {
+    "LoginConfig": {
+      "KeyPath": {
+        "Path": "string(//*[@name='data[_Token][key]']/@value)",
+        "Action": 0
+      },
+      "ValuePath": {
+        "Path": "string(//*[@name='data[_Token][fields]']/@value)",
+        "Action": 0
+      },
+      "SuccessPath": {
+        "Path": "boolean(//li[@id='profile'][1])",
+        "Action": 0
+      }
+    },
+    "SentenceDetailConfig": {
+      "PreviousIdPath": {
+        "Path": "string(//ul//li[@id='prevSentence']/a/@href)",
+        "Action": 0
+      },
+      "NextIdPath": {
+        "Path": "string(//ul//li[@id='nextSentence']/a/@href)",
+        "Action": 0
+      },
+      "TranslationConfig": {
+        "IsEditablePath": {
+          "Path": "boolean((//*[@class='sentence mainSentence']//*[@class='text correctnessZero editableSentence'])[1])",
+          "Action": 0
+        },
+        "ItemsPath": "//*[@class='sentence mainSentence']|//*[@class='translations']/*[@data-sentence-id]|//div[@class='more']/*[@data-sentence-id]",
+        "TextPath": {
+          "Path": "string(.//*[@class='text correctnessZero']|.//*[@class='text correctnessZero editableSentence'])",
+          "Action": 3
+        },
+        "DirectionPath": {
+          "Path": "string(.//*[@class='text correctnessZero' or @class='text correctnessZero editableSentence']/@dir)",
+          "Action": 0
+        },
+        "IdPath": {
+          "Path": "string(@data-sentence-id)",
+          "Action": 0
+        },
+        "LanguagePath": {
+          "Path": "string(.//img/@alt)",
+          "Action": 0
+        },
+        "TranslationTypePath": {
+          "Path": "string(div/a/@class)",
+          "Action": 0
+        }
+      },
+      "CommentConfig": {
+        "ItemsPath": "//md-card",
+        "UsernamePath": {
+          "Path": "string(.//*[@class='md-title'])",
+          "Action": 3
+        },
+        "ContentPath": {
+          "Path": "string(.//md-card-content)",
+          "Action": 3
+        },
+        "DateTextPath": {
+          "Path": "string(.//*[@class='md-subhead ellipsis'])",
+          "Action": 3
+        }
+      },
+      "LogConfig": {
+        "ItemsPath": "//md-list-item",
+        "TextPath": {
+          "Path": "string(div/div)",
+          "Action": 3
+        },
+        "DateTextPath": {
+          "Path": "string(div/p)",
+          "Action": 3
+        },
+        "ContribTypePath": {
+          "Path": "string(@class)",
+          "Action": 0
+        }
+      }
+    },
+    "ContribConfig": {
+      "ItemsPath": "//md-list-item",
+      "TextPath": {
+        "Path": "string(div/div)",
+        "Action": 3
+      },
+      "DirectionPath": {
+        "Path": "string(div/div/@dir)",
+        "Action": 0
+      },
+      "DateTextPath": {
+        "Path": "string(div/p)",
+        "Action": 3
+      },
+      "IdPath": {
+        "Path": "string(md-button/@href)",
+        "Action": 0
+      },
+      "LanguagePath": {
+        "Path": "string(img/@alt)",
+        "Action": 0
+      },
+      "ContribTypePath": {
+        "Path": "string(@class)",
+        "Action": 0
+      }
+    },
+    "SearchResultsConfig": {
+      "PageItemsPath": "//span[@class='pageNumber' or @class='current pageNumber']",
+      "PagePath": {
+        "Path": "string(.)",
+        "Action": 0
+      },
+      "SentenceSetItemsPath": "//*[@class='sentences_set']",
+      "ItemsPath": ".//*[@class='sentence mainSentence']|.//*[@class='translations']/*[@data-sentence-id]|.//div[@class='more']/*[@data-sentence-id]"
+    }
+  }
+}

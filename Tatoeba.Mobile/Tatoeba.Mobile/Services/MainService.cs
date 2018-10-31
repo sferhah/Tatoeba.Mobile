@@ -6,13 +6,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Tatoeba.Mobile.Models;
 using Tatoeba.Mobile.Storage;
 
 namespace Tatoeba.Mobile.Services
-{   
+{
+    public class CacheUtils
+    {   
+        public static readonly int Version = 1;
+        public static readonly string LanguageListFile = "Languages.json";
+        public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
+
+        public static Stream GetCacheStream(string cacheFile)
+        {
+            var assembly = typeof(CacheUtils).GetTypeInfo().Assembly;
+            var assembly_namespace = typeof(CacheUtils).Assembly.GetName().Name;
+            return assembly.GetManifestResourceStream(assembly_namespace + ".Cache." + cacheFile);
+        }
+    }
+
     public class MainService
     {
         const string cookies_file_name = "cookies.ck";
@@ -29,18 +44,42 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<bool> InitAsync()
         {
-            TatoebaConfig = await GetTatoebaConfig().ConfigureAwait(false);
-            TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;     
+            LocalSettings.LanguageListHash = null;
 
-            if(LocalSettings.LanguageListHash != TatoebaConfig.LanguageListHash)
+            // First install
+            if (LocalSettings.LanguageListHash == null)
             {
-                IsoLanguages = await GetLanguagesFromDistantJson().ConfigureAwait(false);
-                LocalSettings.LanguageListHash = TatoebaConfig.LanguageListHash;
+                using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.TatoebaConfigFileName))
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    string text = await reader.ReadToEndAsync().ConfigureAwait(false);
+                    TatoebaConfig = JsonConvert.DeserializeObject<TatoebaConfig>(text);
+                    LocalSettings.LanguageListHash = TatoebaConfig.LanguageListHash;
+                }
+
+                using (Stream stream = CacheUtils.GetCacheStream(CacheUtils.LanguageListFile))
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    string text = await reader.ReadToEndAsync().ConfigureAwait(false);
+
+                    var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync("Languages.json", PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
+                    await file.WriteAllTextAsync(text).ConfigureAwait(false);                    
+                }
+            }
+
+            TatoebaConfig = await GetTatoebaConfig().ConfigureAwait(false);
+            
+            if (LocalSettings.LanguageListHash != TatoebaConfig.LanguageListHash) 
+            {
+                IsoLanguages = await GetLanguagesFromDistantJson().ConfigureAwait(false);                
             }
             else
             {
                 IsoLanguages = await GetLanguagesFromLocalJson().ConfigureAwait(false);
             }
+
+            LocalSettings.LanguageListHash = TatoebaConfig.LanguageListHash;
+            TatoebaScraper.XpathConfig = TatoebaConfig.XpathConfig;
 
             Languages = IsoLanguages.ToList();
             Languages.Insert(0, new Language { Flag = null, Iso = null, Label = "All languages" });

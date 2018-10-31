@@ -14,19 +14,15 @@ namespace Tatoeba.ResourceGenerator
 {
     class Program
     {
-        public static readonly int Version = 1;
-        public static readonly string LanguageListFile = "Languages.json";
-        public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
-
         static async Task Main(string[] args)
         {
             Xamarin.Forms.Mocks.MockForms.Init();
 
             var languages = await GetLanguages();
 
-            var languageListHash = await SerializeToCacheFile(languages, LanguageListFile);           
+            var languageListHash = await SerializeToCacheFile(languages, CacheUtils.LanguageListFile);           
 
-            await SerializeToCacheFile(new TatoebaConfig { LanguageListHash = languageListHash }, TatoebaConfigFileName);
+            await SerializeToCacheFile(new TatoebaConfig { LanguageListHash = languageListHash }, CacheUtils.TatoebaConfigFileName);
         }
 
         public static async Task<List<Language>> GetLanguages()

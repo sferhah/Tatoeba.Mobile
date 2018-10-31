@@ -14,10 +14,16 @@ namespace Tatoeba.Mobile.Views
     {
         List<(string Iso, string Label)> UiLanguages = new List<(string, string)>
         {
-            ( null, "Default"),
-            ("eng", "English" ),
+            (null, "Default"),
+            ("arb", "عربية فصحى حديثة"),
+            ("arq", "عربية دزيرية"),            
             ("deu", "Deutsch"),
+            ("eng", "English"),
+            ("heb", "עברית חדשה"),
             ("fra", "Français"),
+            ("kab", "Taqbaylit"),
+            ("mlt", "Malti"),
+            ("rus", "Русский"),
         };
 
         public UiLanguagesPage()

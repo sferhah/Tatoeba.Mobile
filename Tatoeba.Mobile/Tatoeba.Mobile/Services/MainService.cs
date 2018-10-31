@@ -80,7 +80,7 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<TatoebaConfig> GetTatoebaConfig()
         {
-            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.ResourceGenerator/TatoebaConfig_v2.json").ConfigureAwait(false);
+            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.Mobile/Tatoeba.Mobile/Cache/TatoebaConfig_v1.json").ConfigureAwait(false);
 
             if(response.Error != null)
             {
@@ -92,7 +92,7 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<List<Language>> GetLanguagesFromDistantJson()
         {
-            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.ResourceGenerator/Languages.json").ConfigureAwait(false);
+            var response = await cookieLessClient.GetAsync<string>("https://raw.githubusercontent.com/sferhah/Tatoeba.Mobile/master/Tatoeba.Mobile/Tatoeba.Mobile/Cache/Languages.json").ConfigureAwait(false);
 
             if (response.Error != null)
             {

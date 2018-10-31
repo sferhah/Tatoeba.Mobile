@@ -14,7 +14,7 @@ namespace Tatoeba.ResourceGenerator
 {
     class Program
     {
-        public static readonly int Version = 2;
+        public static readonly int Version = 1;
         public static readonly string LanguageListFile = "Languages.json";
         public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
 
@@ -24,8 +24,9 @@ namespace Tatoeba.ResourceGenerator
 
             var languages = await GetLanguages();
 
-            var languageListHash = await SerializeToFile(languages, LanguageListFile);
-            await SerializeToFile(new TatoebaConfig { LanguageListHash = languageListHash }, TatoebaConfigFileName);
+            var languageListHash = await SerializeToCacheFile(languages, LanguageListFile);           
+
+            await SerializeToCacheFile(new TatoebaConfig { LanguageListHash = languageListHash }, TatoebaConfigFileName);
         }
 
         public static async Task<List<Language>> GetLanguages()
@@ -51,17 +52,19 @@ namespace Tatoeba.ResourceGenerator
             return languages;
         }
 
-        static async Task<string> SerializeToFile(object input, string fileName)
+        static async Task<string> SerializeToCacheFile(object input, string fileName)
         {
-            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = System.IO.Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
 
-            while (!path.EndsWith("Tatoeba.ResourceGenerator"))
+            while (!System.IO.Directory.GetFiles(path).Any(x => x.EndsWith(".sln")))
             {
                 path = System.IO.Directory.GetParent(path).FullName;
             }
 
+            path = Path.Combine(path, @"Tatoeba.Mobile\Tatoeba.Mobile\Cache", fileName);
+
             var json = JsonConvert.SerializeObject(input, new JsonSerializerSettings { Formatting = Formatting.Indented, });
-            await File.WriteAllTextAsync(Path.Combine(path, fileName), json);
+            await File.WriteAllTextAsync(path, json);
 
             return GetHashString(json);
         }

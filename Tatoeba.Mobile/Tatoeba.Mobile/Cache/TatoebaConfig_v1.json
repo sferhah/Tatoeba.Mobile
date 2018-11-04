@@ -44,11 +44,11 @@
         },
         "ItemsPath": "//*[@class='sentence mainSentence']|//*[@class='translations']/*[@data-sentence-id]|//div[@class='more']/*[@data-sentence-id]",
         "TextPath": {
-          "Path": "string(.//*[@class='text correctnessZero']|.//*[@class='text correctnessZero editableSentence'])",
+          "Path": "string(.//*[@class='text correctnessZero']|.//*[@class='text correctnessZero editableSentence']|.//*[@class='text correctnessNegative1'])",
           "Action": 3
         },
         "DirectionPath": {
-          "Path": "string(.//*[@class='text correctnessZero' or @class='text correctnessZero editableSentence']/@dir)",
+          "Path": "string(.//*[@class='text correctnessZero' or @class='text correctnessZero editableSentence' or @class='text correctnessNegative1']/@dir)",
           "Action": 0
         },
         "IdPath": {

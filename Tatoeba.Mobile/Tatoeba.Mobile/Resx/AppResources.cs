@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
+using Tatoeba.Mobile.Services;
 
 namespace Tatoeba.Mobile.Resx
 {
@@ -31,6 +32,11 @@ namespace Tatoeba.Mobile.Resx
             set => _ResourceManager = value;
         }
 
+
+        internal static string[] Languages => typeof(AppResources).GetTypeInfo().Assembly.GetManifestResourceNames()
+                    .Where(x => x.Contains("Tatoeba.Mobile" + $".Resx.AppResources"))
+                    .Select(x => x.Substring(typeof(AppResources).Assembly.GetName().Name + $".Resx.AppResources.", ".resources")).ToArray();
+
         public static void SetIso(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -38,17 +44,14 @@ namespace Tatoeba.Mobile.Resx
                 throw new ArgumentException("iso can not be null or empty.");
             }
 
-            string iso = value.ToLowerInvariant();
+            string iso = value.ToLowerInvariant();            
 
-            var assembly = typeof(AppResources).GetTypeInfo().Assembly;
-            var assembly_namespace = typeof(AppResources).Assembly.GetName().Name;            
-
-            if (!assembly.GetManifestResourceNames().Any(x => x.Contains(assembly_namespace + $".Resx.AppResources.{iso}")))
+            if (!Languages.Contains(iso))
             {
                 iso = "eng";
             }
 
-            ResourceManager = new ResourceManager(assembly_namespace + $".Resx.AppResources.{iso}", assembly);
+            ResourceManager = new ResourceManager(typeof(AppResources).Assembly.GetName().Name + $".Resx.AppResources.{iso}", typeof(AppResources).GetTypeInfo().Assembly);
         }
 
         internal static string GetString([CallerMemberName] string propertyName = null) 

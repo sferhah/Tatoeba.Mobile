@@ -13,8 +13,8 @@ namespace Tatoeba.Mobile.Views
             BindingContext = this;
             InitializeComponent();
 
-            usernameEntry.Text = Resx.AppResources.Username;
-            passwordEntry.Text = Resx.AppResources.Password;
+            usernameLabel.Text = Resx.AppResources.Username;
+            passwordLabel.Text = Resx.AppResources.Password;
 
             usernameEntry.Completed += (s, e) => passwordEntry.Focus();
             passwordEntry.Completed += (s, e) => Login(null, null);

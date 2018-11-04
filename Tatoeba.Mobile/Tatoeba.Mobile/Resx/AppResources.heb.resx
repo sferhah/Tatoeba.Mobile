@@ -118,138 +118,138 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSentence" xml:space="preserve">
-    <value>Add sentence</value>
+    <value>הוסף משפט</value>
   </data>
   <data name="AddTranslation" xml:space="preserve">
-    <value>Add translation</value>
+    <value>הוסף תרגום</value>
   </data>
   <data name="Any" xml:space="preserve">
-    <value>Any</value>
+    <value>כל</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>עיון</value>
   </data>
   <data name="BrowseByLanguage" xml:space="preserve">
-    <value>Browse by language</value>
+    <value>דפדף לפי שפה</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>בטל</value>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
-    <value>Change language</value>
+    <value>שנה שפה</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value>Comments</value>
+    <value>הערות</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>ערוך</value>
   </data>
   <data name="EditSentence" xml:space="preserve">
-    <value>Edit sentence</value>
+    <value>עריכת משפט</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>שגיאה</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
-    <value>An error occured while loading external resources:</value>
+    <value>אירעה שגיאה בעת טעינת משאבים חיצוניים:</value>
   </data>
   <data name="ErrorOccured" xml:space="preserve">
-    <value>A error has occured:</value>
+    <value>אירעה שגיאה:</value>
   </data>
   <data name="ErrorParsingHtml" xml:space="preserve">
-    <value>Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed</value>
+    <value>הממ, נראה ש- HTML של Tatoeba השתנה, דווח על כך למוציא לאור של האפליקציה כדי שניתן יהיה לתקן אותו</value>
   </data>
   <data name="FewerTranslations" xml:space="preserve">
-    <value>Fewer translations</value>
+    <value>פחות תרגומים</value>
   </data>
   <data name="From" xml:space="preserve">
-    <value>From</value>
+    <value>מ</value>
   </data>
   <data name="HasAudio" xml:space="preserve">
-    <value>Has audio</value>
+    <value>יש אודיו</value>
   </data>
   <data name="InvalidCredentials" xml:space="preserve">
-    <value>Invalid credentials</value>
+    <value>אישורים לא חוקיים</value>
   </data>
   <data name="IsOrphan" xml:space="preserve">
-    <value>Is orphan</value>
+    <value>הוא יתום</value>
   </data>
   <data name="IsUnapproved" xml:space="preserve">
-    <value>Is unapproved</value>
+    <value>לא מאושר</value>
   </data>
   <data name="LoadingResources" xml:space="preserve">
-    <value>Loading resources...</value>
+    <value>טוען משאבים ...</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Log out</value>
+    <value>להתנתק</value>
   </data>
   <data name="Logs" xml:space="preserve">
-    <value>Logs</value>
+    <value>יומנים</value>
   </data>
   <data name="NewSentence" xml:space="preserve">
-    <value>New sentence</value>
+    <value>משפט חדש</value>
   </data>
   <data name="NewTranslation" xml:space="preserve">
-    <value>New translation</value>
+    <value>תרגום חדש</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>הבא</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>לא</value>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>בסדר</value>
   </data>
   <data name="PageInPagination" xml:space="preserve">
-    <value>Page:</value>
+    <value>עמוד:</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>סיסמה</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>קודם</value>
   </data>
   <data name="Random" xml:space="preserve">
-    <value>Random</value>
+    <value>אקראי</value>
   </data>
   <data name="Recent" xml:space="preserve">
-    <value>Recent</value>
+    <value>לאחרונה</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>רענן</value>
   </data>
   <data name="Reload" xml:space="preserve">
-    <value>Reload</value>
+    <value>טען מחדש</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>לחפש</value>
   </data>
   <data name="SearchResultsTitle" xml:space="preserve">
-    <value>Search:</value>
+    <value>לחפש:</value>
   </data>
   <data name="SearchTitle" xml:space="preserve">
-    <value>SearchTitle</value>
+    <value>תוצאות חיפוש</value>
   </data>
   <data name="SentenceId" xml:space="preserve">
-    <value>Sentence #</value>
+    <value>משפט #</value>
   </data>
   <data name="ShowMoreTranslations" xml:space="preserve">
-    <value>Show {0} more translations</value>
+    <value>הצג {0} תרגומים נוספים</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>To</value>
+    <value>ל</value>
   </data>
   <data name="Translations" xml:space="preserve">
-    <value>Translations</value>
+    <value>תרגומים</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Username</value>
+    <value>שם משתמש</value>
   </data>
   <data name="Validate" xml:space="preserve">
-    <value>Validate</value>
+    <value>אמת</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>כן</value>
   </data>
 </root>

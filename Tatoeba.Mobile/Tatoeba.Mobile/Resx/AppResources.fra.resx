@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddSentence" xml:space="preserve">
+    <value>Ajouter une phrase</value>
+  </data>
+  <data name="AddTranslation" xml:space="preserve">
+    <value>Ajouter une traduction</value>
+  </data>
+  <data name="Any" xml:space="preserve">
+    <value>Tout</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
+  </data>
+  <data name="BrowseByLanguage" xml:space="preserve">
+    <value>Parcourir par langue</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
@@ -126,31 +138,118 @@
   <data name="ChangeLanguage" xml:space="preserve">
     <value>Changer de langue</value>
   </data>
+  <data name="Comments" xml:space="preserve">
+    <value>commentaires</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>modifier</value>
+  </data>
+  <data name="EditSentence" xml:space="preserve">
+    <value>Modifier la phrase</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Erreur</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
-    <value>An error occured while loading external resources:</value>
+    <value>Une erreur est survenue lors du chargement des ressources externes:</value>
+  </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>Une erreur est survenue:</value>
+  </data>
+  <data name="ErrorParsingHtml" xml:space="preserve">
+    <value>Hmm, le code HTML de Tatoeba semble avoir changé, veuillez le signaler à l'éditeur de l'application afin qu'il soit corrige le parseur.</value>
+  </data>
+  <data name="FewerTranslations" xml:space="preserve">
+    <value>Moins de traductions</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="HasAudio" xml:space="preserve">
+    <value>Avec un enregistrement sonore</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Identifients non valides</value>
+  </data>
+  <data name="IsOrphan" xml:space="preserve">
+    <value>Orphelines</value>
+  </data>
+  <data name="IsUnapproved" xml:space="preserve">
+    <value>Non approuvées</value>
   </data>
   <data name="LoadingResources" xml:space="preserve">
-    <value>Chargement des ressources...</value>
+    <value>Chargement des ressources ...</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Les journaux</value>
+  </data>
+  <data name="NewSentence" xml:space="preserve">
+    <value>Nouvelle phrase</value>
+  </data>
+  <data name="NewTranslation" xml:space="preserve">
+    <value>Nouvelle traduction</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Suivant</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="PageInPagination" xml:space="preserve">
+    <value>Page:</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Mot de passe</value>
   </data>
+  <data name="Previous" xml:space="preserve">
+    <value>précédent</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>au hasard</value>
+  </data>
+  <data name="Recent" xml:space="preserve">
+    <value>Récent</value>
+  </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Actualiser</value>
+    <value>Rafraîchir</value>
   </data>
   <data name="Reload" xml:space="preserve">
     <value>Recharger</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Chercher</value>
+  </data>
+  <data name="SearchResultsTitle" xml:space="preserve">
+    <value>Chercher:</value>
+  </data>
+  <data name="SearchTitle" xml:space="preserve">
+    <value>Résultats de la recherche</value>
+  </data>
+  <data name="SentenceId" xml:space="preserve">
+    <value>Phrase #</value>
+  </data>
+  <data name="ShowMoreTranslations" xml:space="preserve">
+    <value>Montrer {0} traductions supplémentaires</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>À</value>
+  </data>
+  <data name="Translations" xml:space="preserve">
+    <value>Traductions</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Nom d'utilisateur</value>
   </data>
   <data name="Validate" xml:space="preserve">
     <value>Valider</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
   </data>
 </root>

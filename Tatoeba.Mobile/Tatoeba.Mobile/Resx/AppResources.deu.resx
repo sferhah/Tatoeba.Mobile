@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddSentence" xml:space="preserve">
+    <value>Satz hinzufügen</value>
+  </data>
+  <data name="AddTranslation" xml:space="preserve">
+    <value>Übersetzung hinzufügen</value>
+  </data>
+  <data name="Any" xml:space="preserve">
+    <value>Irgendein</value>
+  </data>
   <data name="Browse" xml:space="preserve">
-    <value>Durchsuchen</value>
+    <value>Durchsuche</value>
+  </data>
+  <data name="BrowseByLanguage" xml:space="preserve">
+    <value>Durchsuchen Sie die Sprache</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Stornieren</value>
@@ -126,20 +138,83 @@
   <data name="ChangeLanguage" xml:space="preserve">
     <value>Sprache ändern</value>
   </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Bemerkungen</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="EditSentence" xml:space="preserve">
+    <value>Satz bearbeiten</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
     <value>Beim Laden externer Ressourcen ist ein Fehler aufgetreten:</value>
   </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>Ein Fehler ist aufgetreten:</value>
+  </data>
+  <data name="ErrorParsingHtml" xml:space="preserve">
+    <value>Hm, Tatoebas Html scheint sich geändert zu haben. Bitte melden Sie es dem App-Publisher, damit es behoben werden kann</value>
+  </data>
+  <data name="FewerTranslations" xml:space="preserve">
+    <value>Weniger Übersetzungen</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Von</value>
+  </data>
+  <data name="HasAudio" xml:space="preserve">
+    <value>Hat Audio</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Ungültige Anmeldeinformationen</value>
+  </data>
+  <data name="IsOrphan" xml:space="preserve">
+    <value>Ist Waise</value>
+  </data>
+  <data name="IsUnapproved" xml:space="preserve">
+    <value>Ist nicht genehmigt</value>
+  </data>
   <data name="LoadingResources" xml:space="preserve">
     <value>Ressourcen werden geladen ...</value>
   </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Ausloggen</value>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Protokolle</value>
+  </data>
+  <data name="NewSentence" xml:space="preserve">
+    <value>Neuer Satz</value>
+  </data>
+  <data name="NewTranslation" xml:space="preserve">
+    <value>Neue Übersetzung</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Nächster</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
   <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>OK</value>
+  </data>
+  <data name="PageInPagination" xml:space="preserve">
+    <value>Seite:</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Passwort</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Bisherige</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Zufällig</value>
+  </data>
+  <data name="Recent" xml:space="preserve">
+    <value>Kürzlich</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Aktualisierung</value>
@@ -147,10 +222,34 @@
   <data name="Reload" xml:space="preserve">
     <value>Neu laden</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="SearchResultsTitle" xml:space="preserve">
+    <value>Suche:</value>
+  </data>
+  <data name="SearchTitle" xml:space="preserve">
+    <value>Suchergebnisse</value>
+  </data>
+  <data name="SentenceId" xml:space="preserve">
+    <value>Satz Nr.</value>
+  </data>
+  <data name="ShowMoreTranslations" xml:space="preserve">
+    <value>{0} weitere Übersetzungen anzeigen</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Zu</value>
+  </data>
+  <data name="Translations" xml:space="preserve">
+    <value>Übersetzungen</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Nutzername</value>
   </data>
   <data name="Validate" xml:space="preserve">
     <value>Bestätigen</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
   </data>
 </root>

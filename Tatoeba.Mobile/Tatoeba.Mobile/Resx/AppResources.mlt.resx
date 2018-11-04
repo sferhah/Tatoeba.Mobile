@@ -118,138 +118,138 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSentence" xml:space="preserve">
-    <value>Add sentence</value>
+    <value>Żid sentenza</value>
   </data>
   <data name="AddTranslation" xml:space="preserve">
-    <value>Add translation</value>
+    <value>Żid traduzzjoni</value>
   </data>
   <data name="Any" xml:space="preserve">
-    <value>Any</value>
+    <value>Kwalunkwe</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>Fittex</value>
   </data>
   <data name="BrowseByLanguage" xml:space="preserve">
-    <value>Browse by language</value>
+    <value>Fittex bil-lingwa</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Ikkanċella</value>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
-    <value>Change language</value>
+    <value>Il-lingwa tal-bidla</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value>Comments</value>
+    <value>Kummenti</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="EditSentence" xml:space="preserve">
-    <value>Edit sentence</value>
+    <value>Edit sentenza</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Żball</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
-    <value>An error occured while loading external resources:</value>
+    <value>Żball seħħ waqt it-tagħbija tar-riżorsi esterni:</value>
   </data>
   <data name="ErrorOccured" xml:space="preserve">
-    <value>A error has occured:</value>
+    <value>Sar żball:</value>
   </data>
   <data name="ErrorParsingHtml" xml:space="preserve">
-    <value>Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed</value>
+    <value>Hmm, Html ta 'Tatoeba tidher li nbidlet, jekk jogħġbok tirrapportaha lill-pubblikatur ta' l-applikazzjoni sabiex tkun tista 'tiġi ffissata</value>
   </data>
   <data name="FewerTranslations" xml:space="preserve">
-    <value>Fewer translations</value>
+    <value>Inqas traduzzjonijiet</value>
   </data>
   <data name="From" xml:space="preserve">
-    <value>From</value>
+    <value>Minn</value>
   </data>
   <data name="HasAudio" xml:space="preserve">
-    <value>Has audio</value>
+    <value>Għandha awdjo</value>
   </data>
   <data name="InvalidCredentials" xml:space="preserve">
-    <value>Invalid credentials</value>
+    <value>Credenzjali invalidi</value>
   </data>
   <data name="IsOrphan" xml:space="preserve">
-    <value>Is orphan</value>
+    <value>Huwa orfni</value>
   </data>
   <data name="IsUnapproved" xml:space="preserve">
-    <value>Is unapproved</value>
+    <value>Mhijiex approvata</value>
   </data>
   <data name="LoadingResources" xml:space="preserve">
-    <value>Loading resources...</value>
+    <value>Riżorsi ta 'tagħbija ...</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Log out</value>
+    <value>Oħroġ</value>
   </data>
   <data name="Logs" xml:space="preserve">
     <value>Logs</value>
   </data>
   <data name="NewSentence" xml:space="preserve">
-    <value>New sentence</value>
+    <value>Sentenza ġdida</value>
   </data>
   <data name="NewTranslation" xml:space="preserve">
-    <value>New translation</value>
+    <value>Traduzzjoni ġdida</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Sussegwentement</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Nru</value>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>Kollox sew</value>
   </data>
   <data name="PageInPagination" xml:space="preserve">
-    <value>Page:</value>
+    <value>Paġna:</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Preċedenti</value>
   </data>
   <data name="Random" xml:space="preserve">
-    <value>Random</value>
+    <value>Addoċċ</value>
   </data>
   <data name="Recent" xml:space="preserve">
-    <value>Recent</value>
+    <value>Riċenti</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Aġġorna</value>
   </data>
   <data name="Reload" xml:space="preserve">
     <value>Reload</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Fittex</value>
   </data>
   <data name="SearchResultsTitle" xml:space="preserve">
-    <value>Search:</value>
+    <value>Fittex:</value>
   </data>
   <data name="SearchTitle" xml:space="preserve">
-    <value>SearchTitle</value>
+    <value>Riżultati tat-tfittxija</value>
   </data>
   <data name="SentenceId" xml:space="preserve">
-    <value>Sentence #</value>
+    <value>Sentenza #</value>
   </data>
   <data name="ShowMoreTranslations" xml:space="preserve">
-    <value>Show {0} more translations</value>
+    <value>Uri {0} aktar traduzzjonijiet</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>To</value>
+    <value>Lil</value>
   </data>
   <data name="Translations" xml:space="preserve">
-    <value>Translations</value>
+    <value>Traduzzjonijiet</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
   <data name="Validate" xml:space="preserve">
-    <value>Validate</value>
+    <value>Ivvalida</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Iva</value>
   </data>
 </root>

@@ -229,7 +229,7 @@
     <value>Search:</value>
   </data>
   <data name="SearchTitle" xml:space="preserve">
-    <value>SearchTitle</value>
+    <value>Search results</value>
   </data>
   <data name="SentenceId" xml:space="preserve">
     <value>Sentence #</value>

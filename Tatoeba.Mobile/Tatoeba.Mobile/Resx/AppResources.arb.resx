@@ -118,138 +118,138 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSentence" xml:space="preserve">
-    <value>Add sentence</value>
+    <value>أضف جملة</value>
   </data>
   <data name="AddTranslation" xml:space="preserve">
-    <value>Add translation</value>
+    <value>أضف ترجمة</value>
   </data>
   <data name="Any" xml:space="preserve">
-    <value>Any</value>
+    <value>أي</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>تصفح</value>
   </data>
   <data name="BrowseByLanguage" xml:space="preserve">
-    <value>Browse by language</value>
+    <value>تصفح حسب اللغة</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>إلغاء</value>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
-    <value>Change language</value>
+    <value>غير اللغة</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value>Comments</value>
+    <value>تعليقات</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>تصحيح</value>
   </data>
   <data name="EditSentence" xml:space="preserve">
-    <value>Edit sentence</value>
+    <value>تحرير الجملة</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>خطأ</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
-    <value>An error occured while loading external resources:</value>
+    <value>حدث خطأ أثناء تحميل الموارد الخارجية:</value>
   </data>
   <data name="ErrorOccured" xml:space="preserve">
-    <value>A error has occured:</value>
+    <value>حدث خطأ ما:</value>
   </data>
   <data name="ErrorParsingHtml" xml:space="preserve">
-    <value>Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed</value>
+    <value>يبدو أن Html من Tatoeba قد تغيّر ، لذا يرجى إبلاغه إلى ناشر التطبيق حتى يمكن إصلاحه</value>
   </data>
   <data name="FewerTranslations" xml:space="preserve">
-    <value>Fewer translations</value>
+    <value>ترجمات أقل</value>
   </data>
   <data name="From" xml:space="preserve">
-    <value>From</value>
+    <value>من عند</value>
   </data>
   <data name="HasAudio" xml:space="preserve">
-    <value>Has audio</value>
+    <value>يحتوي على صوت</value>
   </data>
   <data name="InvalidCredentials" xml:space="preserve">
-    <value>Invalid credentials</value>
+    <value>بيانات الاعتماد غير صالحة</value>
   </data>
   <data name="IsOrphan" xml:space="preserve">
-    <value>Is orphan</value>
+    <value>هو اليتيم</value>
   </data>
   <data name="IsUnapproved" xml:space="preserve">
-    <value>Is unapproved</value>
+    <value>غير معتمد</value>
   </data>
   <data name="LoadingResources" xml:space="preserve">
-    <value>Loading resources...</value>
+    <value>جارٍ تحميل الموارد ...</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Log out</value>
+    <value>الخروج</value>
   </data>
   <data name="Logs" xml:space="preserve">
-    <value>Logs</value>
+    <value>سجلات</value>
   </data>
   <data name="NewSentence" xml:space="preserve">
-    <value>New sentence</value>
+    <value>جملة جديدة</value>
   </data>
   <data name="NewTranslation" xml:space="preserve">
-    <value>New translation</value>
+    <value>ترجمة جديدة</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>التالى</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>لا</value>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>حسنا</value>
   </data>
   <data name="PageInPagination" xml:space="preserve">
-    <value>Page:</value>
+    <value>الصفحة:</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>كلمه السر</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>سابق</value>
   </data>
   <data name="Random" xml:space="preserve">
-    <value>Random</value>
+    <value>عشوائية</value>
   </data>
   <data name="Recent" xml:space="preserve">
-    <value>Recent</value>
+    <value>الأخيرة</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>تحديث</value>
   </data>
   <data name="Reload" xml:space="preserve">
-    <value>Reload</value>
+    <value>إعادة تحميل</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>بحث</value>
   </data>
   <data name="SearchResultsTitle" xml:space="preserve">
-    <value>Search:</value>
+    <value>بحث:</value>
   </data>
   <data name="SearchTitle" xml:space="preserve">
-    <value>SearchTitle</value>
+    <value>نتائج البحث</value>
   </data>
   <data name="SentenceId" xml:space="preserve">
-    <value>Sentence #</value>
+    <value>جملة او حكم على #</value>
   </data>
   <data name="ShowMoreTranslations" xml:space="preserve">
-    <value>Show {0} more translations</value>
+    <value>عرض {0} المزيد من الترجمات</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>To</value>
+    <value>إلى</value>
   </data>
   <data name="Translations" xml:space="preserve">
-    <value>Translations</value>
+    <value>ترجمة</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Username</value>
+    <value>اسم المستخدم</value>
   </data>
   <data name="Validate" xml:space="preserve">
-    <value>Validate</value>
+    <value>التحقق من صحة</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>نعم فعلا</value>
   </data>
 </root>

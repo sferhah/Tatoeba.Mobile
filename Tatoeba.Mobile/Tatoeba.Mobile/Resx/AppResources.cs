@@ -17,7 +17,7 @@ namespace Tatoeba.Mobile.Resx
 
         private static ResourceManager _ResourceManager;
 
-        public static ResourceManager ResourceManager
+        internal static ResourceManager ResourceManager
         {
             get
             {
@@ -55,7 +55,8 @@ namespace Tatoeba.Mobile.Resx
             => ResourceManager.GetString(propertyName) ??
             _DefaultResourceManager.GetString(propertyName)
             ?? "$" + propertyName;
-        
+
+        public static string AddSentence => GetString();
         public static string AddTranslation => GetString();
         public static string Any => GetString();
         public static string Browse => GetString();

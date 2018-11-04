@@ -118,138 +118,138 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSentence" xml:space="preserve">
-    <value>Add sentence</value>
+    <value>Добавить предложение</value>
   </data>
   <data name="AddTranslation" xml:space="preserve">
-    <value>Add translation</value>
+    <value>Добавить перевод</value>
   </data>
   <data name="Any" xml:space="preserve">
-    <value>Any</value>
+    <value>любой</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>Просматривать</value>
   </data>
   <data name="BrowseByLanguage" xml:space="preserve">
-    <value>Browse by language</value>
+    <value>Поиск по языку</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>отменить</value>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
-    <value>Change language</value>
+    <value>изменение языка</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value>Comments</value>
+    <value>Комментарии</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>редактировать</value>
   </data>
   <data name="EditSentence" xml:space="preserve">
-    <value>Edit sentence</value>
+    <value>Изменить предложение</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>ошибка</value>
   </data>
   <data name="ErrorLoadingResources" xml:space="preserve">
-    <value>An error occured while loading external resources:</value>
+    <value>При загрузке внешних ресурсов произошла ошибка:</value>
   </data>
   <data name="ErrorOccured" xml:space="preserve">
-    <value>A error has occured:</value>
+    <value>Произошла ошибка:</value>
   </data>
   <data name="ErrorParsingHtml" xml:space="preserve">
-    <value>Hmm, Tatoeba's Html seem to have changed, please report it to the app publisher so that it could be fixed</value>
+    <value>Хм, похоже, что Tatoeba's Html изменился, сообщите об этом издателю приложения, чтобы он мог быть исправлен</value>
   </data>
   <data name="FewerTranslations" xml:space="preserve">
-    <value>Fewer translations</value>
+    <value>Меньше переводов</value>
   </data>
   <data name="From" xml:space="preserve">
-    <value>From</value>
+    <value>От</value>
   </data>
   <data name="HasAudio" xml:space="preserve">
-    <value>Has audio</value>
+    <value>Имеет аудио</value>
   </data>
   <data name="InvalidCredentials" xml:space="preserve">
-    <value>Invalid credentials</value>
+    <value>Недопустимые учетные данные</value>
   </data>
   <data name="IsOrphan" xml:space="preserve">
-    <value>Is orphan</value>
+    <value>Является сиротой</value>
   </data>
   <data name="IsUnapproved" xml:space="preserve">
-    <value>Is unapproved</value>
+    <value>Не одобрено</value>
   </data>
   <data name="LoadingResources" xml:space="preserve">
-    <value>Loading resources...</value>
+    <value>Загрузка ресурсов ...</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Log out</value>
+    <value>Выйти</value>
   </data>
   <data name="Logs" xml:space="preserve">
-    <value>Logs</value>
+    <value>бревна</value>
   </data>
   <data name="NewSentence" xml:space="preserve">
-    <value>New sentence</value>
+    <value>Новое предложение</value>
   </data>
   <data name="NewTranslation" xml:space="preserve">
-    <value>New translation</value>
+    <value>Новый перевод</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Next</value>
+    <value>следующий</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>нет</value>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>Хорошо</value>
   </data>
   <data name="PageInPagination" xml:space="preserve">
-    <value>Page:</value>
+    <value>Страница:</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>пароль</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>предыдущий</value>
   </data>
   <data name="Random" xml:space="preserve">
-    <value>Random</value>
+    <value>случайный</value>
   </data>
   <data name="Recent" xml:space="preserve">
-    <value>Recent</value>
+    <value>последний</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>обновление</value>
   </data>
   <data name="Reload" xml:space="preserve">
-    <value>Reload</value>
+    <value>перезагружать</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Поиск</value>
   </data>
   <data name="SearchResultsTitle" xml:space="preserve">
-    <value>Search:</value>
+    <value>Поиск:</value>
   </data>
   <data name="SearchTitle" xml:space="preserve">
-    <value>SearchTitle</value>
+    <value>Результаты поиска</value>
   </data>
   <data name="SentenceId" xml:space="preserve">
-    <value>Sentence #</value>
+    <value>Предложение #</value>
   </data>
   <data name="ShowMoreTranslations" xml:space="preserve">
-    <value>Show {0} more translations</value>
+    <value>Показать {0} больше переводов</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>To</value>
+    <value>к</value>
   </data>
   <data name="Translations" xml:space="preserve">
-    <value>Translations</value>
+    <value>Переводы</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>Username</value>
+    <value>имя пользователя</value>
   </data>
   <data name="Validate" xml:space="preserve">
-    <value>Validate</value>
+    <value>утверждать</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>да</value>
   </data>
 </root>

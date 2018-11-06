@@ -15,7 +15,7 @@ using Tatoeba.Mobile.Storage;
 namespace Tatoeba.Mobile.Services
 {
     public class CacheUtils
-    {   
+    {
         public static readonly int Version = 1;
         public static readonly string LanguageListFile = "Languages.json";
         public static readonly string TatoebaConfigFileName = $"TatoebaConfig_v{Version}.json";
@@ -27,6 +27,7 @@ namespace Tatoeba.Mobile.Services
             return assembly.GetManifestResourceStream(assembly_namespace + ".Cache." + cacheFile);
         }
     }
+
 
     public class MainService
     {
@@ -41,6 +42,10 @@ namespace Tatoeba.Mobile.Services
         public static List<Language> TransBrowsableLanguages { get; set; }
 
         public static TatoebaConfig TatoebaConfig { get; set; } = new TatoebaConfig();
+
+        public static IFolder LocalStorage => CustomFolder ?? FileSystem.Current.LocalStorage;
+
+        public static IFolder CustomFolder { get; set; }
 
         public static async Task<bool> InitAsync()
         {
@@ -60,7 +65,7 @@ namespace Tatoeba.Mobile.Services
                     StreamReader reader = new StreamReader(stream);
                     string text = await reader.ReadToEndAsync().ConfigureAwait(false);
 
-                    var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync("Languages.json", PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
+                    var file = await LocalStorage.CreateFileAsync("Languages.json", PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
                     await file.WriteAllTextAsync(text).ConfigureAwait(false);                    
                 }
             }
@@ -89,7 +94,7 @@ namespace Tatoeba.Mobile.Services
             TransBrowsableLanguages.Insert(0, new Language { Flag = null, Iso = "und", Label = "All languages" });
             TransBrowsableLanguages.Insert(0, new Language { Flag = null, Iso = "none", Label = "None" });
 
-            var existence = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false);
+            var existence = await LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false);
             var exists = existence == PCLStorage.ExistenceCheckResult.FileExists;
 
             if (exists)
@@ -104,14 +109,14 @@ namespace Tatoeba.Mobile.Services
         public static async Task ClearCookiers()
         {
             client.Cookies = new CookieContainer();
-            var exists = await PCLStorage.FileSystem.Current.LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;
+            var exists = await LocalStorage.CheckExistsAsync(cookies_file_name).ConfigureAwait(false) == PCLStorage.ExistenceCheckResult.FileExists;
 
             if (!exists)
             {
                 return;
             }
 
-            var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(cookies_file_name).ConfigureAwait(false);
+            var file = await LocalStorage.GetFileAsync(cookies_file_name).ConfigureAwait(false);
             await file.DeleteAsync().ConfigureAwait(false);
         }
 
@@ -136,7 +141,7 @@ namespace Tatoeba.Mobile.Services
                 throw new Exception(response.Error);
             }
 
-            var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync("Languages.json", PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
+            var file = await LocalStorage.CreateFileAsync("Languages.json", PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
             await file.WriteAllTextAsync(response.Content).ConfigureAwait(false);
 
             return JsonConvert.DeserializeObject<List<Language>>(response.Content);
@@ -144,7 +149,7 @@ namespace Tatoeba.Mobile.Services
 
         public static async Task<List<Language>> GetLanguagesFromLocalJson()
         {
-            var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync("Languages.json").ConfigureAwait(false);
+            var file = await LocalStorage.GetFileAsync("Languages.json").ConfigureAwait(false);
             var response = await file.ReadAllTextAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<List<Language>>(response);
         }
@@ -323,7 +328,7 @@ namespace Tatoeba.Mobile.Services
         {
             try
             {
-                var file = await PCLStorage.FileSystem.Current.LocalStorage.CreateFileAsync(fileName, PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
+                var file = await LocalStorage.CreateFileAsync(fileName, PCLStorage.CreationCollisionOption.ReplaceExisting).ConfigureAwait(false);
                 using (Stream stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).ConfigureAwait(false))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
@@ -339,7 +344,7 @@ namespace Tatoeba.Mobile.Services
         {
             try
             {
-               var file = await PCLStorage.FileSystem.Current.LocalStorage.GetFileAsync(fileName).ConfigureAwait(false);                
+               var file = await LocalStorage.GetFileAsync(fileName).ConfigureAwait(false);                
 
                 using (var stream = await file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).ConfigureAwait(false))
                 {

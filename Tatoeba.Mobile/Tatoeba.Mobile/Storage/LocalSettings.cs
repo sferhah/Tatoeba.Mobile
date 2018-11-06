@@ -4,8 +4,10 @@ using Plugin.Settings.Abstractions;
 namespace Tatoeba.Mobile.Storage
 {
     public class LocalSettings
-    {
-        private static ISettings AppSettings => CrossSettings.Current;
+    {        
+        private static ISettings AppSettings => CustomSettings ?? CrossSettings.Current;
+
+        public static ISettings CustomSettings { get; set; }
 
         public static string LastIsoSelection
         {

@@ -229,24 +229,58 @@ namespace Tatoeba.Mobile.Services
              + "&" + "value" + "=" + sentence.Text.UrlEncode();
 
             var resp = await client.PostAsync<string>(TatoebaConfig.UrlConfig.SaveTranslation, postData).ConfigureAwait(false);
-            return null;
+            
 
-            HtmlDocument doc = new HtmlDocument
+            if(resp.Content == null)
             {
-                OptionFixNestedTags = true
-            };
+                return null;
+            }
 
-            doc.LoadHtml(resp.Content);
+            try
+            {
+                HtmlDocument doc = new HtmlDocument
+                {
+                    OptionFixNestedTags = true
+                };
 
-            return doc.CreateNavigator().Evaluate<string>("string(//*[@class=\"sentenceContent\"]/@data-sentence-id)");
+                doc.LoadHtml(resp.Content);
+
+                return doc.CreateNavigator().Evaluate<string>("string(//*[@class=\"sentenceContent\"]/@data-sentence-id)");
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
 
-        public static async Task AddNewSentence(SentenceBase sentence)
+        public static async Task<string> AddNewSentence(SentenceBase sentence)
         {
             string postData = "value" + "=" + sentence.Text.UrlEncode()
              + "&" + "selectedLang" + "=" + sentence.Language.Iso.UrlEncode();
 
-            await client.PostAsync<string>(TatoebaConfig.UrlConfig.NewSentence, postData).ConfigureAwait(false);
+            var resp = await client.PostAsync<string>(TatoebaConfig.UrlConfig.NewSentence, postData).ConfigureAwait(false);
+
+            if (resp.Content == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                HtmlDocument doc = new HtmlDocument
+                {
+                    OptionFixNestedTags = true
+                };
+
+                doc.LoadHtml(resp.Content);
+
+                return doc.CreateNavigator().Evaluate<string>("string(//*[@class=\"sentenceContent\"]/@data-sentence-id)");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static async Task EditSentence(SentenceBase sentence)

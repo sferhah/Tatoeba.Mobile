@@ -69,7 +69,7 @@ namespace Tatoeba.Mobile.Views
 
             if (e.Response.Status == TatoebaStatus.ParsingError)
             {
-                DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorOccured + " " + e.Response.Error, Resx.AppResources.Ok);
+                //DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorOccured + " " + e.Response.Error, Resx.AppResources.Ok);
 
                 DisplayAlert(Resx.AppResources.Error, Resx.AppResources.ErrorParsingHtml, Resx.AppResources.Ok);
                 return;

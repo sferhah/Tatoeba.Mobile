@@ -238,20 +238,29 @@ namespace Tatoeba.Mobile.Services
                     Content = m.Invoke(null, new object[] { resp }) as T,
                     Status = TatoebaStatus.Success,
                 };
-            }
-            catch(InvalidSessionException)
+            }           
+            catch(TargetInvocationException ex)
             {
+                if (ex.InnerException is InvalidSessionException)
+                {
+                    return new TatoebaResponse<T>
+                    {
+                        Status = TatoebaStatus.InvalidSession,
+                    };
+                }
+
                 return new TatoebaResponse<T>
                 {
-                    Status = TatoebaStatus.InvalidSession,
+                    Status = TatoebaStatus.ParsingError,
+                    Error = ex.Message,
                 };
             }
             catch (Exception ex)
             {
                 return new TatoebaResponse<T>
                 {
-                    Status = TatoebaStatus.ParsingError,
-                    Error =  ex.Message,
+                    Status = TatoebaStatus.Error,
+                    Error = ex.Message,
                 };
             }
         }

@@ -48,7 +48,7 @@
                                     </Grid.RowDefinitions>
                                     <BoxView WidthRequest="10"  Grid.Column="0"  Grid.RowSpan="2" BackgroundColor="{Binding ContribType, Converter={converters:ContribTypeToColorConverter}}" />
                                     <Label Text="{Binding Text}"  Grid.Row="0" Grid.Column="1"
-                                               HorizontalOptions="{Binding Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"  VerticalOptions="FillAndExpand"
+                                               FlowDirection="{Binding Direction, Converter={converters:DirectionToFlowDirectionConverter}}"  VerticalOptions="FillAndExpand"
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
                                     <Label Text="{Binding DateText}" TextColor="Gray" Grid.Row="1"  Grid.Column="1"

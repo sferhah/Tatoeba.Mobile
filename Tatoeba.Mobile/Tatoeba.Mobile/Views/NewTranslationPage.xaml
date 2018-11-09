@@ -33,7 +33,7 @@
                                               WidthRequest="30" HeightRequest="20" Aspect="Fill"  
                                               VerticalOptions="Center"/>
                     <Label Text="{Binding Original.Text}"  Grid.Row="0" Grid.Column="2"
-                                               HorizontalOptions="{Binding Original.Direction, Converter={converters:DirectionToLayoutOptionsConverter}}"   VerticalOptions="Center"
+                                               FlowDirection="{Binding Original.Direction, Converter={converters:DirectionToFlowDirectionConverter}}"   VerticalOptions="Center"
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
                 </Grid>

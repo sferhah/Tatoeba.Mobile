@@ -5,21 +5,23 @@ using Xamarin.Forms;
 
 namespace Tatoeba.Mobile.Converters
 {
-    public class DirectionToLayoutOptionsConverter : IValueConverter
+    public class DirectionToFlowDirectionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is Direction direction))
             {
-                return LayoutOptions.Start;
+                return FlowDirection.MatchParent;
             }
 
             switch (direction)
             {
+                case Direction.LeftToRight:
+                    return FlowDirection.LeftToRight;
                 case Direction.RightToLeft:
-                    return LayoutOptions.End;
+                    return FlowDirection.RightToLeft;                
                 default:
-                    return LayoutOptions.Start;
+                    return FlowDirection.MatchParent;
             }
         }
 
